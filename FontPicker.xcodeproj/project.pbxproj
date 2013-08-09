@@ -1,0 +1,482 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B850C04F17B4795F00AA0921 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C04E17B4795F00AA0921 /* UIKit.framework */; };
+		B850C05117B4795F00AA0921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05017B4795F00AA0921 /* Foundation.framework */; };
+		B850C05317B4795F00AA0921 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05217B4795F00AA0921 /* CoreGraphics.framework */; };
+		B850C05917B4795F00AA0921 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B850C05717B4795F00AA0921 /* InfoPlist.strings */; };
+		B850C05B17B4795F00AA0921 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C05A17B4795F00AA0921 /* main.m */; };
+		B850C05F17B4795F00AA0921 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C05E17B4795F00AA0921 /* AppDelegate.m */; };
+		B850C06117B4795F00AA0921 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B850C06017B4795F00AA0921 /* Default.png */; };
+		B850C06317B4795F00AA0921 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B850C06217B4795F00AA0921 /* Default@2x.png */; };
+		B850C06517B4795F00AA0921 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B850C06417B4795F00AA0921 /* Default-568h@2x.png */; };
+		B850C06817B4795F00AA0921 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C06717B4795F00AA0921 /* ViewController.m */; };
+		B850C06B17B4795F00AA0921 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850C06917B4795F00AA0921 /* ViewController_iPhone.xib */; };
+		B850C06E17B4795F00AA0921 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850C06C17B4795F00AA0921 /* ViewController_iPad.xib */; };
+		B850C07617B4796000AA0921 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C07517B4796000AA0921 /* SenTestingKit.framework */; };
+		B850C07717B4796000AA0921 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C04E17B4795F00AA0921 /* UIKit.framework */; };
+		B850C07817B4796000AA0921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05017B4795F00AA0921 /* Foundation.framework */; };
+		B850C08017B4796000AA0921 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B850C07E17B4796000AA0921 /* InfoPlist.strings */; };
+		B850C08317B4796000AA0921 /* FontPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C08217B4796000AA0921 /* FontPickerTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B850C07917B4796000AA0921 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B850C04317B4795F00AA0921 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B850C04A17B4795F00AA0921;
+			remoteInfo = FontPicker;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		B850C04B17B4795F00AA0921 /* FontPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FontPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B850C04E17B4795F00AA0921 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		B850C05017B4795F00AA0921 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		B850C05217B4795F00AA0921 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		B850C05617B4795F00AA0921 /* FontPicker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FontPicker-Info.plist"; sourceTree = "<group>"; };
+		B850C05817B4795F00AA0921 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B850C05A17B4795F00AA0921 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B850C05C17B4795F00AA0921 /* FontPicker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FontPicker-Prefix.pch"; sourceTree = "<group>"; };
+		B850C05D17B4795F00AA0921 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		B850C05E17B4795F00AA0921 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		B850C06017B4795F00AA0921 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		B850C06217B4795F00AA0921 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		B850C06417B4795F00AA0921 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B850C06617B4795F00AA0921 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		B850C06717B4795F00AA0921 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		B850C06A17B4795F00AA0921 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
+		B850C06D17B4795F00AA0921 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		B850C07417B4796000AA0921 /* FontPickerTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FontPickerTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B850C07517B4796000AA0921 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		B850C07D17B4796000AA0921 /* FontPickerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FontPickerTests-Info.plist"; sourceTree = "<group>"; };
+		B850C07F17B4796000AA0921 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		B850C08117B4796000AA0921 /* FontPickerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FontPickerTests.h; sourceTree = "<group>"; };
+		B850C08217B4796000AA0921 /* FontPickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FontPickerTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B850C04817B4795F00AA0921 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B850C04F17B4795F00AA0921 /* UIKit.framework in Frameworks */,
+				B850C05117B4795F00AA0921 /* Foundation.framework in Frameworks */,
+				B850C05317B4795F00AA0921 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B850C07017B4796000AA0921 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B850C07617B4796000AA0921 /* SenTestingKit.framework in Frameworks */,
+				B850C07717B4796000AA0921 /* UIKit.framework in Frameworks */,
+				B850C07817B4796000AA0921 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B850C04217B4795F00AA0921 = {
+			isa = PBXGroup;
+			children = (
+				B850C05417B4795F00AA0921 /* FontPicker */,
+				B850C07B17B4796000AA0921 /* FontPickerTests */,
+				B850C04D17B4795F00AA0921 /* Frameworks */,
+				B850C04C17B4795F00AA0921 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B850C04C17B4795F00AA0921 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B850C04B17B4795F00AA0921 /* FontPicker.app */,
+				B850C07417B4796000AA0921 /* FontPickerTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B850C04D17B4795F00AA0921 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B850C04E17B4795F00AA0921 /* UIKit.framework */,
+				B850C05017B4795F00AA0921 /* Foundation.framework */,
+				B850C05217B4795F00AA0921 /* CoreGraphics.framework */,
+				B850C07517B4796000AA0921 /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B850C05417B4795F00AA0921 /* FontPicker */ = {
+			isa = PBXGroup;
+			children = (
+				B850C05D17B4795F00AA0921 /* AppDelegate.h */,
+				B850C05E17B4795F00AA0921 /* AppDelegate.m */,
+				B850C06617B4795F00AA0921 /* ViewController.h */,
+				B850C06717B4795F00AA0921 /* ViewController.m */,
+				B850C06917B4795F00AA0921 /* ViewController_iPhone.xib */,
+				B850C06C17B4795F00AA0921 /* ViewController_iPad.xib */,
+				B850C05517B4795F00AA0921 /* Supporting Files */,
+			);
+			path = FontPicker;
+			sourceTree = "<group>";
+		};
+		B850C05517B4795F00AA0921 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B850C05617B4795F00AA0921 /* FontPicker-Info.plist */,
+				B850C05717B4795F00AA0921 /* InfoPlist.strings */,
+				B850C05A17B4795F00AA0921 /* main.m */,
+				B850C05C17B4795F00AA0921 /* FontPicker-Prefix.pch */,
+				B850C06017B4795F00AA0921 /* Default.png */,
+				B850C06217B4795F00AA0921 /* Default@2x.png */,
+				B850C06417B4795F00AA0921 /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B850C07B17B4796000AA0921 /* FontPickerTests */ = {
+			isa = PBXGroup;
+			children = (
+				B850C08117B4796000AA0921 /* FontPickerTests.h */,
+				B850C08217B4796000AA0921 /* FontPickerTests.m */,
+				B850C07C17B4796000AA0921 /* Supporting Files */,
+			);
+			path = FontPickerTests;
+			sourceTree = "<group>";
+		};
+		B850C07C17B4796000AA0921 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B850C07D17B4796000AA0921 /* FontPickerTests-Info.plist */,
+				B850C07E17B4796000AA0921 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B850C04A17B4795F00AA0921 /* FontPicker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B850C08617B4796000AA0921 /* Build configuration list for PBXNativeTarget "FontPicker" */;
+			buildPhases = (
+				B850C04717B4795F00AA0921 /* Sources */,
+				B850C04817B4795F00AA0921 /* Frameworks */,
+				B850C04917B4795F00AA0921 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FontPicker;
+			productName = FontPicker;
+			productReference = B850C04B17B4795F00AA0921 /* FontPicker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B850C07317B4796000AA0921 /* FontPickerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B850C08917B4796000AA0921 /* Build configuration list for PBXNativeTarget "FontPickerTests" */;
+			buildPhases = (
+				B850C06F17B4796000AA0921 /* Sources */,
+				B850C07017B4796000AA0921 /* Frameworks */,
+				B850C07117B4796000AA0921 /* Resources */,
+				B850C07217B4796000AA0921 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B850C07A17B4796000AA0921 /* PBXTargetDependency */,
+			);
+			name = FontPickerTests;
+			productName = FontPickerTests;
+			productReference = B850C07417B4796000AA0921 /* FontPickerTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B850C04317B4795F00AA0921 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Jason Lagaac";
+			};
+			buildConfigurationList = B850C04617B4795F00AA0921 /* Build configuration list for PBXProject "FontPicker" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B850C04217B4795F00AA0921;
+			productRefGroup = B850C04C17B4795F00AA0921 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B850C04A17B4795F00AA0921 /* FontPicker */,
+				B850C07317B4796000AA0921 /* FontPickerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B850C04917B4795F00AA0921 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B850C05917B4795F00AA0921 /* InfoPlist.strings in Resources */,
+				B850C06117B4795F00AA0921 /* Default.png in Resources */,
+				B850C06317B4795F00AA0921 /* Default@2x.png in Resources */,
+				B850C06517B4795F00AA0921 /* Default-568h@2x.png in Resources */,
+				B850C06B17B4795F00AA0921 /* ViewController_iPhone.xib in Resources */,
+				B850C06E17B4795F00AA0921 /* ViewController_iPad.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B850C07117B4796000AA0921 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B850C08017B4796000AA0921 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B850C07217B4796000AA0921 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B850C04717B4795F00AA0921 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B850C05B17B4795F00AA0921 /* main.m in Sources */,
+				B850C05F17B4795F00AA0921 /* AppDelegate.m in Sources */,
+				B850C06817B4795F00AA0921 /* ViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B850C06F17B4796000AA0921 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B850C08317B4796000AA0921 /* FontPickerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B850C07A17B4796000AA0921 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B850C04A17B4795F00AA0921 /* FontPicker */;
+			targetProxy = B850C07917B4796000AA0921 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		B850C05717B4795F00AA0921 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B850C05817B4795F00AA0921 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		B850C06917B4795F00AA0921 /* ViewController_iPhone.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B850C06A17B4795F00AA0921 /* en */,
+			);
+			name = ViewController_iPhone.xib;
+			sourceTree = "<group>";
+		};
+		B850C06C17B4795F00AA0921 /* ViewController_iPad.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B850C06D17B4795F00AA0921 /* en */,
+			);
+			name = ViewController_iPad.xib;
+			sourceTree = "<group>";
+		};
+		B850C07E17B4796000AA0921 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				B850C07F17B4796000AA0921 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		B850C08417B4796000AA0921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		B850C08517B4796000AA0921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B850C08717B4796000AA0921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
+				INFOPLIST_FILE = "FontPicker/FontPicker-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B850C08817B4796000AA0921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
+				INFOPLIST_FILE = "FontPicker/FontPicker-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		B850C08A17B4796000AA0921 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FontPicker.app/FontPicker";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
+				INFOPLIST_FILE = "FontPickerTests/FontPickerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		B850C08B17B4796000AA0921 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FontPicker.app/FontPicker";
+				FRAMEWORK_SEARCH_PATHS = (
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
+				INFOPLIST_FILE = "FontPickerTests/FontPickerTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B850C04617B4795F00AA0921 /* Build configuration list for PBXProject "FontPicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B850C08417B4796000AA0921 /* Debug */,
+				B850C08517B4796000AA0921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B850C08617B4796000AA0921 /* Build configuration list for PBXNativeTarget "FontPicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B850C08717B4796000AA0921 /* Debug */,
+				B850C08817B4796000AA0921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		B850C08917B4796000AA0921 /* Build configuration list for PBXNativeTarget "FontPickerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B850C08A17B4796000AA0921 /* Debug */,
+				B850C08B17B4796000AA0921 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B850C04317B4795F00AA0921 /* Project object */;
+}
