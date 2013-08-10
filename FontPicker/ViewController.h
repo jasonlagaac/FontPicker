@@ -7,7 +7,49 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
+#import <FlatUIKit/FlatUIKit.h>
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationBarDelegate>
+{
+    /** Previously selected layout row path */
+    NSIndexPath *_settingsLayoutPrevRow;
+    
+    /** Previously selected sorting row */
+    NSIndexPath *_settingsSortPrevRow;
+    
+    /** Current text alignment state */
+    NSTextAlignment _textAlignment;
+    
+    /** Font family names */
+    NSMutableArray *_fontFamilyNames;
+    
+    /** Main view edit button */
+    UIBarButtonItem *_editButton;
+    
+    /** Main view settings button */
+    UIBarButtonItem *_settingsButton;
+    
+    /** Font reverse state */
+    BOOL _fontsReversed;
+    
+    /** Main table sort state */
+    BOOL _fontSortReversed;
+}
+
+/**
+ Main view area 
+ */
+@property (nonatomic, strong) IBOutlet UIView *mainViewArea;
+
+/** 
+ Settings table view 
+ */
+@property (nonatomic, strong) IBOutlet UITableView *settingsArea;
+
+/** 
+ Main table view 
+ */
+@property (nonatomic, strong) IBOutlet UITableView *mainTableArea;
 
 @end
