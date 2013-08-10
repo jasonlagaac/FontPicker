@@ -35,6 +35,9 @@
     
     /** Main table sort state */
     BOOL _fontSortReversed;
+    
+    /** Current application state */
+    NSMutableDictionary *_applicationState;
 }
 
 /**
@@ -51,5 +54,10 @@
  Main table view 
  */
 @property (nonatomic, strong) IBOutlet UITableView *mainTableArea;
+
+/**
+ Save the application state
+ */
+- (void)saveState;
 
 @end

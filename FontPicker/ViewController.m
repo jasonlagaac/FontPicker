@@ -83,6 +83,7 @@ typedef enum {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
+    [self loadState];
     [self loadMainViewArea];
     [self loadNavigationBar];
 }
@@ -224,7 +225,7 @@ typedef enum {
         
         NSString *fontFamilyName = [_fontFamilyNames objectAtIndex:indexPath.row];
         [cell.textLabel setTextAlignment:_textAlignment];
-        [cell.textLabel setFont:[UIFont fontWithName:fontFamilyName size:18.0f]];
+        [cell.textLabel setFont:[UIFont flatFontOfSize:18.0f]];
         
         if (_fontsReversed) {
             cell.textLabel.text = [self reverseString:fontFamilyName];
@@ -655,8 +656,8 @@ typedef enum {
         [font1 setText:a];
         [font2 setText:b];
 
-        CGSize textSize1 = [[font1 text] sizeWithFont:[UIFont fontWithName:a size:18.0f]];
-        CGSize textSize2 = [[font2 text] sizeWithFont:[UIFont fontWithName:b size:18.0f]];
+        CGSize textSize1 = [[font1 text] sizeWithFont:[UIFont flatFontOfSize:18.0f]];
+        CGSize textSize2 = [[font2 text] sizeWithFont:[UIFont flatFontOfSize:18.0f]];
         
         NSNumber *size1 = [NSNumber numberWithFloat:textSize1.width];
         NSNumber *size2 = [NSNumber numberWithFloat:textSize2.width];;
@@ -733,6 +734,68 @@ typedef enum {
     _fontFamilyNames = (NSMutableArray *)[UIFont familyNames];
     
     [mainTableArea reloadData];
+}
+
+#pragma mark - Data storage actions
+////////////////////////////////////////////////////////////////////////////////
+
+- (void)loadState
+{
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+                                                         NSUserDomainMask, YES);
+    NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
+    _applicationState = [[NSMutableDictionary alloc] initWithContentsOfFile:plistFile];
+    
+    if (!_applicationState) {
+        _applicationState = [NSMutableDictionary new];
+        [_applicationState writeToFile:plistFile atomically:YES];
+    }
+}
+
+- (void)saveState
+{
+    // Save the current application state
+    NSArray *indexPaths = [settingsArea indexPathsForVisibleRows];
+    BOOL activeLayoutOption = NO;
+    BOOL activeSortingOption = NO;
+    
+    for (NSIndexPath *path in indexPaths) {
+        if (path.section == kSettingsViewLayout) {
+            // Determine the selected layout rows
+            if ([[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[UITableViewCell class]]) {
+                if ([[settingsArea cellForRowAtIndexPath:path] isSelected]) {
+                    activeLayoutOption = YES;
+                    [_applicationState setValue:path forKey:@"layout"];
+                } else if (!activeLayoutOption) {
+                    [_applicationState setValue:[NSNull null] forKey:@"layout"];
+                }
+            } else {
+                SettingsToggleCell *toggleCell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
+                [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
+                                     forKey:@"backwards"];
+            }
+        }
+        
+        if (path.section == kSettingsViewSorting) {
+            // Determine the selected sorting rows
+            if ([[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[UITableViewCell class]]) {
+                if ([[settingsArea cellForRowAtIndexPath:path] isSelected]) {
+                    activeSortingOption = YES;
+                    [_applicationState setValue:path forKey:@"sorting"];
+                } else if (!activeSortingOption) {
+                    [_applicationState setValue:[NSNull null] forKey:@"sorting"];
+                }
+            } else {
+                SettingsToggleCell *toggleCell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
+                [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
+                                     forKey:@"reverse"];
+            }
+        }
+    }
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
+    [_applicationState writeToFile:plistFile atomically: YES];
 }
 
 @end
