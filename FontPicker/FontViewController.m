@@ -251,7 +251,7 @@ typedef enum {
 
 - (void)changeFontSize
 {
-    NSLog(@"Changing Font Size");
+    DebugLog(@"Changing Font Size");
     NSString *fontName = sampleAlphabet.font.fontName;
     [sampleAlphabet setFont:[UIFont fontWithName:fontName
                                             size:_fontSizeSlider.value]];
@@ -274,7 +274,7 @@ typedef enum {
     NSError *error = nil;
     // Save the object to persistent store
     if (![context save:&error]) {
-        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+        DebugLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
     }
 }
 

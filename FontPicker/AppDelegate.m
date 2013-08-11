@@ -28,9 +28,6 @@
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 
-    
-    NSLog(@"%@", [UIFont familyNames]);
-    
     return YES;
 }
 

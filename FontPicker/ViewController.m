@@ -11,6 +11,7 @@
 #import "FontViewController.h"
 #import "SettingsToggleCell.h"
 #import "SettingsResetCell.h"
+#import "AppDelegate.h"
 
 typedef enum {
     kSettingsViewLayout = 0,
@@ -55,6 +56,7 @@ typedef enum {
 // Reset Actions
 - (void)resetToDefault;
 - (void)resetSortSettings;
+- (void)flushStoredFontData;
 
 @end
 
@@ -198,10 +200,10 @@ typedef enum {
     
     if ([_applicationState objectForKey:@"fonts"]) {
         _fontFamilyNames = [_applicationState valueForKey:@"fonts"];
-        NSLog(@"Not NIL %@", _fontFamilyNames);
+        DebugLog(@"Not NIL %@", _fontFamilyNames);
     } else {
         _fontFamilyNames = [[UIFont familyNames] mutableCopy];
-        NSLog(@"Blah: %@", _fontFamilyNames);
+        DebugLog(@"Blah: %@", _fontFamilyNames);
     }
     
     [mainTable reloadData];
@@ -261,13 +263,13 @@ typedef enum {
                 if ([key isEqualToString:@"backwards"]) {
                     path = [NSIndexPath indexPathForItem:kSettingsLayoutBackwards
                                                inSection:kSettingsViewLayout];
-                    NSLog(@"Backwards Loaded: %@", path);
+                    DebugLog(@"Backwards Loaded: %@", path);
                     _fontsReversed = YES;
                 } else {
                     path = [NSIndexPath indexPathForItem:kSettingsSortingReverse
                                                inSection:kSettingsViewSorting];
                     _fontFamilyNames = [[[_fontFamilyNames reverseObjectEnumerator] allObjects] mutableCopy];
-                    NSLog(@"Reverse Loaded: %@", _fontFamilyNames);
+                    DebugLog(@"Reverse Loaded: %@", _fontFamilyNames);
                     _fontSortReversed = YES;
                 }
                 
@@ -296,11 +298,11 @@ typedef enum {
             if (path.section == kSettingsViewLayout) {
                 [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
                                      forKey:@"backwards"];
-                NSLog(@"Backwards %d", toggleCell.toggleSwitch.isOn);
+                DebugLog(@"Backwards %d", toggleCell.toggleSwitch.isOn);
             } else if (path.section == kSettingsViewSorting) {
                 [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
                                      forKey:@"reverse"];
-                NSLog(@"Reverse %d", toggleCell.toggleSwitch.isOn);
+                DebugLog(@"Reverse %d", toggleCell.toggleSwitch.isOn);
             }
         } else if (path.section == kSettingsViewLayout || path.section == kSettingsViewSorting) {
             // Determine the active rows
@@ -314,22 +316,22 @@ typedef enum {
                 if (path.section == kSettingsViewLayout) {
                     activeLayoutOption = YES;
                     [_applicationState setValue:rowPath forKey:@"layout"];
-                    NSLog(@"Layout %@", [_applicationState valueForKey:@"layout"]);
+                    DebugLog(@"Layout %@", [_applicationState valueForKey:@"layout"]);
                 } else if (path.section == kSettingsViewSorting) {
                     activeSortingOption = YES;
                     [_applicationState setValue:rowPath forKey:@"sorting"];
-                    NSLog(@"Sorting %@", [_applicationState valueForKey:@"sorting"]);
+                    DebugLog(@"Sorting %@", [_applicationState valueForKey:@"sorting"]);
                 }
             } else {
                 
                 if (!activeLayoutOption) {
                     [_applicationState removeObjectForKey:@"layout"];
-                    NSLog(@"Layout Inactive %@", [_applicationState valueForKey:@"layout"]);
+                    DebugLog(@"Layout Inactive %@", [_applicationState valueForKey:@"layout"]);
                 }
                 
                 if (!activeSortingOption) {
                     [_applicationState removeObjectForKey:@"sorting"];
-                    NSLog(@"Sorting Inactive %@", [_applicationState valueForKey:@"sorting"]);
+                    DebugLog(@"Sorting Inactive %@", [_applicationState valueForKey:@"sorting"]);
                 }
             }
         }
@@ -340,8 +342,8 @@ typedef enum {
     // Save to Plist
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
-    NSLog(@"Path %@", plistFile);
-    NSLog(@"Saving %d", [_applicationState writeToFile:plistFile atomically:YES]);
+    DebugLog(@"Path %@", plistFile);
+    DebugLog(@"Saving %d", [_applicationState writeToFile:plistFile atomically:YES]);
     
     //Error Check
     NSString *error = nil;
@@ -356,7 +358,7 @@ typedef enum {
         [plistData writeToFile:plistFile atomically:YES];
     }
     else {
-        NSLog(@"Error in saveData: %@ %@", error, _applicationState);
+        DebugLog(@"Error in saveData: %@ %@", error, _applicationState);
     }
 }
 
@@ -671,17 +673,17 @@ typedef enum {
                                    animated:NO
                              scrollPosition:UITableViewScrollPositionNone];
 
-            NSLog(@"Layout section: %d, Row: %d", indexPath.section, indexPath.row);
+            DebugLog(@"Layout section: %d, Row: %d", indexPath.section, indexPath.row);
 
             switch (indexPath.row) {
                 case kSettingsLayoutLeft:
                     [self alignTextLeft];
-                    NSLog(@"Align Left");
+                    DebugLog(@"Align Left");
                     break;
                     
                 case kSettingsLayoutRight:
                     [self alignTextRight];
-                    NSLog(@"Align Right");
+                    DebugLog(@"Align Right");
                     break;
                     
                 default:
@@ -699,23 +701,23 @@ typedef enum {
                                    animated:NO
                              scrollPosition:UITableViewScrollPositionNone];
             
-            NSLog(@"Sorting section: %d, Row: %d", indexPath.section, indexPath.row);
+            DebugLog(@"Sorting section: %d, Row: %d", indexPath.section, indexPath.row);
 
 
             switch (indexPath.row) {
                 case kSettingsSortingAlpha:
                     [self sortFontNamesAlphanumerically];
-                    NSLog(@"Sort Alphanumerically");
+                    DebugLog(@"Sort Alphanumerically");
                     break;
                     
                 case kSettingsSortingCount:
                     [self sortFontNamesByLength];
-                    NSLog(@"Sort by Length");
+                    DebugLog(@"Sort by Length");
                     break;
                     
                 case kSettingsSortingSize:
                     [self sortFontNamesByDisplaySize];
-                    NSLog(@"Sort by Display Size");
+                    DebugLog(@"Sort by Display Size");
                     break;
         
                 default:
@@ -779,7 +781,7 @@ typedef enum {
         }
     }
     
-    NSLog(@"Filtered Results: %@", _filteredResults);
+    DebugLog(@"Filtered Results: %@", _filteredResults);
     
     
     [mainTable reloadData];
@@ -1055,6 +1057,26 @@ typedef enum {
     }
     
     [self saveState];
+}
+
+- (void)flushStoredFontData
+{
+    // Flush the stored rating information from core data
+    id appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    
+    // Fetch the fonts from persistent data store
+    NSError *error;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Font"];
+    NSArray *data = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    
+    for(NSManagedObject *font in data) {
+        [context deleteObject:font];
+    }
+    
+    if (![context save:&error]) {
+    	//DLog(@"Error deleting %@ - error:%@",entityDescription,error);
+    }
 }
 
 
