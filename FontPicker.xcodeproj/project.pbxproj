@@ -14,9 +14,6 @@
 		B850C05917B4795F00AA0921 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B850C05717B4795F00AA0921 /* InfoPlist.strings */; };
 		B850C05B17B4795F00AA0921 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C05A17B4795F00AA0921 /* main.m */; };
 		B850C05F17B4795F00AA0921 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C05E17B4795F00AA0921 /* AppDelegate.m */; };
-		B850C06117B4795F00AA0921 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B850C06017B4795F00AA0921 /* Default.png */; };
-		B850C06317B4795F00AA0921 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B850C06217B4795F00AA0921 /* Default@2x.png */; };
-		B850C06517B4795F00AA0921 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B850C06417B4795F00AA0921 /* Default-568h@2x.png */; };
 		B850C06817B4795F00AA0921 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C06717B4795F00AA0921 /* ViewController.m */; };
 		B850C06B17B4795F00AA0921 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850C06917B4795F00AA0921 /* ViewController_iPhone.xib */; };
 		B850C07617B4796000AA0921 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C07517B4796000AA0921 /* SenTestingKit.framework */; };
@@ -38,6 +35,9 @@
 		B8BE576017B48DEB00147657 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8BE575F17B48DEB00147657 /* QuartzCore.framework */; };
 		B8EC5E2D17B7DFA5008C67EC /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2C17B7DFA5008C67EC /* Font.m */; };
 		B8EC5E3017B7DFB1008C67EC /* Font.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2E17B7DFB1008C67EC /* Font.xcdatamodeld */; };
+		B8EC5E7B17B7F4D4008C67EC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7817B7F4D3008C67EC /* Default.png */; };
+		B8EC5E7C17B7F4D4008C67EC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7917B7F4D3008C67EC /* Default-568h@2x.png */; };
+		B8EC5E7D17B7F4D4008C67EC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7A17B7F4D3008C67EC /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,9 +62,6 @@
 		B850C05C17B4795F00AA0921 /* FontPicker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FontPicker-Prefix.pch"; sourceTree = "<group>"; };
 		B850C05D17B4795F00AA0921 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B850C05E17B4795F00AA0921 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B850C06017B4795F00AA0921 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		B850C06217B4795F00AA0921 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
-		B850C06417B4795F00AA0921 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B850C06617B4795F00AA0921 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		B850C06717B4795F00AA0921 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		B850C06A17B4795F00AA0921 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
@@ -93,6 +90,9 @@
 		B8EC5E2B17B7DFA5008C67EC /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
 		B8EC5E2C17B7DFA5008C67EC /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Font.m; sourceTree = "<group>"; };
 		B8EC5E2F17B7DFB1008C67EC /* Font.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Font.xcdatamodel; sourceTree = "<group>"; };
+		B8EC5E7817B7F4D3008C67EC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		B8EC5E7917B7F4D3008C67EC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		B8EC5E7A17B7F4D3008C67EC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		F4078976B8DD4E898C1BAC58 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -185,9 +185,9 @@
 				B850C05717B4795F00AA0921 /* InfoPlist.strings */,
 				B850C05A17B4795F00AA0921 /* main.m */,
 				B850C05C17B4795F00AA0921 /* FontPicker-Prefix.pch */,
-				B850C06017B4795F00AA0921 /* Default.png */,
-				B850C06217B4795F00AA0921 /* Default@2x.png */,
-				B850C06417B4795F00AA0921 /* Default-568h@2x.png */,
+				B8EC5E7817B7F4D3008C67EC /* Default.png */,
+				B8EC5E7917B7F4D3008C67EC /* Default-568h@2x.png */,
+				B8EC5E7A17B7F4D3008C67EC /* Default@2x.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -334,9 +334,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B850C05917B4795F00AA0921 /* InfoPlist.strings in Resources */,
-				B850C06117B4795F00AA0921 /* Default.png in Resources */,
-				B850C06317B4795F00AA0921 /* Default@2x.png in Resources */,
-				B850C06517B4795F00AA0921 /* Default-568h@2x.png in Resources */,
 				B850C06B17B4795F00AA0921 /* ViewController_iPhone.xib in Resources */,
 				B866F55917B67A2B009AA284 /* FontTableCell.xib in Resources */,
 				B866F55B17B67A2B009AA284 /* SettingsResetCell.xib in Resources */,
@@ -344,6 +341,9 @@
 				B89B246217B7806000F3F95A /* FontViewController.xib in Resources */,
 				B860055217B7C1ED00D02F02 /* star.png in Resources */,
 				B860055317B7C1ED00D02F02 /* starhighlighted.png in Resources */,
+				B8EC5E7B17B7F4D4008C67EC /* Default.png in Resources */,
+				B8EC5E7C17B7F4D4008C67EC /* Default-568h@2x.png in Resources */,
+				B8EC5E7D17B7F4D4008C67EC /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
