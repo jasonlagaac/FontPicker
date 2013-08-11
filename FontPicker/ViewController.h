@@ -57,17 +57,17 @@
 /**
  Main view area
  */
-@property (nonatomic, strong) IBOutlet UIView *mainViewArea;
+@property (nonatomic, strong) IBOutlet UIView *mainView;
 
 /** 
  Settings table view 
  */
-@property (nonatomic, strong) IBOutlet UITableView *settingsArea;
+@property (nonatomic, strong) IBOutlet UITableView *settings;
 
 /** 
  Main table view 
  */
-@property (nonatomic, strong) IBOutlet UITableView *mainTableArea;
+@property (nonatomic, strong) IBOutlet UITableView *mainTable;
 
 
 /**

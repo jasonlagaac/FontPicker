@@ -15,18 +15,30 @@
 
 @interface FontViewController : UIViewController <EDStarRatingProtocol>
 {
-    UIView              *_fontViewArea;
+    /** Font view modal area */
+    UIView              *_fontModal;
+
+    /** Font size slider */
     UISlider            *_fontSizeSlider;
+    
+    /** Star rating area */
     EDStarRating        *_starRating;
+    
+    /** Retrieved font data */
     Font                *_fontData;
     
     //FUISegmentedControl *_segmentedControl
 }
 
+/**
+ Font name modal title
+ */
 @property (nonatomic, strong) UILabel *fontNameTitle;
+
+/**
+ Text view to show the sample alphabet
+ */
 @property (nonatomic, strong) UITextView *sampleAlphabet;
 
-
-//- (void)setSampleAlphabetWithFont:(UIFont *)font;
 
 @end

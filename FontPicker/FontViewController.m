@@ -9,6 +9,8 @@
 #import "FontViewController.h"
 #import "AppDelegate.h"
 
+#define kFontSampleText @"ABCDEFGHIJKLMN\nOPQRSTUVWXYZ\nabcdefghijklmno\npqrstuvwxyz\n\n1234567890"
+
 typedef enum {
     kFontAttributeRegular,
     kFontAttributeBold,
@@ -16,9 +18,27 @@ typedef enum {
     kFontAttributeStrike
 } FontAttributeStates;
 
-#define kFontSampleText @"ABCDEFGHIJKLMN\nOPQRSTUVWXYZ\nabcdefghijklmno\npqrstuvwxyz\n\n1234567890"
 
 @interface FontViewController ()
+
+// Load actions
+- (void)loadFontViewArea;
+- (void)loadCloseButton;
+- (void)loadFontNameTitle;
+- (void)loadSampleAlphabet;
+- (void)loadSlider;
+- (void)loadStarRatings;
+- (void)loadFontData;
+
+// Slider Actions
+- (void)changeFontSize;
+
+// Star Rating Actions
+- (void)starsSelectionChanged:(EDStarRating *)control
+                       rating:(float)rating;
+
+// Dismiss View Actions
+- (void)dismissFontView;
 
 @end
 
@@ -42,28 +62,14 @@ typedef enum {
     
     [self loadFontViewArea];
     [self loadCloseButton];
-    [self loadFontNameTile];
+    [self loadFontNameTitle];
     [self loadSampleAlphabet];
     [self loadSlider];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    _fontData = nil;
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", fontNameTitle.text];
-    id appDelegate = [[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [appDelegate managedObjectContext];
-    
-    // Fetch the fonts from persistent data store
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Font"];
-    NSArray *data = [[context executeFetchRequest:fetchRequest error:nil] mutableCopy];
-
-    NSArray *filtered = [data filteredArrayUsingPredicate:predicate];
-
-    if ([filtered count]) {
-        _fontData = (Font *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
-    }
+    [self loadFontData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -89,13 +95,13 @@ typedef enum {
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     CGPoint fontViewCenter = CGPointMake(screenSize.width / 2, screenSize.height / 2 - 10.0f);
     
-    _fontViewArea = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 290, 380)];
-    _fontViewArea.center = fontViewCenter;
-    _fontViewArea.backgroundColor = [UIColor whiteColor];
-    _fontViewArea.layer.cornerRadius = 5;
-    _fontViewArea.layer.masksToBounds = YES;
+    _fontModal = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 290, 380)];
+    _fontModal.center = fontViewCenter;
+    _fontModal.backgroundColor = [UIColor whiteColor];
+    _fontModal.layer.cornerRadius = 5;
+    _fontModal.layer.masksToBounds = YES;
     
-    [self.view addSubview:_fontViewArea];
+    [self.view addSubview:_fontModal];
 }
 
 - (void)loadCloseButton
@@ -113,10 +119,10 @@ typedef enum {
                action:@selector(dismissFontView)
      forControlEvents:UIControlEventTouchUpInside];
     
-    [_fontViewArea addSubview:button];
+    [_fontModal addSubview:button];
 }
 
-- (void)loadFontNameTile
+- (void)loadFontNameTitle
 {
     fontNameTitle = [[UILabel alloc] init];
     
@@ -126,7 +132,7 @@ typedef enum {
     self.fontNameTitle.font = [UIFont boldFlatFontOfSize:19];
     self.fontNameTitle.textAlignment = NSTextAlignmentCenter;
     
-    [_fontViewArea addSubview:self.fontNameTitle];
+    [_fontModal addSubview:self.fontNameTitle];
 }
 
 
@@ -139,7 +145,7 @@ typedef enum {
     sampleAlphabet.textColor = [UIColor midnightBlueColor];
     sampleAlphabet.editable = NO;
     
-    [_fontViewArea addSubview:sampleAlphabet];
+    [_fontModal addSubview:sampleAlphabet];
 }
 
 - (void)loadSlider
@@ -158,13 +164,13 @@ typedef enum {
                         action:@selector(changeFontSize)
               forControlEvents:UIControlEventValueChanged];
     
-    [_fontViewArea addSubview:_fontSizeSlider];
+    [_fontModal addSubview:_fontSizeSlider];
 }
 
 
 - (void)loadStarRatings
 {
-    _starRating = [[EDStarRating alloc] initWithFrame:CGRectMake(45, 220, 200, 60)];
+    _starRating = [[EDStarRating alloc] initWithFrame:CGRectMake(45, 240, 200, 60)];
     
 	// Do any additional setup after loading the view, typically from a nib.
     _starRating.backgroundColor = [UIColor clearColor];
@@ -184,7 +190,26 @@ typedef enum {
     _starRating.displayMode = EDStarRatingDisplayHalf;
     [_starRating setNeedsDisplay];
     
-    [_fontViewArea addSubview:_starRating];
+    [_fontModal addSubview:_starRating];
+}
+
+- (void)loadFontData
+{
+    _fontData = nil;
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", fontNameTitle.text];
+    id appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    
+    // Fetch the fonts from persistent data store
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Font"];
+    NSArray *data = [[context executeFetchRequest:fetchRequest error:nil] mutableCopy];
+    
+    NSArray *filtered = [data filteredArrayUsingPredicate:predicate];
+    
+    if ([filtered count]) {
+        _fontData = (Font *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
+    }
 }
 
 /*
@@ -207,7 +232,7 @@ typedef enum {
                          action:@selector(changeFontAttributes)
                forControlEvents:UIControlEventValueChanged];
     
-    [_fontViewArea addSubview:_segmentedControl];
+    [_fontModal addSubview:_segmentedControl];
 }
 
 #pragma mark - Segmented Control Actions

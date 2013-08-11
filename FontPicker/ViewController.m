@@ -34,7 +34,7 @@ typedef enum {
 @interface ViewController ()
 // Load Actions
 - (void)loadNavigationBar;
-- (void)loadMainViewArea;
+- (void)loadmainView;
 
 // Main View Actions
 - (void)presentSettings;
@@ -59,7 +59,7 @@ typedef enum {
 @end
 
 @implementation ViewController
-@synthesize mainTableArea, mainViewArea, settingsArea, searchBar;
+@synthesize mainTable, mainView, settings, searchBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -87,7 +87,7 @@ typedef enum {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    [self loadMainViewArea];
+    [self loadmainView];
     [self loadNavigationBar];
     [self loadSearchBar];
     [self loadState];
@@ -108,24 +108,24 @@ typedef enum {
 #pragma mark - Load Actions
 /////////////////////////////////////////////////////////////////////////////////
 
-- (void)loadMainViewArea
+- (void)loadmainView
 {
     // Configure Main View border shadow
-    self.mainViewArea.layer.masksToBounds = NO;
-    self.mainViewArea.layer.cornerRadius = 8; // if you like rounded corners
-    self.mainViewArea.layer.shadowOffset = CGSizeMake(-5, 0);
-    self.mainViewArea.layer.shadowRadius = 5;
-    self.mainViewArea.layer.shadowOpacity = 0.5;
-    self.mainViewArea.layer.shouldRasterize = NO;
-    self.mainViewArea.layer.rasterizationScale = [[UIScreen mainScreen] scale];
-    self.mainViewArea.backgroundColor = [UIColor clearColor];
+    self.mainView.layer.masksToBounds = NO;
+    self.mainView.layer.cornerRadius = 8; // if you like rounded corners
+    self.mainView.layer.shadowOffset = CGSizeMake(-5, 0);
+    self.mainView.layer.shadowRadius = 5;
+    self.mainView.layer.shadowOpacity = 0.5;
+    self.mainView.layer.shouldRasterize = NO;
+    self.mainView.layer.rasterizationScale = [[UIScreen mainScreen] scale];
+    self.mainView.backgroundColor = [UIColor clearColor];
     
     // Prevent the UITableView from activating the delete action from a right swipe
     // and dismiss the settings view with a swipe gesture
     UISwipeGestureRecognizer *dismissSettingsSwipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(presentSettings)];
     dismissSettingsSwipe.direction = UISwipeGestureRecognizerDirectionLeft;
     dismissSettingsSwipe.numberOfTouchesRequired = 1;
-    [self.mainTableArea addGestureRecognizer:dismissSettingsSwipe];
+    [self.mainTable addGestureRecognizer:dismissSettingsSwipe];
 }
 
 - (void)loadNavigationBar
@@ -160,7 +160,7 @@ typedef enum {
     [navBar pushNavigationItem:navigationItems animated:NO];
     [navBar configureFlatNavigationBarWithColor:[UIColor midnightBlueColor]];
     [navBar setDelegate: self];
-    [self.mainViewArea addSubview:navBar];
+    [self.mainView addSubview:navBar];
 
 }
 
@@ -204,7 +204,7 @@ typedef enum {
         NSLog(@"Blah: %@", _fontFamilyNames);
     }
     
-    [mainTableArea reloadData];
+    [mainTable reloadData];
 }
 
 - (void)loadSettingsState
@@ -218,10 +218,10 @@ typedef enum {
             NSInteger row = [[value objectForKey:@"row"] intValue];
             
             NSIndexPath *path = [NSIndexPath indexPathForItem:row inSection:section];
-            [settingsArea selectRowAtIndexPath:path
+            [settings selectRowAtIndexPath:path
                                       animated:NO
                                 scrollPosition:UITableViewScrollPositionNone];
-            [[settingsArea cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+            [[settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
             
             if (section == kSettingsViewLayout) {
                 switch (row) {
@@ -271,7 +271,7 @@ typedef enum {
                     _fontSortReversed = YES;
                 }
                 
-                SettingsToggleCell *cell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
+                SettingsToggleCell *cell = (SettingsToggleCell *)[settings cellForRowAtIndexPath:path];
                 [[cell toggleSwitch] setOn:YES];
             }
         }
@@ -283,14 +283,14 @@ typedef enum {
 - (void)saveState
 {
     // Save the current application state
-    NSArray *indexPaths = [settingsArea indexPathsForVisibleRows];
+    NSArray *indexPaths = [settings indexPathsForVisibleRows];
     BOOL activeLayoutOption = NO;
     BOOL activeSortingOption = NO;
     
     for (NSIndexPath *path in indexPaths) {
         // Determine the active toggled rows
-        if ([[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
-            SettingsToggleCell *toggleCell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
+        if ([[settings cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
+            SettingsToggleCell *toggleCell = (SettingsToggleCell *)[settings cellForRowAtIndexPath:path];
             
             
             if (path.section == kSettingsViewLayout) {
@@ -304,7 +304,7 @@ typedef enum {
             }
         } else if (path.section == kSettingsViewLayout || path.section == kSettingsViewSorting) {
             // Determine the active rows
-            if ([[settingsArea cellForRowAtIndexPath:path] isSelected]) {
+            if ([[settings cellForRowAtIndexPath:path] isSelected]) {
                 NSNumber *section = [NSNumber numberWithInt:path.section];
                 NSNumber *row = [NSNumber numberWithInt:path.row];
                 
@@ -365,7 +365,7 @@ typedef enum {
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if ([tableView isEqual:settingsArea]) {
+    if ([tableView isEqual:settings]) {
 
         NSString *sectionName;
         switch (section) {
@@ -391,14 +391,14 @@ typedef enum {
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     // Initialise the custom table section headers
-    if ([tableView isEqual:settingsArea]) {
+    if ([tableView isEqual:settings]) {
         if (section == kSettingsViewLayout || section == kSettingsViewSorting) {
             UIView *settingsSectionHeaders = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20.0f)];
             settingsSectionHeaders.backgroundColor = [UIColor midnightBlueColor];
 
             UILabel *sectionHeaderTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 12.0f, settingsSectionHeaders.frame.size.width, 18.0f)];
             sectionHeaderTitle.backgroundColor = [UIColor clearColor];
-            sectionHeaderTitle.text = [self tableView:settingsArea titleForHeaderInSection:section];
+            sectionHeaderTitle.text = [self tableView:settings titleForHeaderInSection:section];
             sectionHeaderTitle.textAlignment = NSTextAlignmentLeft;
             sectionHeaderTitle.textColor = [UIColor cloudsColor];
             sectionHeaderTitle.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0f];
@@ -415,7 +415,7 @@ typedef enum {
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
  
-    if ([tableView isEqual:mainTableArea]) {
+    if ([tableView isEqual:mainTable]) {
         // Set the main table view cells
         static NSString *CellIdentifier = @"FontCell";
         FontTableCell *cell = (FontTableCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -585,7 +585,7 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([tableView isEqual:mainTableArea]) {
+    if ([tableView isEqual:mainTable]) {
         return 70.0f;   // Main table cell heights
     }
     
@@ -594,7 +594,7 @@ typedef enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([tableView isEqual:mainTableArea]) {
+    if ([tableView isEqual:mainTable]) {
         if (_isSearching) {
             return [_filteredResults count];
         } else {
@@ -602,7 +602,7 @@ typedef enum {
         }
     }
     
-    if ([tableView isEqual:settingsArea]) {
+    if ([tableView isEqual:settings]) {
         if (section == kSettingsViewLayout) {
             return 3; // Total rows for the layout section
         } else if (section == kSettingsViewSorting) {
@@ -618,7 +618,7 @@ typedef enum {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([tableView isEqual:mainTableArea]) {
+    if ([tableView isEqual:mainTable]) {
         return 1;
     } else {
         return 3;
@@ -628,7 +628,7 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if ([tableView isEqual:settingsArea]) {
+    if ([tableView isEqual:settings]) {
         if (section != kSettingsViewReset) {
             return 40.0f;
         }
@@ -640,7 +640,7 @@ typedef enum {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([tableView isEqual:mainTableArea]) {
+    if ([tableView isEqual:mainTable]) {
         NSString *fontName;
         if (_isSearching) {
             fontName = [_filteredResults objectAtIndex:indexPath.row];
@@ -661,7 +661,7 @@ typedef enum {
     }
     
     
-    if ([tableView isEqual:settingsArea]) {
+    if ([tableView isEqual:settings]) {
         if (indexPath.section == kSettingsViewLayout && indexPath.row != ([tableView numberOfRowsInSection:kSettingsViewLayout] - 1)) {
             [[tableView cellForRowAtIndexPath:_settingsLayoutPrevRow] setBackgroundColor:[UIColor clearColor]];
             [tableView deselectRowAtIndexPath:_settingsLayoutPrevRow animated:NO];
@@ -735,7 +735,7 @@ typedef enum {
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [_fontFamilyNames removeObjectAtIndex:indexPath.row];
-        [mainTableArea deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [mainTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self resetSortSettings];
     }
     
@@ -782,7 +782,7 @@ typedef enum {
     NSLog(@"Filtered Results: %@", _filteredResults);
     
     
-    [mainTableArea reloadData];
+    [mainTable reloadData];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -808,34 +808,34 @@ typedef enum {
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
     [searchBar resignFirstResponder];
         
-    if (mainViewArea.center.x != screenWidth) {
+    if (mainView.center.x != screenWidth) {
         // Show the settings & function area.
         [UIView animateWithDuration:0.2
                          animations:^{
                              CGFloat newXPos = screenWidth;
-                             CGFloat mainViewYPos = mainViewArea.center.y;
-                             mainViewArea.center = CGPointMake(newXPos, mainViewYPos);
+                             CGFloat mainViewYPos = mainView.center.y;
+                             mainView.center = CGPointMake(newXPos, mainViewYPos);
                              
-                             CGFloat posTableYPos = mainTableArea.center.y;
-                             mainTableArea.center = CGPointMake(newXPos, posTableYPos);
+                             CGFloat posTableYPos = mainTable.center.y;
+                             mainTable.center = CGPointMake(newXPos, posTableYPos);
                          }];
     } else {
         // Hide the settings & function area.
         [UIView animateWithDuration:0.2
                          animations:^{
                              CGFloat newXPos = [[UIScreen mainScreen] bounds].size.width / 2;
-                             CGFloat mainViewYPos = mainViewArea.center.y;
-                             mainViewArea.center = CGPointMake(newXPos, mainViewYPos);
+                             CGFloat mainViewYPos = mainView.center.y;
+                             mainView.center = CGPointMake(newXPos, mainViewYPos);
                              
-                             CGFloat posTableYPos = mainTableArea.center.y;
-                             mainTableArea.center = CGPointMake(newXPos, posTableYPos);
+                             CGFloat posTableYPos = mainTable.center.y;
+                             mainTable.center = CGPointMake(newXPos, posTableYPos);
                          }];
     }
 }
 
 - (void)toggleEdit
 {
-    BOOL editingState = mainTableArea.editing ? NO : YES;
+    BOOL editingState = mainTable.editing ? NO : YES;
     
     if (editingState) {
         _editButton.title = @"Done";
@@ -849,7 +849,7 @@ typedef enum {
                                      cornerRadius:3];
     }
     
-    [mainTableArea setEditing:editingState animated:YES];
+    [mainTable setEditing:editingState animated:YES];
 }
 
 #pragma mark - Layout Actions
@@ -857,17 +857,17 @@ typedef enum {
 
 - (void)alignTextLeft
 {
-    [mainTableArea reloadData];
+    [mainTable reloadData];
     _textAlignment = NSTextAlignmentLeft;
-    [mainTableArea reloadRowsAtIndexPaths:[mainTableArea indexPathsForVisibleRows]
+    [mainTable reloadRowsAtIndexPaths:[mainTable indexPathsForVisibleRows]
                          withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)alignTextRight
 {
-    [mainTableArea reloadData];
+    [mainTable reloadData];
     _textAlignment = NSTextAlignmentRight;
-    [mainTableArea reloadRowsAtIndexPaths:[mainTableArea indexPathsForVisibleRows]
+    [mainTable reloadRowsAtIndexPaths:[mainTable indexPathsForVisibleRows]
                          withRowAnimation:UITableViewRowAnimationNone];
 }
 
@@ -895,7 +895,7 @@ typedef enum {
     if (_isLoaded) {
         [self saveState];
     }
-    [mainTableArea reloadData];
+    [mainTable reloadData];
 }
 
 #pragma mark - Sorting Actions 
@@ -911,7 +911,7 @@ typedef enum {
         _fontFamilyNames = [[NSMutableArray alloc] initWithArray:newFontList];
     }
     
-    [mainTableArea reloadData];
+    [mainTable reloadData];
 }
 
 - (void)sortFontNamesByLength
@@ -926,7 +926,7 @@ typedef enum {
         _fontFamilyNames = [[NSMutableArray alloc] initWithArray:newFontList];
     }
     
-    [mainTableArea reloadData];
+    [mainTable reloadData];
 }
 
 - (void)sortFontNamesByDisplaySize
@@ -954,7 +954,7 @@ typedef enum {
         _fontFamilyNames = [sortedArray mutableCopy];
     }
     
-    [mainTableArea reloadData];
+    [mainTable reloadData];
 }
 
 - (void)sortFontNamesInReverse:(id)sender
@@ -964,13 +964,13 @@ typedef enum {
             _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
             _fontSortReversed = YES;
             
-            [mainTableArea reloadData];
+            [mainTable reloadData];
         } else {
             _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
             _fontSortReversed = NO;
 
-            if ([[settingsArea indexPathsForSelectedRows] count]) {
-                for (NSIndexPath *selectedRow in [settingsArea indexPathsForSelectedRows]) {
+            if ([[settings indexPathsForSelectedRows] count]) {
+                for (NSIndexPath *selectedRow in [settings indexPathsForSelectedRows]) {
                     if (selectedRow.section == 1) {
                         switch (selectedRow.row) {
                             case 0:
@@ -991,7 +991,7 @@ typedef enum {
                     }
                 }
             } else {
-                [mainTableArea reloadData];
+                [mainTable reloadData];
             }
         }
         
@@ -1006,16 +1006,16 @@ typedef enum {
 
 - (void)resetToDefault
 {
-    NSArray *selectedRowPaths = [settingsArea indexPathsForVisibleRows];
+    NSArray *selectedRowPaths = [settings indexPathsForVisibleRows];
     
     // Reset cells
     for (NSIndexPath *path in selectedRowPaths) {
-        if ([[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
-            SettingsToggleCell *cell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
+        if ([[settings cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
+            SettingsToggleCell *cell = (SettingsToggleCell *)[settings cellForRowAtIndexPath:path];
             [cell.toggleSwitch setOn:NO animated:YES];
         } else {
-            [settingsArea deselectRowAtIndexPath:path animated:NO];
-            [[settingsArea cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
+            [settings deselectRowAtIndexPath:path animated:NO];
+            [[settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
         }
     }
     
@@ -1030,25 +1030,25 @@ typedef enum {
     
     [self saveState];
     
-    [mainTableArea reloadData];
+    [mainTable reloadData];
 }
 
 - (void)resetSortSettings
 {
     // Reset the reverse toggle
     NSIndexPath *reverseTogglePath = [NSIndexPath indexPathForItem:kSettingsSortingReverse inSection:kSettingsViewSorting];
-    SettingsToggleCell *reverseArrayToggleCell = (SettingsToggleCell *) [settingsArea cellForRowAtIndexPath:reverseTogglePath];
+    SettingsToggleCell *reverseArrayToggleCell = (SettingsToggleCell *) [settings cellForRowAtIndexPath:reverseTogglePath];
     if ([[reverseArrayToggleCell toggleSwitch] isOn]) {
         [[reverseArrayToggleCell toggleSwitch] setOn:NO animated:YES];
     }
     
     // Reset the sorting options
-    for (NSIndexPath *path in [settingsArea indexPathsForSelectedRows]) {
+    for (NSIndexPath *path in [settings indexPathsForSelectedRows]) {
         if (path.section == kSettingsViewSorting) {
-            if (![[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
-                [[settingsArea cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
-                [settingsArea deselectRowAtIndexPath:path animated:NO];
-                [settingsArea reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil]
+            if (![[settings cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
+                [[settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
+                [settings deselectRowAtIndexPath:path animated:NO];
+                [settings reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil]
                                     withRowAnimation:UITableViewRowAnimationNone];
             }
         }
