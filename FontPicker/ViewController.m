@@ -54,6 +54,7 @@ typedef enum {
 
 // Reset Actions
 - (void)resetToDefault;
+- (void)resetSortSettings;
 
 @end
 
@@ -71,8 +72,7 @@ typedef enum {
         _settingsLayoutPrevRow = [NSIndexPath indexPathForRow:0 inSection:0];
         _settingsSortPrevRow = [NSIndexPath indexPathForRow:0 inSection:1];
         
-        // Initialise the font family names
-        _fontFamilyNames = [[UIFont familyNames] mutableCopy];
+        _isLoaded = NO;
     }
     
     return self;
@@ -84,11 +84,14 @@ typedef enum {
 	// Do any additional setup after loading the view, typically from a nib.
     
     [self loadMainViewArea];
-    [self loadNavigationBar];
+    [self loadNavigationBar];    
+    [self loadState];
+
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [self loadState];
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self loadSettingsState];
 }
 
 - (void)didReceiveMemoryWarning
@@ -154,6 +157,183 @@ typedef enum {
     [navBar setDelegate: self];
     [self.mainViewArea addSubview:navBar];
 
+}
+
+#pragma mark - Data storage actions
+////////////////////////////////////////////////////////////////////////////////
+
+- (void)loadState
+{
+    // Load the plist file
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
+    _applicationState = [[NSMutableDictionary alloc] initWithContentsOfFile:plistFile];
+    
+    if (!_applicationState) {
+        _fontFamilyNames = [[UIFont familyNames] mutableCopy];
+        _applicationState = [NSMutableDictionary new];
+        [_applicationState writeToFile:plistFile atomically:YES];
+    }
+    
+    if ([_applicationState objectForKey:@"fonts"]) {
+        _fontFamilyNames = [_applicationState valueForKey:@"fonts"];
+        NSLog(@"Not NIL %@", _fontFamilyNames);
+    } else {
+        _fontFamilyNames = [[UIFont familyNames] mutableCopy];
+        NSLog(@"Blah: %@", _fontFamilyNames);
+    }
+    
+    [mainTableArea reloadData];
+}
+
+- (void)loadSettingsState
+{
+    for(id key in _applicationState) {
+        id value = [_applicationState objectForKey:key];
+        
+        // Load the active sorting and layout cells
+        if ([key isEqualToString:@"layout"] || [key isEqualToString:@"sorting"]) {
+            NSInteger section = [[value objectForKey:@"section"] intValue];
+            NSInteger row = [[value objectForKey:@"row"] intValue];
+            
+            NSIndexPath *path = [NSIndexPath indexPathForItem:row inSection:section];
+            [settingsArea selectRowAtIndexPath:path
+                                      animated:NO
+                                scrollPosition:UITableViewScrollPositionNone];
+            [[settingsArea cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+            
+            if (section == kSettingsViewLayout) {
+                switch (row) {
+                    case kSettingsLayoutLeft:
+                        [self alignTextLeft];
+                        break;
+                    case kSettingsLayoutRight:
+                        [self alignTextRight];
+                        break;
+                    default:
+                        break;
+                }
+                
+                _settingsLayoutPrevRow = path;
+            } else {
+                switch (row) {
+                    case kSettingsSortingAlpha:
+                        [self sortFontNamesAlphanumerically];
+                        break;
+                    case kSettingsSortingCount:
+                        [self sortFontNamesByLength];
+                        break;
+                    case kSettingsSortingSize:
+                        [self sortFontNamesByDisplaySize];
+                        break;
+                    default:
+                        break;
+                }
+                
+                _settingsSortPrevRow = path;
+            }
+            
+        } else if ([key isEqualToString:@"backwards"] || [key isEqualToString:@"reverse"]) {
+            // Set the active toggle cells
+            if ([value boolValue]) {
+                NSIndexPath *path;
+                if ([key isEqualToString:@"backwards"]) {
+                    path = [NSIndexPath indexPathForItem:kSettingsLayoutBackwards
+                                               inSection:kSettingsViewLayout];
+                    NSLog(@"Backwards Loaded: %@", path);
+                } else {
+                    NSLog(@"Reverse Loaded: %@", path);
+                    path = [NSIndexPath indexPathForItem:kSettingsSortingReverse
+                                               inSection:kSettingsViewSorting];
+                }
+                
+                SettingsToggleCell *cell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
+                [[cell toggleSwitch] setOn:YES];
+            }
+        }
+    }
+    
+    _isLoaded = YES;
+}
+
+- (void)saveState
+{
+    // Save the current application state
+    NSArray *indexPaths = [settingsArea indexPathsForVisibleRows];
+    BOOL activeLayoutOption = NO;
+    BOOL activeSortingOption = NO;
+    
+    for (NSIndexPath *path in indexPaths) {
+        // Determine the active toggled rows
+        if ([[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
+            SettingsToggleCell *toggleCell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
+            
+            
+            if (path.section == kSettingsViewLayout) {
+                [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
+                                     forKey:@"backwards"];
+                NSLog(@"Backwards %d", toggleCell.toggleSwitch.isOn);
+            } else if (path.section == kSettingsViewSorting) {
+                [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
+                                     forKey:@"reverse"];
+                NSLog(@"Reverse %d", toggleCell.toggleSwitch.isOn);
+            }
+        } else if (path.section == kSettingsViewLayout || path.section == kSettingsViewSorting) {
+            // Determine the active rows
+            if ([[settingsArea cellForRowAtIndexPath:path] isSelected]) {
+                NSNumber *section = [NSNumber numberWithInt:path.section];
+                NSNumber *row = [NSNumber numberWithInt:path.row];
+                
+                NSDictionary *rowPath = [NSDictionary dictionaryWithObjectsAndKeys:section, @"section",
+                                         row, @"row", nil];
+                
+                if (path.section == kSettingsViewLayout) {
+                    activeLayoutOption = YES;
+                    [_applicationState setValue:rowPath forKey:@"layout"];
+                    NSLog(@"Layout %@", [_applicationState valueForKey:@"layout"]);
+                } else if (path.section == kSettingsViewSorting) {
+                    activeSortingOption = YES;
+                    [_applicationState setValue:rowPath forKey:@"sorting"];
+                    NSLog(@"Sorting %@", [_applicationState valueForKey:@"sorting"]);
+                }
+            } else {
+                
+                if (!activeLayoutOption) {
+                    [_applicationState removeObjectForKey:@"layout"];
+                    NSLog(@"Layout Inactive %@", [_applicationState valueForKey:@"layout"]);
+                }
+                
+                if (!activeSortingOption) {
+                    [_applicationState removeObjectForKey:@"sorting"];
+                    NSLog(@"Sorting Inactive %@", [_applicationState valueForKey:@"sorting"]);
+                }
+            }
+        }
+    }
+    
+    [_applicationState setValue:_fontFamilyNames forKey:@"fonts"];
+    
+    // Save to Plist
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
+    NSLog(@"Path %@", plistFile);
+    NSLog(@"Saving %d", [_applicationState writeToFile:plistFile atomically:YES]);
+    
+    //Error Check
+    NSString *error = nil;
+    // create NSData from dictionary
+    NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:_applicationState
+                                                                   format:NSPropertyListXMLFormat_v1_0
+                                                         errorDescription:&error];
+    
+    // check is plistData exists
+    if(plistData) {
+        // write plistData to our Data.plist file
+        [plistData writeToFile:plistFile atomically:YES];
+    }
+    else {
+        NSLog(@"Error in saveData: %@ %@", error, _applicationState);
+    }
 }
 
 #pragma mark - UITableView Data Source
@@ -438,8 +618,6 @@ typedef enum {
                                    animated:NO
                              scrollPosition:UITableViewScrollPositionNone];
 
-
-            
             NSLog(@"Layout section: %d, Row: %d", indexPath.section, indexPath.row);
 
             switch (indexPath.row) {
@@ -459,6 +637,7 @@ typedef enum {
             
             _settingsLayoutPrevRow = indexPath;
             [self saveState];
+            
         } else if (indexPath.section == kSettingsViewSorting && indexPath.row != ([tableView numberOfRowsInSection:kSettingsViewSorting] - 1)) {
             [[tableView cellForRowAtIndexPath:_settingsSortPrevRow] setBackgroundColor:[UIColor clearColor]];
             [tableView deselectRowAtIndexPath:_settingsSortPrevRow animated:NO];
@@ -504,7 +683,10 @@ typedef enum {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [_fontFamilyNames removeObjectAtIndex:indexPath.row];
         [mainTableArea deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self resetSortSettings];
     }
+    
+    [self saveState];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -519,26 +701,9 @@ typedef enum {
     id thing = [_fontFamilyNames objectAtIndex:sourceIndexPath.row];
     [_fontFamilyNames removeObjectAtIndex:sourceIndexPath.row];
     [_fontFamilyNames insertObject:thing atIndex:destinationIndexPath.row];
+    [self resetSortSettings];
     
-    // Reset the reverse toggle
-    NSIndexPath *reverseTogglePath = [NSIndexPath indexPathForItem:kSettingsSortingReverse inSection:kSettingsViewSorting];
-    SettingsToggleCell *reverseArrayToggleCell = (SettingsToggleCell *) [settingsArea cellForRowAtIndexPath:reverseTogglePath];
-    if ([[reverseArrayToggleCell toggleSwitch] isOn]) {
-        [[reverseArrayToggleCell toggleSwitch] setOn:NO animated:YES];
-    }
-    
-    // Reset the sorting options
-    for (NSIndexPath *path in [settingsArea indexPathsForSelectedRows]) {
-        if (path.section == kSettingsViewSorting) {
-            if (![[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
-                [[settingsArea cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
-                [settingsArea deselectRowAtIndexPath:path animated:NO];
-                [settingsArea reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil]
-                                    withRowAnimation:UITableViewRowAnimationNone];
-            }
-        }
-    }
-    
+    [self saveState];
 }
 
 #pragma mark - Interface Actions
@@ -626,13 +791,15 @@ typedef enum {
 // Toggle action for font name reversal
 - (void)reverseFontNames:(id)sender
 {
-    if ([sender isOn]) { 
+    if ([sender isOn]) {
         _fontsReversed = YES;
     } else {
         _fontsReversed = NO;
     }
-    [self saveState];
     
+    if (_isLoaded) {
+        [self saveState];
+    }
     [mainTableArea reloadData];
 }
 
@@ -641,7 +808,7 @@ typedef enum {
 
 - (void)sortFontNamesAlphanumerically
 {
-    NSArray *newFontList = [[UIFont familyNames] sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
+    NSArray *newFontList = [_fontFamilyNames sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
     
     if (_fontSortReversed) {
         _fontFamilyNames = (NSMutableArray *)[[newFontList reverseObjectEnumerator] allObjects];
@@ -656,7 +823,7 @@ typedef enum {
 {
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"length"
                                                                    ascending:YES];
-    NSArray *newFontList = [[UIFont familyNames] sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    NSArray *newFontList = [_fontFamilyNames sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
     
     if (_fontSortReversed) {
         _fontFamilyNames = (NSMutableArray *)[[newFontList reverseObjectEnumerator] allObjects];
@@ -669,7 +836,7 @@ typedef enum {
 
 - (void)sortFontNamesByDisplaySize
 {
-    NSArray *sortedArray = [[UIFont familyNames] sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+    NSArray *sortedArray = [_fontFamilyNames sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
         UILabel *font1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
         UILabel *font2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
         
@@ -703,7 +870,7 @@ typedef enum {
         
         [mainTableArea reloadData];
     } else {
-        _fontFamilyNames = [[UIFont familyNames] mutableCopy];
+        _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
         _fontSortReversed = NO;
 
         if ([[settingsArea indexPathsForSelectedRows] count]) {
@@ -732,7 +899,9 @@ typedef enum {
         }
     }
     
-    [self saveState];
+    if (_isLoaded) {
+        [self saveState];
+    }
 }
 
 #pragma mark - Reset Actions
@@ -757,170 +926,34 @@ typedef enum {
     _settingsLayoutPrevRow = [NSIndexPath indexPathForRow:0 inSection:0];
     _settingsSortPrevRow = [NSIndexPath indexPathForRow:0 inSection:1];
     _textAlignment = NSTextAlignmentLeft;
-    _fontFamilyNames = (NSMutableArray *)[UIFont familyNames];
+    _fontFamilyNames = [[UIFont familyNames] mutableCopy];
     _applicationState = [NSMutableDictionary new];
     [self saveState];
     
     [mainTableArea reloadData];
 }
 
-#pragma mark - Data storage actions
-////////////////////////////////////////////////////////////////////////////////
-
-- (void)loadState
+- (void)resetSortSettings
 {
-    // Load the plist file
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
-    _applicationState = [[NSMutableDictionary alloc] initWithContentsOfFile:plistFile];
-    
-    if (!_applicationState) {
-        _applicationState = [NSMutableDictionary new];
-        [_applicationState writeToFile:plistFile atomically:YES];
+    // Reset the reverse toggle
+    NSIndexPath *reverseTogglePath = [NSIndexPath indexPathForItem:kSettingsSortingReverse inSection:kSettingsViewSorting];
+    SettingsToggleCell *reverseArrayToggleCell = (SettingsToggleCell *) [settingsArea cellForRowAtIndexPath:reverseTogglePath];
+    if ([[reverseArrayToggleCell toggleSwitch] isOn]) {
+        [[reverseArrayToggleCell toggleSwitch] setOn:NO animated:YES];
     }
-        
-    for(id key in _applicationState) {
-        id value = [_applicationState objectForKey:key];
-        
-        // Load the active sorting and layout cells
-        if ([key isEqualToString:@"layout"] || [key isEqualToString:@"sorting"]) {
-            NSInteger section = [[value objectForKey:@"section"] intValue];
-            NSInteger row = [[value objectForKey:@"row"] intValue];
-            
-            NSIndexPath *path = [NSIndexPath indexPathForItem:row inSection:section];
-            [settingsArea selectRowAtIndexPath:path
-                                      animated:NO
-                                scrollPosition:UITableViewScrollPositionNone];
-            [[settingsArea cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
-            
-            if (section == kSettingsViewLayout) {
-                switch (row) {
-                    case kSettingsLayoutLeft:
-                        [self alignTextLeft];
-                        break;
-                    case kSettingsLayoutRight:
-                        [self alignTextRight];
-                        break;
-                    default:
-                        break;
-                }
-
-                _settingsLayoutPrevRow = path;
-            } else {
-                switch (row) {
-                    case kSettingsSortingAlpha:
-                        [self sortFontNamesAlphanumerically];
-                        break;
-                    case kSettingsSortingCount:
-                        [self sortFontNamesByLength];
-                        break;
-                    case kSettingsSortingSize:
-                        [self sortFontNamesByDisplaySize];
-                        break;
-                    default:
-                        break;
-                }
-
-                _settingsSortPrevRow = path;
-            }
-            
-            NSLog(@"Path Loaded: %@", path);
-        } else if ([key isEqualToString:@"backwards"] || [key isEqualToString:@"reverse"]) {
-            // Set the active toggle cells
-            if ([value boolValue]) {
-                NSIndexPath *path;
-                if ([key isEqualToString:@"backwards"]) {
-                    path = [NSIndexPath indexPathForItem:kSettingsLayoutBackwards
-                                               inSection:kSettingsViewLayout];
-                } else {
-                    path = [NSIndexPath indexPathForItem:kSettingsSortingReverse
-                                               inSection:kSettingsViewSorting];
-                }
-                
-                SettingsToggleCell *cell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
-                [[cell toggleSwitch] setOn:YES];
+    
+    // Reset the sorting options
+    for (NSIndexPath *path in [settingsArea indexPathsForSelectedRows]) {
+        if (path.section == kSettingsViewSorting) {
+            if (![[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
+                [[settingsArea cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
+                [settingsArea deselectRowAtIndexPath:path animated:NO];
+                [settingsArea reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil]
+                                    withRowAnimation:UITableViewRowAnimationNone];
             }
         }
     }
 }
 
-- (void)saveState
-{
-    // Save the current application state
-    NSArray *indexPaths = [settingsArea indexPathsForVisibleRows];
-    BOOL activeLayoutOption = NO;
-    BOOL activeSortingOption = NO;
-    
-    for (NSIndexPath *path in indexPaths) {
-        // Determine the active toggled rows
-        if ([[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {            
-            SettingsToggleCell *toggleCell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
-            
-            
-            if (path.section == kSettingsViewLayout) {
-                [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
-                                     forKey:@"backwards"];
-                NSLog(@"Backwards %d", toggleCell.toggleSwitch.isOn);
-            } else if (path.section == kSettingsViewSorting) {
-                [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
-                                     forKey:@"reverse"];
-                NSLog(@"Reverse %d", toggleCell.toggleSwitch.isOn);
-            }
-        } else if (path.section == kSettingsViewLayout || path.section == kSettingsViewSorting) {
-            // Determine the active rows
-            if ([[settingsArea cellForRowAtIndexPath:path] isSelected]) {
-                NSNumber *section = [NSNumber numberWithInt:path.section];
-                NSNumber *row = [NSNumber numberWithInt:path.row];
-                
-                NSDictionary *rowPath = [NSDictionary dictionaryWithObjectsAndKeys:section, @"section",
-                                         row, @"row", nil];
-                
-                if (path.section == kSettingsViewLayout) {
-                    activeLayoutOption = YES;
-                    [_applicationState setValue:rowPath forKey:@"layout"];
-                    NSLog(@"Layout %@", [_applicationState valueForKey:@"layout"]);
-                } else if (path.section == kSettingsViewSorting) {
-                    activeSortingOption = YES;
-                    [_applicationState setValue:rowPath forKey:@"sorting"];
-                    NSLog(@"Sorting %@", [_applicationState valueForKey:@"sorting"]);
-                }
-            } else {
-                
-                if (!activeLayoutOption) {
-                    [_applicationState removeObjectForKey:@"layout"];
-                    NSLog(@"Layout Inactive %@", [_applicationState valueForKey:@"layout"]);
-                }
-                
-                if (!activeSortingOption) {
-                    [_applicationState removeObjectForKey:@"sorting"];
-                    NSLog(@"Sorting Inactive %@", [_applicationState valueForKey:@"sorting"]);
-                }
-            }
-        }
-    }
-
-    // Save to Plist
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
-    NSLog(@"Path %@", plistFile);
-    NSLog(@"Saving %d", [_applicationState writeToFile:plistFile atomically:YES]);
-
-    //Error Check
-    /*
-    NSString *error = nil;
-    // create NSData from dictionary
-    NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:_applicationState
-                                                                   format:NSPropertyListXMLFormat_v1_0
-                                                         errorDescription:&error];
-    
-    // check is plistData exists
-    if(plistData) {
-        // write plistData to our Data.plist file
-        [plistData writeToFile:plistFile atomically:YES];
-    }
-    else {
-        NSLog(@"Error in saveData: %@ %@", error, _applicationState);
-    }*/
-}
 
 @end

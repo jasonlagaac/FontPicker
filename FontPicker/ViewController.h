@@ -36,6 +36,9 @@
     /** Main table sort state */
     BOOL _fontSortReversed;
     
+    /** Loaded */
+    BOOL _isLoaded;
+    
     /** Current application state */
     NSMutableDictionary *_applicationState;
 }
