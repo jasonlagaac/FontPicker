@@ -10,6 +10,8 @@
 #import <QuartzCore/QuartzCore.h>
 #import <FlatUIKit/FlatUIKit.h>
 
+@class FontViewController;
+
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationBarDelegate>
 {
     /** Previously selected layout row path */
@@ -41,10 +43,13 @@
     
     /** Current application state */
     NSMutableDictionary *_applicationState;
+    
+    /** Display fonts */
+    FontViewController *_fontViewController;
 }
 
 /**
- Main view area 
+ Main view area
  */
 @property (nonatomic, strong) IBOutlet UIView *mainViewArea;
 

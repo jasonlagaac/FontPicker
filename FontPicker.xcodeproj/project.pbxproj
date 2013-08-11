@@ -30,6 +30,8 @@
 		B866F55B17B67A2B009AA284 /* SettingsResetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B866F55317B67A2B009AA284 /* SettingsResetCell.xib */; };
 		B866F55C17B67A2B009AA284 /* SettingsToggleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B866F55617B67A2B009AA284 /* SettingsToggleCell.m */; };
 		B866F55D17B67A2B009AA284 /* SettingsToggleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B866F55717B67A2B009AA284 /* SettingsToggleCell.xib */; };
+		B89B246117B7806000F3F95A /* FontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B89B245F17B7806000F3F95A /* FontViewController.m */; };
+		B89B246217B7806000F3F95A /* FontViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89B246017B7806000F3F95A /* FontViewController.xib */; };
 		B8BE576017B48DEB00147657 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8BE575F17B48DEB00147657 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -76,6 +78,9 @@
 		B866F55517B67A2B009AA284 /* SettingsToggleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsToggleCell.h; sourceTree = "<group>"; };
 		B866F55617B67A2B009AA284 /* SettingsToggleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsToggleCell.m; sourceTree = "<group>"; };
 		B866F55717B67A2B009AA284 /* SettingsToggleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsToggleCell.xib; sourceTree = "<group>"; };
+		B89B245E17B7806000F3F95A /* FontViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontViewController.h; sourceTree = "<group>"; };
+		B89B245F17B7806000F3F95A /* FontViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontViewController.m; sourceTree = "<group>"; };
+		B89B246017B7806000F3F95A /* FontViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontViewController.xib; sourceTree = "<group>"; };
 		B8BE575F17B48DEB00147657 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F4078976B8DD4E898C1BAC58 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -147,6 +152,9 @@
 				B850C06617B4795F00AA0921 /* ViewController.h */,
 				B850C06717B4795F00AA0921 /* ViewController.m */,
 				B850C06917B4795F00AA0921 /* ViewController_iPhone.xib */,
+				B89B245E17B7806000F3F95A /* FontViewController.h */,
+				B89B245F17B7806000F3F95A /* FontViewController.m */,
+				B89B246017B7806000F3F95A /* FontViewController.xib */,
 				B866F54C17B67A2B009AA284 /* FontTableCell */,
 				B866F55017B67A2B009AA284 /* SettingsResetCell */,
 				B866F55417B67A2B009AA284 /* SettingsToggleCell */,
@@ -299,6 +307,7 @@
 				B866F55917B67A2B009AA284 /* FontTableCell.xib in Resources */,
 				B866F55B17B67A2B009AA284 /* SettingsResetCell.xib in Resources */,
 				B866F55D17B67A2B009AA284 /* SettingsToggleCell.xib in Resources */,
+				B89B246217B7806000F3F95A /* FontViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -369,6 +378,7 @@
 				B866F55817B67A2B009AA284 /* FontTableCell.m in Sources */,
 				B866F55A17B67A2B009AA284 /* SettingsResetCell.m in Sources */,
 				B866F55C17B67A2B009AA284 /* SettingsToggleCell.m in Sources */,
+				B89B246117B7806000F3F95A /* FontViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

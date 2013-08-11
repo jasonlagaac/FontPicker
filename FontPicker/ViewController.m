@@ -8,9 +8,9 @@
 
 #import "ViewController.h"
 #import "FontTableCell.h"
+#import "FontViewController.h"
 #import "SettingsToggleCell.h"
 #import "SettingsResetCell.h"
-#import "UINavigationBar+FlatUI.h"
 
 typedef enum {
     kSettingsViewLayout = 0,
@@ -64,6 +64,10 @@ typedef enum {
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        _fontViewController = [[FontViewController alloc] initWithNibName:@"FontViewController"
+                                                                   bundle:nil];
+        _fontViewController.view.alpha = 0.0f;
+        
         // Set default state
         _fontsReversed = NO;
         _fontSortReversed = NO;
@@ -82,6 +86,7 @@ typedef enum {
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    [self.view addSubview:_fontViewController.view];
     
     [self loadMainViewArea];
     [self loadNavigationBar];    
@@ -610,7 +615,19 @@ typedef enum {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Path Touched: %@", indexPath);
+    if ([tableView isEqual:mainTableArea]) {
+        NSString *fontName = [_fontFamilyNames objectAtIndex:indexPath.row];
+        _fontViewController.view.alpha = 0.0f;
+        _fontViewController.fontNameTitle.text = fontName;
+        [_fontViewController.sampleAlphabet setFont:[UIFont fontWithName:fontName
+                                                                   size:18.0f]];
+        [UIView animateWithDuration:0.5
+                         animations:^{
+                             _fontViewController.view.alpha = 1.0f;
+                         }];
+    }
+    
+    
     if ([tableView isEqual:settingsArea]) {
         if (indexPath.section == kSettingsViewLayout && indexPath.row != ([tableView numberOfRowsInSection:kSettingsViewLayout] - 1)) {
             [[tableView cellForRowAtIndexPath:_settingsLayoutPrevRow] setBackgroundColor:[UIColor clearColor]];
