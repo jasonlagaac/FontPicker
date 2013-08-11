@@ -241,10 +241,13 @@ typedef enum {
                     path = [NSIndexPath indexPathForItem:kSettingsLayoutBackwards
                                                inSection:kSettingsViewLayout];
                     NSLog(@"Backwards Loaded: %@", path);
+                    _fontsReversed = YES;
                 } else {
-                    NSLog(@"Reverse Loaded: %@", path);
                     path = [NSIndexPath indexPathForItem:kSettingsSortingReverse
                                                inSection:kSettingsViewSorting];
+                    _fontFamilyNames = [[[_fontFamilyNames reverseObjectEnumerator] allObjects] mutableCopy];
+                    NSLog(@"Reverse Loaded: %@", _fontFamilyNames);
+                    _fontSortReversed = YES;
                 }
                 
                 SettingsToggleCell *cell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
@@ -864,42 +867,42 @@ typedef enum {
 
 - (void)sortFontNamesInReverse:(id)sender
 {
-    if ([sender isOn] && !_fontSortReversed) {
-        _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
-        _fontSortReversed = YES;
-        
-        [mainTableArea reloadData];
-    } else {
-        _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
-        _fontSortReversed = NO;
+    if (_isLoaded) {
+        if ([sender isOn] && !_fontSortReversed) {
+            _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
+            _fontSortReversed = YES;
+            
+            [mainTableArea reloadData];
+        } else {
+            _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
+            _fontSortReversed = NO;
 
-        if ([[settingsArea indexPathsForSelectedRows] count]) {
-            for (NSIndexPath *selectedRow in [settingsArea indexPathsForSelectedRows]) {
-                if (selectedRow.section == 1) {
-                    switch (selectedRow.row) {
-                        case 0:
-                            [self sortFontNamesAlphanumerically];
-                            break;
-                            
-                        case 1:
-                            [self sortFontNamesByLength];
-                            break;
-                            
-                        case 2:
-                            [self sortFontNamesByDisplaySize];
-                            break;
-                            
-                        default:
-                            break;
+            if ([[settingsArea indexPathsForSelectedRows] count]) {
+                for (NSIndexPath *selectedRow in [settingsArea indexPathsForSelectedRows]) {
+                    if (selectedRow.section == 1) {
+                        switch (selectedRow.row) {
+                            case 0:
+                                [self sortFontNamesAlphanumerically];
+                                break;
+                                
+                            case 1:
+                                [self sortFontNamesByLength];
+                                break;
+                                
+                            case 2:
+                                [self sortFontNamesByDisplaySize];
+                                break;
+                                
+                            default:
+                                break;
+                        }
                     }
                 }
+            } else {
+                [mainTableArea reloadData];
             }
-        } else {
-            [mainTableArea reloadData];
         }
-    }
-    
-    if (_isLoaded) {
+        
         [self saveState];
     }
 }
@@ -928,6 +931,9 @@ typedef enum {
     _textAlignment = NSTextAlignmentLeft;
     _fontFamilyNames = [[UIFont familyNames] mutableCopy];
     _applicationState = [NSMutableDictionary new];
+    _fontsReversed = NO;
+    _fontSortReversed = NO;
+    
     [self saveState];
     
     [mainTableArea reloadData];
@@ -953,6 +959,8 @@ typedef enum {
             }
         }
     }
+    
+    [self saveState];
 }
 
 
