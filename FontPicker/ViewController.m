@@ -430,11 +430,14 @@ typedef enum {
     NSLog(@"Path Touched: %@", indexPath);
     if ([tableView isEqual:settingsArea]) {
         if (indexPath.section == kSettingsViewLayout && indexPath.row != ([tableView numberOfRowsInSection:kSettingsViewLayout] - 1)) {
-            [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor wisteriaColor]];
-            [[tableView cellForRowAtIndexPath:indexPath] setSelected:YES];
-            
             [[tableView cellForRowAtIndexPath:_settingsLayoutPrevRow] setBackgroundColor:[UIColor clearColor]];
             [tableView deselectRowAtIndexPath:_settingsLayoutPrevRow animated:NO];
+            
+            [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor wisteriaColor]];
+            [tableView selectRowAtIndexPath:indexPath
+                                   animated:NO
+                             scrollPosition:UITableViewScrollPositionNone];
+
 
             
             NSLog(@"Layout section: %d, Row: %d", indexPath.section, indexPath.row);
@@ -460,7 +463,9 @@ typedef enum {
             [[tableView cellForRowAtIndexPath:_settingsSortPrevRow] setBackgroundColor:[UIColor clearColor]];
             [tableView deselectRowAtIndexPath:_settingsSortPrevRow animated:NO];
             [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor wisteriaColor]];
-            [[tableView cellForRowAtIndexPath:indexPath] setSelected:YES];
+            [tableView selectRowAtIndexPath:indexPath
+                                   animated:NO
+                             scrollPosition:UITableViewScrollPositionNone];
             
             NSLog(@"Sorting section: %d, Row: %d", indexPath.section, indexPath.row);
 
@@ -626,6 +631,7 @@ typedef enum {
     } else {
         _fontsReversed = NO;
     }
+    [self saveState];
     
     [mainTableArea reloadData];
 }
@@ -725,7 +731,12 @@ typedef enum {
             [mainTableArea reloadData];
         }
     }
+    
+    [self saveState];
 }
+
+#pragma mark - Reset Actions
+////////////////////////////////////////////////////////////////////////////////
 
 - (void)resetToDefault
 {
@@ -747,6 +758,8 @@ typedef enum {
     _settingsSortPrevRow = [NSIndexPath indexPathForRow:0 inSection:1];
     _textAlignment = NSTextAlignmentLeft;
     _fontFamilyNames = (NSMutableArray *)[UIFont familyNames];
+    _applicationState = [NSMutableDictionary new];
+    [self saveState];
     
     [mainTableArea reloadData];
 }
