@@ -59,7 +59,7 @@ typedef enum {
 @end
 
 @implementation ViewController
-@synthesize mainTableArea, mainViewArea, settingsArea;
+@synthesize mainTableArea, mainViewArea, settingsArea, searchBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -89,7 +89,8 @@ typedef enum {
     [self.view addSubview:_fontViewController.view];
     
     [self loadMainViewArea];
-    [self loadNavigationBar];    
+    [self loadNavigationBar];
+    [self loadSearchBar];
     [self loadState];
 
 }
@@ -162,6 +163,22 @@ typedef enum {
     [navBar setDelegate: self];
     [self.mainViewArea addSubview:navBar];
 
+}
+
+- (void)loadSearchBar
+{
+    self.searchBar.backgroundImage = [UIImage new];
+    self.searchBar.backgroundColor = [UIColor asbestosColor];
+    
+    // Find the UITextField view in the searchBar
+    // and set this view as its delegate.
+    for (UIView *view in searchBar.subviews){
+        if ([view isKindOfClass: [UITextField class]]) {
+            UITextField *tf = (UITextField *)view;
+            tf.delegate = self;
+            break;
+        }
+    }
 }
 
 #pragma mark - Data storage actions
@@ -413,15 +430,18 @@ typedef enum {
                 }
             }
         }
-        
-        NSString *fontFamilyName = [_fontFamilyNames objectAtIndex:indexPath.row];
-        [cell.textLabel setTextAlignment:_textAlignment];
-        [cell.textLabel setFont:[UIFont flatFontOfSize:18.0f]];
-        
-        if (_fontsReversed) {
-            cell.textLabel.text = [self reverseString:fontFamilyName];
+        if (_isSearching) {
+            [cell.textLabel setFont:[UIFont flatFontOfSize:18.0f]];
+            cell.textLabel.text = [_filteredResults objectAtIndex:indexPath.row];
         } else {
-            cell.textLabel.text = fontFamilyName;
+            NSString *fontFamilyName = [_fontFamilyNames objectAtIndex:indexPath.row];
+            [cell.textLabel setTextAlignment:_textAlignment];
+  
+            if (_fontsReversed) {
+                cell.textLabel.text = [self reverseString:fontFamilyName];
+            } else {
+                cell.textLabel.text = fontFamilyName;
+            }
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
@@ -574,7 +594,11 @@ typedef enum {
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ([tableView isEqual:mainTableArea]) {
-        return [_fontFamilyNames count];
+        if (_isSearching) {
+            return [_filteredResults count];
+        } else {
+            return [_fontFamilyNames count];
+        }
     }
     
     if ([tableView isEqual:settingsArea]) {
@@ -616,7 +640,14 @@ typedef enum {
 - (UITableViewCell *)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([tableView isEqual:mainTableArea]) {
-        NSString *fontName = [_fontFamilyNames objectAtIndex:indexPath.row];
+        NSString *fontName;
+        if (_isSearching) {
+            fontName = [_filteredResults objectAtIndex:indexPath.row];
+            [searchBar resignFirstResponder];
+        } else {
+            fontName = [_fontFamilyNames objectAtIndex:indexPath.row];
+        }
+
         _fontViewController.view.alpha = 0.0f;
         _fontViewController.fontNameTitle.text = fontName;
         [_fontViewController.sampleAlphabet setFont:[UIFont fontWithName:fontName
@@ -724,6 +755,47 @@ typedef enum {
     [self resetSortSettings];
     
     [self saveState];
+}
+
+#pragma mark - UISearchBar Delegates
+////////////////////////////////////////////////////////////////////////////////
+
+-(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
+{
+    if(text.length == 0) {
+        _isSearching = NO;
+        [self.searchBar resignFirstResponder];
+    } else {
+        _isSearching = YES;
+        _filteredResults = [[NSMutableArray alloc] init];
+        
+        for (NSString* fontName in _fontFamilyNames) {
+            NSRange nameRange = [fontName rangeOfString:text options:NSCaseInsensitiveSearch];
+            if(nameRange.location != NSNotFound) {
+                [_filteredResults addObject:fontName];
+            }
+        }
+    }
+    
+    NSLog(@"Filtered Results: %@", _filteredResults);
+    
+    
+    [mainTableArea reloadData];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    self.searchBar.text = @"";
+    [self.searchBar resignFirstResponder];
+}
+
+
+// Search bar text field delegate
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    //if we only try and resignFirstResponder on textField or searchBar,
+    //the keyboard will not dissapear (at least not on iPad)!
+    [self performSelector:@selector(searchBarCancelButtonClicked:) withObject:self.searchBar afterDelay: 0.1];
+    return YES;
 }
 
 #pragma mark - Interface Actions
@@ -923,6 +995,8 @@ typedef enum {
         [self saveState];
     }
 }
+
+
 
 #pragma mark - Reset Actions
 ////////////////////////////////////////////////////////////////////////////////

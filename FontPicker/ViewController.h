@@ -12,7 +12,7 @@
 
 @class FontViewController;
 
-@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationBarDelegate>
+@interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationBarDelegate, UISearchBarDelegate, UITextFieldDelegate>
 {
     /** Previously selected layout row path */
     NSIndexPath *_settingsLayoutPrevRow;
@@ -25,6 +25,9 @@
     
     /** Font family names */
     NSMutableArray *_fontFamilyNames;
+    
+    /** Filtered font family names */
+    NSMutableArray *_filteredResults;
     
     /** Main view edit button */
     UIBarButtonItem *_editButton;
@@ -40,6 +43,9 @@
     
     /** Loaded */
     BOOL _isLoaded;
+    
+    /** Searching */
+    BOOL _isSearching;
     
     /** Current application state */
     NSMutableDictionary *_applicationState;
@@ -62,6 +68,12 @@
  Main table view 
  */
 @property (nonatomic, strong) IBOutlet UITableView *mainTableArea;
+
+
+/**
+ Search Bar
+ */
+@property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 
 /**
  Save the application state
