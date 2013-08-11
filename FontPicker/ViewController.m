@@ -430,9 +430,12 @@ typedef enum {
     NSLog(@"Path Touched: %@", indexPath);
     if ([tableView isEqual:settingsArea]) {
         if (indexPath.section == kSettingsViewLayout && indexPath.row != ([tableView numberOfRowsInSection:kSettingsViewLayout] - 1)) {
+            [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor wisteriaColor]];
+            [[tableView cellForRowAtIndexPath:indexPath] setSelected:YES];
+            
             [[tableView cellForRowAtIndexPath:_settingsLayoutPrevRow] setBackgroundColor:[UIColor clearColor]];
             [tableView deselectRowAtIndexPath:_settingsLayoutPrevRow animated:NO];
-            [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor wisteriaColor]];
+
             
             NSLog(@"Layout section: %d, Row: %d", indexPath.section, indexPath.row);
 
@@ -457,6 +460,7 @@ typedef enum {
             [[tableView cellForRowAtIndexPath:_settingsSortPrevRow] setBackgroundColor:[UIColor clearColor]];
             [tableView deselectRowAtIndexPath:_settingsSortPrevRow animated:NO];
             [[tableView cellForRowAtIndexPath:indexPath] setBackgroundColor:[UIColor wisteriaColor]];
+            [[tableView cellForRowAtIndexPath:indexPath] setSelected:YES];
             
             NSLog(@"Sorting section: %d, Row: %d", indexPath.section, indexPath.row);
 
@@ -752,6 +756,7 @@ typedef enum {
 
 - (void)loadState
 {
+    // Load the plist file
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
     _applicationState = [[NSMutableDictionary alloc] initWithContentsOfFile:plistFile];
@@ -760,25 +765,55 @@ typedef enum {
         _applicationState = [NSMutableDictionary new];
         [_applicationState writeToFile:plistFile atomically:YES];
     }
-    
-    NSLog(@"Application State %@", _applicationState);
-    
+        
     for(id key in _applicationState) {
         id value = [_applicationState objectForKey:key];
+        
+        // Load the active sorting and layout cells
         if ([key isEqualToString:@"layout"] || [key isEqualToString:@"sorting"]) {
             NSInteger section = [[value objectForKey:@"section"] intValue];
             NSInteger row = [[value objectForKey:@"row"] intValue];
             
             NSIndexPath *path = [NSIndexPath indexPathForItem:row inSection:section];
+            [settingsArea selectRowAtIndexPath:path
+                                      animated:NO
+                                scrollPosition:UITableViewScrollPositionNone];
             [[settingsArea cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+            
             if (section == kSettingsViewLayout) {
+                switch (row) {
+                    case kSettingsLayoutLeft:
+                        [self alignTextLeft];
+                        break;
+                    case kSettingsLayoutRight:
+                        [self alignTextRight];
+                        break;
+                    default:
+                        break;
+                }
+
                 _settingsLayoutPrevRow = path;
             } else {
+                switch (row) {
+                    case kSettingsSortingAlpha:
+                        [self sortFontNamesAlphanumerically];
+                        break;
+                    case kSettingsSortingCount:
+                        [self sortFontNamesByLength];
+                        break;
+                    case kSettingsSortingSize:
+                        [self sortFontNamesByDisplaySize];
+                        break;
+                    default:
+                        break;
+                }
+
                 _settingsSortPrevRow = path;
             }
             
             NSLog(@"Path Loaded: %@", path);
         } else if ([key isEqualToString:@"backwards"] || [key isEqualToString:@"reverse"]) {
+            // Set the active toggle cells
             if ([value boolValue]) {
                 NSIndexPath *path;
                 if ([key isEqualToString:@"backwards"]) {
@@ -804,7 +839,7 @@ typedef enum {
     BOOL activeSortingOption = NO;
     
     for (NSIndexPath *path in indexPaths) {
-        // Determine the selected layout rows
+        // Determine the active toggled rows
         if ([[settingsArea cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {            
             SettingsToggleCell *toggleCell = (SettingsToggleCell *)[settingsArea cellForRowAtIndexPath:path];
             
@@ -813,12 +848,13 @@ typedef enum {
                 [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
                                      forKey:@"backwards"];
                 NSLog(@"Backwards %d", toggleCell.toggleSwitch.isOn);
-            } else {
+            } else if (path.section == kSettingsViewSorting) {
                 [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
                                      forKey:@"reverse"];
                 NSLog(@"Reverse %d", toggleCell.toggleSwitch.isOn);
             }
-        } else {
+        } else if (path.section == kSettingsViewLayout || path.section == kSettingsViewSorting) {
+            // Determine the active rows
             if ([[settingsArea cellForRowAtIndexPath:path] isSelected]) {
                 NSNumber *section = [NSNumber numberWithInt:path.section];
                 NSNumber *row = [NSNumber numberWithInt:path.row];
@@ -830,7 +866,7 @@ typedef enum {
                     activeLayoutOption = YES;
                     [_applicationState setValue:rowPath forKey:@"layout"];
                     NSLog(@"Layout %@", [_applicationState valueForKey:@"layout"]);
-                } else {
+                } else if (path.section == kSettingsViewSorting) {
                     activeSortingOption = YES;
                     [_applicationState setValue:rowPath forKey:@"sorting"];
                     NSLog(@"Sorting %@", [_applicationState valueForKey:@"sorting"]);
@@ -839,22 +875,25 @@ typedef enum {
                 
                 if (!activeLayoutOption) {
                     [_applicationState removeObjectForKey:@"layout"];
-                    NSLog(@"Layout %@", [_applicationState valueForKey:@"layout"]);
+                    NSLog(@"Layout Inactive %@", [_applicationState valueForKey:@"layout"]);
                 }
                 
                 if (!activeSortingOption) {
                     [_applicationState removeObjectForKey:@"sorting"];
-                    NSLog(@"Sorting %@", [_applicationState valueForKey:@"sorting"]);
+                    NSLog(@"Sorting Inactive %@", [_applicationState valueForKey:@"sorting"]);
                 }
             }
         }
     }
 
+    // Save to Plist
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
     NSLog(@"Path %@", plistFile);
     NSLog(@"Saving %d", [_applicationState writeToFile:plistFile atomically:YES]);
 
+    //Error Check
+    /*
     NSString *error = nil;
     // create NSData from dictionary
     NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:_applicationState
@@ -862,15 +901,13 @@ typedef enum {
                                                          errorDescription:&error];
     
     // check is plistData exists
-    if(plistData)
-    {
+    if(plistData) {
         // write plistData to our Data.plist file
         [plistData writeToFile:plistFile atomically:YES];
     }
-    else
-    {
+    else {
         NSLog(@"Error in saveData: %@ %@", error, _applicationState);
-    }
+    }*/
 }
 
 @end
