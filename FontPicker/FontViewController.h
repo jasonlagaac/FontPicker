@@ -12,7 +12,8 @@
 
 @interface FontViewController : UIViewController
 {
-    UIView *_fontViewArea;
+    UIView      *_fontViewArea;
+    UISlider    *_fontSizeSlider;
 }
 
 @property (nonatomic, strong) UILabel *fontNameTitle;

@@ -36,6 +36,7 @@
     [self loadCloseButton];
     [self loadFontNameTile];
     [self loadSampleAlphabet];
+    [self loadSlider];
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,7 +93,7 @@
 
 - (void)loadSampleAlphabet
 {
-    sampleAlphabet = [[UITextView alloc] initWithFrame:CGRectMake(20, 60, 250, 150)];
+    sampleAlphabet = [[UITextView alloc] initWithFrame:CGRectMake(20, 80, 250, 150)];
     sampleAlphabet.text = @"ABCDEFGHIJKLMN\nOPQRSTUVWXYZ\n"
                            "abcdefghijklmno\npqrstuvwxyz\n\n"
                            "1234567890";
@@ -104,6 +105,32 @@
     [_fontViewArea addSubview:sampleAlphabet];
 }
 
+- (void)loadSlider
+{
+    _fontSizeSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 250, 50)];
+    _fontSizeSlider.center = CGPointMake(145.0f, 70.0f);
+    _fontSizeSlider.value = 18.0f;
+    _fontSizeSlider.minimumValue = 10.0f;
+    _fontSizeSlider.maximumValue = 200;
+    
+    [_fontSizeSlider configureFlatSliderWithTrackColor:[UIColor silverColor]
+                                         progressColor:[UIColor wisteriaColor]
+                                            thumbColor:[UIColor concreteColor]];
+    
+    [_fontSizeSlider addTarget:self
+                        action:@selector(changeFontSize)
+              forControlEvents:UIControlEventValueChanged];
+    
+    [_fontViewArea addSubview:_fontSizeSlider];
+}
+
+- (void)changeFontSize
+{
+    NSLog(@"Changing Font Size");
+    NSString *fontName = sampleAlphabet.font.fontName;
+    [sampleAlphabet setFont:[UIFont fontWithName:fontName
+                                            size:_fontSizeSlider.value]];
+}
 
 - (void)dismissFontView
 {
