@@ -16,6 +16,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Define a debug logger
 
+// Uncomment the line below to turn on debugging output
 // #define DEBUG_MODE
 
 #ifdef DEBUG_MODE
