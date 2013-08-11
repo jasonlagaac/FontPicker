@@ -430,8 +430,10 @@ typedef enum {
                 }
             }
         }
+        
+        [cell.textLabel setFont:[UIFont boldFlatFontOfSize:18.0f]];
+        
         if (_isSearching) {
-            [cell.textLabel setFont:[UIFont flatFontOfSize:18.0f]];
             cell.textLabel.text = [_filteredResults objectAtIndex:indexPath.row];
         } else {
             NSString *fontFamilyName = [_fontFamilyNames objectAtIndex:indexPath.row];
@@ -804,6 +806,7 @@ typedef enum {
 - (void)presentSettings
 {
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    [searchBar resignFirstResponder];
         
     if (mainViewArea.center.x != screenWidth) {
         // Show the settings & function area.

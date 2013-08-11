@@ -37,6 +37,7 @@
     [self loadFontNameTile];
     [self loadSampleAlphabet];
     [self loadSlider];
+    [self loadStarRatings];
 }
 
 - (void)didReceiveMemoryWarning
@@ -130,6 +131,30 @@
     NSString *fontName = sampleAlphabet.font.fontName;
     [sampleAlphabet setFont:[UIFont fontWithName:fontName
                                             size:_fontSizeSlider.value]];
+}
+
+- (void)loadStarRatings
+{
+    EDStarRating *starRating = [[EDStarRating alloc] initWithFrame:CGRectMake(45, 240, 200, 60)];
+	// Do any additional setup after loading the view, typically from a nib.
+    starRating.backgroundColor = [UIColor clearColor];
+    starRating.starImage = [UIImage imageNamed:@"star.png"];
+    starRating.starHighlightedImage = [UIImage imageNamed:@"starhighlighted.png"];
+    starRating.maxRating = 5.0;
+    starRating.delegate = self;
+    starRating.horizontalMargin = 15.0;
+    starRating.editable=YES;
+    starRating.rating = 0;
+    starRating.displayMode = EDStarRatingDisplayHalf;
+    [starRating setNeedsDisplay];
+    
+    [_fontViewArea addSubview:starRating];
+}
+
+-(void)starsSelectionChanged:(EDStarRating *)control rating:(float)rating
+{
+    NSString *ratingString = [NSString stringWithFormat:@"Rating: %.1f", rating];
+    NSLog(@"Star Rating: %@", ratingString);
 }
 
 - (void)dismissFontView

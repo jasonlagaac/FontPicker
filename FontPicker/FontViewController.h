@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <FlatUIKit/FlatUIKit.h>
+#import <EDStarRating/EDStarRating.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface FontViewController : UIViewController
+@interface FontViewController : UIViewController <EDStarRatingProtocol>
 {
     UIView      *_fontViewArea;
     UISlider    *_fontSizeSlider;

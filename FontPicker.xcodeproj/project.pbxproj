@@ -24,6 +24,8 @@
 		B850C07817B4796000AA0921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05017B4795F00AA0921 /* Foundation.framework */; };
 		B850C08017B4796000AA0921 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B850C07E17B4796000AA0921 /* InfoPlist.strings */; };
 		B850C08317B4796000AA0921 /* FontPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C08217B4796000AA0921 /* FontPickerTests.m */; };
+		B860055217B7C1ED00D02F02 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = B860055017B7C1ED00D02F02 /* star.png */; };
+		B860055317B7C1ED00D02F02 /* starhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = B860055117B7C1ED00D02F02 /* starhighlighted.png */; };
 		B866F55817B67A2B009AA284 /* FontTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B866F54E17B67A2B009AA284 /* FontTableCell.m */; };
 		B866F55917B67A2B009AA284 /* FontTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B866F54F17B67A2B009AA284 /* FontTableCell.xib */; };
 		B866F55A17B67A2B009AA284 /* SettingsResetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B866F55217B67A2B009AA284 /* SettingsResetCell.m */; };
@@ -69,6 +71,8 @@
 		B850C07F17B4796000AA0921 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B850C08117B4796000AA0921 /* FontPickerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FontPickerTests.h; sourceTree = "<group>"; };
 		B850C08217B4796000AA0921 /* FontPickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FontPickerTests.m; sourceTree = "<group>"; };
+		B860055017B7C1ED00D02F02 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		B860055117B7C1ED00D02F02 /* starhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starhighlighted.png; sourceTree = "<group>"; };
 		B866F54D17B67A2B009AA284 /* FontTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontTableCell.h; sourceTree = "<group>"; };
 		B866F54E17B67A2B009AA284 /* FontTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTableCell.m; sourceTree = "<group>"; };
 		B866F54F17B67A2B009AA284 /* FontTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontTableCell.xib; sourceTree = "<group>"; };
@@ -155,6 +159,7 @@
 				B89B245E17B7806000F3F95A /* FontViewController.h */,
 				B89B245F17B7806000F3F95A /* FontViewController.m */,
 				B89B246017B7806000F3F95A /* FontViewController.xib */,
+				B860054F17B7C1E300D02F02 /* Images */,
 				B866F54C17B67A2B009AA284 /* FontTableCell */,
 				B866F55017B67A2B009AA284 /* SettingsResetCell */,
 				B866F55417B67A2B009AA284 /* SettingsToggleCell */,
@@ -194,6 +199,15 @@
 				B850C07E17B4796000AA0921 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B860054F17B7C1E300D02F02 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				B860055017B7C1ED00D02F02 /* star.png */,
+				B860055117B7C1ED00D02F02 /* starhighlighted.png */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 		B866F54C17B67A2B009AA284 /* FontTableCell */ = {
@@ -308,6 +322,8 @@
 				B866F55B17B67A2B009AA284 /* SettingsResetCell.xib in Resources */,
 				B866F55D17B67A2B009AA284 /* SettingsToggleCell.xib in Resources */,
 				B89B246217B7806000F3F95A /* FontViewController.xib in Resources */,
+				B860055217B7C1ED00D02F02 /* star.png in Resources */,
+				B860055317B7C1ED00D02F02 /* starhighlighted.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
