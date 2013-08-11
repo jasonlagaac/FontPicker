@@ -86,7 +86,6 @@ typedef enum {
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [self.view addSubview:_fontViewController.view];
     
     [self loadMainViewArea];
     [self loadNavigationBar];
@@ -654,6 +653,7 @@ typedef enum {
         _fontViewController.fontNameTitle.text = fontName;
         [_fontViewController.sampleAlphabet setFont:[UIFont fontWithName:fontName
                                                                    size:18.0f]];
+        [self.view addSubview:_fontViewController.view];
         [UIView animateWithDuration:0.5
                          animations:^{
                              _fontViewController.view.alpha = 1.0f;

@@ -10,16 +10,23 @@
 #import <FlatUIKit/FlatUIKit.h>
 #import <EDStarRating/EDStarRating.h>
 #import <QuartzCore/QuartzCore.h>
+#import <CoreData/CoreData.h>
+#import "Font.h"
 
 @interface FontViewController : UIViewController <EDStarRatingProtocol>
 {
-    UIView      *_fontViewArea;
-    UISlider    *_fontSizeSlider;
+    UIView              *_fontViewArea;
+    UISlider            *_fontSizeSlider;
+    EDStarRating        *_starRating;
+    Font                *_fontData;
+    
+    //FUISegmentedControl *_segmentedControl
 }
 
 @property (nonatomic, strong) UILabel *fontNameTitle;
 @property (nonatomic, strong) UITextView *sampleAlphabet;
 
-- (void)setSampleAlphabetWithFont:(UIFont *)font;
+
+//- (void)setSampleAlphabetWithFont:(UIFont *)font;
 
 @end

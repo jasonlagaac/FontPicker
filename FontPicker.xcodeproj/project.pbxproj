@@ -26,6 +26,7 @@
 		B850C08317B4796000AA0921 /* FontPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C08217B4796000AA0921 /* FontPickerTests.m */; };
 		B860055217B7C1ED00D02F02 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = B860055017B7C1ED00D02F02 /* star.png */; };
 		B860055317B7C1ED00D02F02 /* starhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = B860055117B7C1ED00D02F02 /* starhighlighted.png */; };
+		B860055C17B7D60000D02F02 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B860055B17B7D60000D02F02 /* CoreData.framework */; };
 		B866F55817B67A2B009AA284 /* FontTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B866F54E17B67A2B009AA284 /* FontTableCell.m */; };
 		B866F55917B67A2B009AA284 /* FontTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B866F54F17B67A2B009AA284 /* FontTableCell.xib */; };
 		B866F55A17B67A2B009AA284 /* SettingsResetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B866F55217B67A2B009AA284 /* SettingsResetCell.m */; };
@@ -35,6 +36,8 @@
 		B89B246117B7806000F3F95A /* FontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B89B245F17B7806000F3F95A /* FontViewController.m */; };
 		B89B246217B7806000F3F95A /* FontViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89B246017B7806000F3F95A /* FontViewController.xib */; };
 		B8BE576017B48DEB00147657 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8BE575F17B48DEB00147657 /* QuartzCore.framework */; };
+		B8EC5E2D17B7DFA5008C67EC /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2C17B7DFA5008C67EC /* Font.m */; };
+		B8EC5E3017B7DFB1008C67EC /* Font.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2E17B7DFB1008C67EC /* Font.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +76,7 @@
 		B850C08217B4796000AA0921 /* FontPickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FontPickerTests.m; sourceTree = "<group>"; };
 		B860055017B7C1ED00D02F02 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		B860055117B7C1ED00D02F02 /* starhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starhighlighted.png; sourceTree = "<group>"; };
+		B860055B17B7D60000D02F02 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		B866F54D17B67A2B009AA284 /* FontTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontTableCell.h; sourceTree = "<group>"; };
 		B866F54E17B67A2B009AA284 /* FontTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTableCell.m; sourceTree = "<group>"; };
 		B866F54F17B67A2B009AA284 /* FontTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontTableCell.xib; sourceTree = "<group>"; };
@@ -86,6 +90,9 @@
 		B89B245F17B7806000F3F95A /* FontViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontViewController.m; sourceTree = "<group>"; };
 		B89B246017B7806000F3F95A /* FontViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontViewController.xib; sourceTree = "<group>"; };
 		B8BE575F17B48DEB00147657 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		B8EC5E2B17B7DFA5008C67EC /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
+		B8EC5E2C17B7DFA5008C67EC /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Font.m; sourceTree = "<group>"; };
+		B8EC5E2F17B7DFB1008C67EC /* Font.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Font.xcdatamodel; sourceTree = "<group>"; };
 		F4078976B8DD4E898C1BAC58 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -94,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B860055C17B7D60000D02F02 /* CoreData.framework in Frameworks */,
 				B8BE576017B48DEB00147657 /* QuartzCore.framework in Frameworks */,
 				B850C04F17B4795F00AA0921 /* UIKit.framework in Frameworks */,
 				B850C05117B4795F00AA0921 /* Foundation.framework in Frameworks */,
@@ -118,6 +126,7 @@
 		B850C04217B4795F00AA0921 = {
 			isa = PBXGroup;
 			children = (
+				B860055B17B7D60000D02F02 /* CoreData.framework */,
 				B850C05417B4795F00AA0921 /* FontPicker */,
 				B850C07B17B4796000AA0921 /* FontPickerTests */,
 				B850C04D17B4795F00AA0921 /* Frameworks */,
@@ -159,6 +168,7 @@
 				B89B245E17B7806000F3F95A /* FontViewController.h */,
 				B89B245F17B7806000F3F95A /* FontViewController.m */,
 				B89B246017B7806000F3F95A /* FontViewController.xib */,
+				B860055717B7D55900D02F02 /* Models */,
 				B860054F17B7C1E300D02F02 /* Images */,
 				B866F54C17B67A2B009AA284 /* FontTableCell */,
 				B866F55017B67A2B009AA284 /* SettingsResetCell */,
@@ -208,6 +218,16 @@
 				B860055117B7C1ED00D02F02 /* starhighlighted.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		B860055717B7D55900D02F02 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B8EC5E2E17B7DFB1008C67EC /* Font.xcdatamodeld */,
+				B8EC5E2B17B7DFA5008C67EC /* Font.h */,
+				B8EC5E2C17B7DFA5008C67EC /* Font.m */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		B866F54C17B67A2B009AA284 /* FontTableCell */ = {
@@ -395,6 +415,8 @@
 				B866F55A17B67A2B009AA284 /* SettingsResetCell.m in Sources */,
 				B866F55C17B67A2B009AA284 /* SettingsToggleCell.m in Sources */,
 				B89B246117B7806000F3F95A /* FontViewController.m in Sources */,
+				B8EC5E2D17B7DFA5008C67EC /* Font.m in Sources */,
+				B8EC5E3017B7DFB1008C67EC /* Font.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,6 +617,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B8EC5E2E17B7DFB1008C67EC /* Font.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B8EC5E2F17B7DFB1008C67EC /* Font.xcdatamodel */,
+			);
+			currentVersion = B8EC5E2F17B7DFB1008C67EC /* Font.xcdatamodel */;
+			path = Font.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B850C04317B4795F00AA0921 /* Project object */;
 }

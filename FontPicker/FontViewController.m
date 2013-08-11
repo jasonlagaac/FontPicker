@@ -7,21 +7,29 @@
 //
 
 #import "FontViewController.h"
+#import "AppDelegate.h"
+
+typedef enum {
+    kFontAttributeRegular,
+    kFontAttributeBold,
+    kFontAttributeUnderline,
+    kFontAttributeStrike
+} FontAttributeStates;
+
+#define kFontSampleText @"ABCDEFGHIJKLMN\nOPQRSTUVWXYZ\nabcdefghijklmno\npqrstuvwxyz\n\n1234567890"
 
 @interface FontViewController ()
 
 @end
 
 @implementation FontViewController
-@synthesize fontNameTitle;
-@synthesize sampleAlphabet;
+@synthesize fontNameTitle, sampleAlphabet;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
- 
     }
     return self;
 }
@@ -37,7 +45,34 @@
     [self loadFontNameTile];
     [self loadSampleAlphabet];
     [self loadSlider];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    _fontData = nil;
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", fontNameTitle.text];
+    id appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    
+    // Fetch the fonts from persistent data store
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Font"];
+    NSArray *data = [[context executeFetchRequest:fetchRequest error:nil] mutableCopy];
+
+    NSArray *filtered = [data filteredArrayUsingPredicate:predicate];
+
+    if ([filtered count]) {
+        _fontData = (Font *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
     [self loadStarRatings];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    _starRating = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,6 +80,9 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Load Actions
+////////////////////////////////////////////////////////////////////////////////
 
 - (void)loadFontViewArea
 {
@@ -95,9 +133,7 @@
 - (void)loadSampleAlphabet
 {
     sampleAlphabet = [[UITextView alloc] initWithFrame:CGRectMake(20, 80, 250, 150)];
-    sampleAlphabet.text = @"ABCDEFGHIJKLMN\nOPQRSTUVWXYZ\n"
-                           "abcdefghijklmno\npqrstuvwxyz\n\n"
-                           "1234567890";
+    sampleAlphabet.text = kFontSampleText;
     sampleAlphabet.textAlignment = NSTextAlignmentCenter;
     sampleAlphabet.backgroundColor = [UIColor clearColor];
     sampleAlphabet.textColor = [UIColor midnightBlueColor];
@@ -125,6 +161,69 @@
     [_fontViewArea addSubview:_fontSizeSlider];
 }
 
+
+- (void)loadStarRatings
+{
+    _starRating = [[EDStarRating alloc] initWithFrame:CGRectMake(45, 220, 200, 60)];
+    
+	// Do any additional setup after loading the view, typically from a nib.
+    _starRating.backgroundColor = [UIColor clearColor];
+    _starRating.starImage = [UIImage imageNamed:@"star.png"];
+    _starRating.starHighlightedImage = [UIImage imageNamed:@"starhighlighted.png"];
+    _starRating.maxRating = 5.0;
+    _starRating.delegate = self;
+    _starRating.horizontalMargin = 15.0;
+    _starRating.editable=YES;
+    
+    if (_fontData) {
+        _starRating.rating = [_fontData.rating floatValue];
+    } else {
+        _starRating.rating = 0;
+    }
+    
+    _starRating.displayMode = EDStarRatingDisplayHalf;
+    [_starRating setNeedsDisplay];
+    
+    [_fontViewArea addSubview:_starRating];
+}
+
+/*
+- (void)loadSegmentedControl
+{
+    NSArray *textOptions = [NSArray arrayWithObjects:@"Regular", @"Bold", @"Underline", @"Strike", nil];
+    _segmentedControl = [[FUISegmentedControl alloc] initWithItems:textOptions];
+    _segmentedControl.frame = CGRectMake(0, 0, 260, 30);
+    _segmentedControl.center = CGPointMake(145.0f, 290.0f);
+    
+    _segmentedControl.selectedFont = [UIFont boldFlatFontOfSize:10];
+    _segmentedControl.selectedFontColor = [UIColor cloudsColor];
+    _segmentedControl.deselectedFont = [UIFont boldFlatFontOfSize:10];
+    _segmentedControl.deselectedFontColor = [UIColor cloudsColor];
+    _segmentedControl.selectedColor = [UIColor amethystColor];
+    _segmentedControl.deselectedColor = [UIColor midnightBlueColor];
+    _segmentedControl.dividerColor = [UIColor silverColor];
+    _segmentedControl.selectedSegmentIndex = 0;
+    [_segmentedControl addTarget:self
+                         action:@selector(changeFontAttributes)
+               forControlEvents:UIControlEventValueChanged];
+    
+    [_fontViewArea addSubview:_segmentedControl];
+}
+
+#pragma mark - Segmented Control Actions
+/////////////////////////////////////////////////////////////////////////////////
+
+- (void)changeFontAttributes
+{
+    if (_segmentedControl.selectedSegmentIndex == kFontAttributeRegular) {
+        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:kFontSampleText];
+        [string addAttribute:NSFontA value:<#(id)#> range:<#(NSRange)#>]
+    }
+}*/
+
+#pragma mark - Slider Actions
+/////////////////////////////////////////////////////////////////////////////////
+
 - (void)changeFontSize
 {
     NSLog(@"Changing Font Size");
@@ -133,35 +232,38 @@
                                             size:_fontSizeSlider.value]];
 }
 
-- (void)loadStarRatings
-{
-    EDStarRating *starRating = [[EDStarRating alloc] initWithFrame:CGRectMake(45, 240, 200, 60)];
-	// Do any additional setup after loading the view, typically from a nib.
-    starRating.backgroundColor = [UIColor clearColor];
-    starRating.starImage = [UIImage imageNamed:@"star.png"];
-    starRating.starHighlightedImage = [UIImage imageNamed:@"starhighlighted.png"];
-    starRating.maxRating = 5.0;
-    starRating.delegate = self;
-    starRating.horizontalMargin = 15.0;
-    starRating.editable=YES;
-    starRating.rating = 0;
-    starRating.displayMode = EDStarRatingDisplayHalf;
-    [starRating setNeedsDisplay];
-    
-    [_fontViewArea addSubview:starRating];
-}
+#pragma mark - Star Rating actions
+/////////////////////////////////////////////////////////////////////////////////
 
 -(void)starsSelectionChanged:(EDStarRating *)control rating:(float)rating
 {
-    NSString *ratingString = [NSString stringWithFormat:@"Rating: %.1f", rating];
-    NSLog(@"Star Rating: %@", ratingString);
+
+    id appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    
+    // Create a new managed object
+    Font *font = [NSEntityDescription insertNewObjectForEntityForName:@"Font" inManagedObjectContext:context];
+    [font setValue:[NSNumber numberWithFloat:rating] forKey:@"rating"];
+    [font setValue:fontNameTitle.text forKey:@"name"];
+    
+    NSError *error = nil;
+    // Save the object to persistent store
+    if (![context save:&error]) {
+        NSLog(@"Can't Save! %@ %@", error, [error localizedDescription]);
+    }
 }
+
+#pragma mark - Dismiss view actions
+/////////////////////////////////////////////////////////////////////////////////
 
 - (void)dismissFontView
 {
     [UIView animateWithDuration:0.5f
                      animations:^{
                          self.view.alpha = 0.0f;
+                     } completion:^(BOOL finished) {
+                         _starRating.rating = 0;
+                         [self.view removeFromSuperview];
                      }];
 }
 
