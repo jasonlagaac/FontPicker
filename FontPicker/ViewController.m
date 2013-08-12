@@ -1030,6 +1030,7 @@ typedef enum {
     _fontsReversed = NO;
     _fontSortReversed = NO;
     
+    [self flushStoredFontData];
     [self saveState];
     
     [mainTable reloadData];
@@ -1075,7 +1076,7 @@ typedef enum {
     }
     
     if (![context save:&error]) {
-    	//DLog(@"Error deleting %@ - error:%@",entityDescription,error);
+    	DebugLog(@"Error deleting %@", error);
     }
 }
 
