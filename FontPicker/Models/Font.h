@@ -12,6 +12,14 @@
 
 @interface Font : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * rating;
+/** Font Rating */
+@property (nonatomic, strong) NSNumber *rating;
+
+/** Return a list of all fonts */
+- (NSArray *)allFonts;
+
+/** Return a list of all fonts sorted alphanumerically */
+- (NSArray *)allFontsSortedAlphanumerically;
+
 
 @end

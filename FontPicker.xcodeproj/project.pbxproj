@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		43F9647BB7074383869D5193 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4078976B8DD4E898C1BAC58 /* libPods.a */; };
-		B8417639180582520007657C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8417638180582520007657C /* OCHamcrestIOS.framework */; };
-		B841763B1805825B0007657C /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B841763A1805825B0007657C /* OCMockitoIOS.framework */; };
+		B841763D180584920007657C /* FontTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B841763C180584920007657C /* FontTest.m */; };
+		B84176411805877B0007657C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84176401805877B0007657C /* OCHamcrestIOS.framework */; };
+		B8417643180587840007657C /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8417642180587840007657C /* OCMockitoIOS.framework */; };
+		B84176451805882E0007657C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C07517B4796000AA0921 /* SenTestingKit.framework */; };
+		B841764818058CE30007657C /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B841764718058CE30007657C /* Settings.m */; };
 		B850C04F17B4795F00AA0921 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C04E17B4795F00AA0921 /* UIKit.framework */; };
 		B850C05117B4795F00AA0921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05017B4795F00AA0921 /* Foundation.framework */; };
 		B850C05317B4795F00AA0921 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05217B4795F00AA0921 /* CoreGraphics.framework */; };
@@ -18,11 +21,9 @@
 		B850C05F17B4795F00AA0921 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C05E17B4795F00AA0921 /* AppDelegate.m */; };
 		B850C06817B4795F00AA0921 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C06717B4795F00AA0921 /* ViewController.m */; };
 		B850C06B17B4795F00AA0921 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B850C06917B4795F00AA0921 /* ViewController_iPhone.xib */; };
-		B850C07617B4796000AA0921 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C07517B4796000AA0921 /* SenTestingKit.framework */; };
 		B850C07717B4796000AA0921 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C04E17B4795F00AA0921 /* UIKit.framework */; };
 		B850C07817B4796000AA0921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05017B4795F00AA0921 /* Foundation.framework */; };
 		B850C08017B4796000AA0921 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B850C07E17B4796000AA0921 /* InfoPlist.strings */; };
-		B850C08317B4796000AA0921 /* FontPickerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B850C08217B4796000AA0921 /* FontPickerTests.m */; };
 		B860055217B7C1ED00D02F02 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = B860055017B7C1ED00D02F02 /* star.png */; };
 		B860055317B7C1ED00D02F02 /* starhighlighted.png in Resources */ = {isa = PBXBuildFile; fileRef = B860055117B7C1ED00D02F02 /* starhighlighted.png */; };
 		B860055C17B7D60000D02F02 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B860055B17B7D60000D02F02 /* CoreData.framework */; };
@@ -40,6 +41,7 @@
 		B8EC5E7B17B7F4D4008C67EC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7817B7F4D3008C67EC /* Default.png */; };
 		B8EC5E7C17B7F4D4008C67EC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7917B7F4D3008C67EC /* Default-568h@2x.png */; };
 		B8EC5E7D17B7F4D4008C67EC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7A17B7F4D3008C67EC /* Default@2x.png */; };
+		DDC10FADE6D34539A2E6AB3D /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4078976B8DD4E898C1BAC58 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,8 +56,11 @@
 
 /* Begin PBXFileReference section */
 		1F777E125CE441F38B6492CF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
-		B8417638180582520007657C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = "OCHamcrest-3.0.0/OCHamcrestIOS.framework"; sourceTree = "<group>"; };
-		B841763A1805825B0007657C /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMockitoIOS.framework; path = "OCMockito-1.0.0/OCMockitoIOS.framework"; sourceTree = "<group>"; };
+		B841763C180584920007657C /* FontTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTest.m; sourceTree = "<group>"; };
+		B84176401805877B0007657C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = "OCHamcrest-3.0.0/OCHamcrestIOS.framework"; sourceTree = "<group>"; };
+		B8417642180587840007657C /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMockitoIOS.framework; path = "OCMockito-1.0.0/OCMockitoIOS.framework"; sourceTree = "<group>"; };
+		B841764618058CE30007657C /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
+		B841764718058CE30007657C /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		B850C04B17B4795F00AA0921 /* FontPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FontPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B850C04E17B4795F00AA0921 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B850C05017B4795F00AA0921 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -73,8 +78,6 @@
 		B850C07517B4796000AA0921 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		B850C07D17B4796000AA0921 /* FontPickerTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FontPickerTests-Info.plist"; sourceTree = "<group>"; };
 		B850C07F17B4796000AA0921 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B850C08117B4796000AA0921 /* FontPickerTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FontPickerTests.h; sourceTree = "<group>"; };
-		B850C08217B4796000AA0921 /* FontPickerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FontPickerTests.m; sourceTree = "<group>"; };
 		B860055017B7C1ED00D02F02 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
 		B860055117B7C1ED00D02F02 /* starhighlighted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starhighlighted.png; sourceTree = "<group>"; };
 		B860055B17B7D60000D02F02 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -107,10 +110,8 @@
 			files = (
 				B860055C17B7D60000D02F02 /* CoreData.framework in Frameworks */,
 				B8BE576017B48DEB00147657 /* QuartzCore.framework in Frameworks */,
-				B8417639180582520007657C /* OCHamcrestIOS.framework in Frameworks */,
 				B850C04F17B4795F00AA0921 /* UIKit.framework in Frameworks */,
 				B850C05117B4795F00AA0921 /* Foundation.framework in Frameworks */,
-				B841763B1805825B0007657C /* OCMockitoIOS.framework in Frameworks */,
 				B850C05317B4795F00AA0921 /* CoreGraphics.framework in Frameworks */,
 				43F9647BB7074383869D5193 /* libPods.a in Frameworks */,
 			);
@@ -120,9 +121,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B850C07617B4796000AA0921 /* SenTestingKit.framework in Frameworks */,
+				B84176451805882E0007657C /* SenTestingKit.framework in Frameworks */,
 				B850C07717B4796000AA0921 /* UIKit.framework in Frameworks */,
+				B84176411805877B0007657C /* OCHamcrestIOS.framework in Frameworks */,
 				B850C07817B4796000AA0921 /* Foundation.framework in Frameworks */,
+				DDC10FADE6D34539A2E6AB3D /* libPods.a in Frameworks */,
+				B8417643180587840007657C /* OCMockitoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,7 +136,6 @@
 		B850C04217B4795F00AA0921 = {
 			isa = PBXGroup;
 			children = (
-				B860055B17B7D60000D02F02 /* CoreData.framework */,
 				B850C05417B4795F00AA0921 /* FontPicker */,
 				B850C07B17B4796000AA0921 /* FontPickerTests */,
 				B850C04D17B4795F00AA0921 /* Frameworks */,
@@ -153,8 +156,9 @@
 		B850C04D17B4795F00AA0921 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B841763A1805825B0007657C /* OCMockitoIOS.framework */,
-				B8417638180582520007657C /* OCHamcrestIOS.framework */,
+				B860055B17B7D60000D02F02 /* CoreData.framework */,
+				B8417642180587840007657C /* OCMockitoIOS.framework */,
+				B84176401805877B0007657C /* OCHamcrestIOS.framework */,
 				B8BE575F17B48DEB00147657 /* QuartzCore.framework */,
 				B850C04E17B4795F00AA0921 /* UIKit.framework */,
 				B850C05017B4795F00AA0921 /* Foundation.framework */,
@@ -203,9 +207,8 @@
 		B850C07B17B4796000AA0921 /* FontPickerTests */ = {
 			isa = PBXGroup;
 			children = (
-				B850C08117B4796000AA0921 /* FontPickerTests.h */,
-				B850C08217B4796000AA0921 /* FontPickerTests.m */,
 				B850C07C17B4796000AA0921 /* Supporting Files */,
+				B841763C180584920007657C /* FontTest.m */,
 			);
 			path = FontPickerTests;
 			sourceTree = "<group>";
@@ -234,6 +237,8 @@
 				B8EC5E2E17B7DFB1008C67EC /* Font.xcdatamodeld */,
 				B8EC5E2B17B7DFA5008C67EC /* Font.h */,
 				B8EC5E2C17B7DFA5008C67EC /* Font.m */,
+				B841764618058CE30007657C /* Settings.h */,
+				B841764718058CE30007657C /* Settings.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -294,10 +299,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B850C08917B4796000AA0921 /* Build configuration list for PBXNativeTarget "FontPickerTests" */;
 			buildPhases = (
+				C9A7C1557E5C47BBBA05F19C /* Check Pods Manifest.lock */,
 				B850C06F17B4796000AA0921 /* Sources */,
 				B850C07017B4796000AA0921 /* Frameworks */,
 				B850C07117B4796000AA0921 /* Resources */,
 				B850C07217B4796000AA0921 /* ShellScript */,
+				3724C2122FD2468489413CC7 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -371,6 +378,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3724C2122FD2468489413CC7 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		5F321D26031F475A88D00D49 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -414,6 +436,21 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		C9A7C1557E5C47BBBA05F19C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -423,6 +460,7 @@
 			files = (
 				B850C05B17B4795F00AA0921 /* main.m in Sources */,
 				B850C05F17B4795F00AA0921 /* AppDelegate.m in Sources */,
+				B841764818058CE30007657C /* Settings.m in Sources */,
 				B850C06817B4795F00AA0921 /* ViewController.m in Sources */,
 				B866F55817B67A2B009AA284 /* FontTableCell.m in Sources */,
 				B866F55A17B67A2B009AA284 /* SettingsResetCell.m in Sources */,
@@ -437,7 +475,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B850C08317B4796000AA0921 /* FontPickerTests.m in Sources */,
+				B841763D180584920007657C /* FontTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -549,6 +587,7 @@
 					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0/OCHamcrest-3.0.0",
 					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0",
 					"/Users/jasonlagaac/Documents/FontPicker/OCHamcrest-3.0.0",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
@@ -569,6 +608,7 @@
 					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0/OCHamcrest-3.0.0",
 					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0",
 					"/Users/jasonlagaac/Documents/FontPicker/OCHamcrest-3.0.0",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
@@ -581,11 +621,15 @@
 		};
 		B850C08A17B4796000AA0921 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F777E125CE441F38B6492CF /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FontPicker.app/FontPicker";
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\\\"$(SDKROOT)/Developer/Library/Frameworks\\\"",
+					"\\\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\\\"",
+					"/Users/jasonlagaac/Documents/FontPicker/OCHamcrest-3.0.0",
+					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
@@ -598,11 +642,15 @@
 		};
 		B850C08B17B4796000AA0921 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1F777E125CE441F38B6492CF /* Pods.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FontPicker.app/FontPicker";
 				FRAMEWORK_SEARCH_PATHS = (
-					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
-					"\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"",
+					"\\\"$(SDKROOT)/Developer/Library/Frameworks\\\"",
+					"\\\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\\\"",
+					"/Users/jasonlagaac/Documents/FontPicker/OCHamcrest-3.0.0",
+					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
