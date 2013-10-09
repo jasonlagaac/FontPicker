@@ -91,6 +91,22 @@
     return self.fontFamilyNames;
 }
 
+- (NSMutableArray *)searchForFont:(NSString *)search
+{
+    self.filteredResults = nil;
+    self.filteredResults = [[NSMutableArray alloc] init];
+    
+    for (NSString* fontName in self.fontFamilyNames) {
+        NSRange nameRange = [fontName rangeOfString:search options:NSCaseInsensitiveSearch];
+        if(nameRange.location != NSNotFound) {
+            [self.filteredResults addObject:fontName];
+        }
+    }
+    
+    return self.filteredResults;
+}
+
+
 
 
 

@@ -50,6 +50,4 @@ typedef enum {
 - (void)reset;
 
 
-
-
 @end

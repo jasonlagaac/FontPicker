@@ -21,25 +21,6 @@ typedef enum {
 
 @interface FontViewController ()
 
-// Load actions
-- (void)loadFontViewArea;
-- (void)loadCloseButton;
-- (void)loadFontNameTitle;
-- (void)loadSampleAlphabet;
-- (void)loadSlider;
-- (void)loadStarRatings;
-- (void)loadFontData;
-
-// Slider Actions
-- (void)changeFontSize;
-
-// Star Rating Actions
-- (void)starsSelectionChanged:(EDStarRating *)control
-                       rating:(float)rating;
-
-// Dismiss View Actions
-- (void)dismissFontView;
-
 @end
 
 @implementation FontViewController
@@ -212,39 +193,6 @@ typedef enum {
     }
 }
 
-/*
-- (void)loadSegmentedControl
-{
-    NSArray *textOptions = [NSArray arrayWithObjects:@"Regular", @"Bold", @"Underline", @"Strike", nil];
-    _segmentedControl = [[FUISegmentedControl alloc] initWithItems:textOptions];
-    _segmentedControl.frame = CGRectMake(0, 0, 260, 30);
-    _segmentedControl.center = CGPointMake(145.0f, 290.0f);
-    
-    _segmentedControl.selectedFont = [UIFont boldFlatFontOfSize:10];
-    _segmentedControl.selectedFontColor = [UIColor cloudsColor];
-    _segmentedControl.deselectedFont = [UIFont boldFlatFontOfSize:10];
-    _segmentedControl.deselectedFontColor = [UIColor cloudsColor];
-    _segmentedControl.selectedColor = [UIColor amethystColor];
-    _segmentedControl.deselectedColor = [UIColor midnightBlueColor];
-    _segmentedControl.dividerColor = [UIColor silverColor];
-    _segmentedControl.selectedSegmentIndex = 0;
-    [_segmentedControl addTarget:self
-                         action:@selector(changeFontAttributes)
-               forControlEvents:UIControlEventValueChanged];
-    
-    [_fontModal addSubview:_segmentedControl];
-}
-
-#pragma mark - Segmented Control Actions
-/////////////////////////////////////////////////////////////////////////////////
-
-- (void)changeFontAttributes
-{
-    if (_segmentedControl.selectedSegmentIndex == kFontAttributeRegular) {
-        NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:kFontSampleText];
-        [string addAttribute:NSFontA value:<#(id)#> range:<#(NSRange)#>]
-    }
-}*/
 
 #pragma mark - Slider Actions
 /////////////////////////////////////////////////////////////////////////////////
@@ -268,7 +216,8 @@ typedef enum {
 
     // Create a new managed object
     if (_fontData == nil) {
-        FontData *font = [NSEntityDescription insertNewObjectForEntityForName:@"Font" inManagedObjectContext:context];
+        FontData *font = [NSEntityDescription insertNewObjectForEntityForName:@"Font"
+                                                       inManagedObjectContext:context];
         [FontData setValue:[NSNumber numberWithFloat:rating] forKey:@"rating"];
         [FontData setValue:fontNameTitle.text forKey:@"name"];
     } else {

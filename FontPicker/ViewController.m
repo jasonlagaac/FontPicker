@@ -26,17 +26,14 @@
 /** Previously selected sorting row */
 @property (nonatomic, strong) NSIndexPath *settingsSortPrevRow;
 
-/** Current text alignment state */
-@property (nonatomic) NSTextAlignment textAlignment;
-
-/** Filtered font family names */
-@property (nonatomic, strong) NSMutableArray *filteredResults;
-
 /** Main view edit button */
 @property (nonatomic, strong) UIBarButtonItem *editButton;
 
 /** Main view settings button */
 @property (nonatomic, strong) UIBarButtonItem *settingsButton;
+
+/** Current text alignment state */
+@property (nonatomic) NSTextAlignment textAlignment;
 
 /** Loaded */
 @property (nonatomic) BOOL isLoaded;
@@ -142,7 +139,7 @@
     [navigationItems setRightBarButtonItem:_editButton];
     
     // Add navigation bar to the top of the main view area
-    UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44.0f)];
+    UINavigationBar *navBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 60.0f)];
     [navBar pushNavigationItem:navigationItems animated:NO];
     [navBar configureFlatNavigationBarWithColor:[UIColor midnightBlueColor]];
     [navBar setDelegate: self];
@@ -321,7 +318,7 @@
         [cell.textLabel setFont:[UIFont boldFlatFontOfSize:18.0f]];
         
         if (self.isSearching) {
-            cell.textLabel.text = [_filteredResults objectAtIndex:indexPath.row];
+            cell.textLabel.text = [self.fonts.filteredResults objectAtIndex:indexPath.row];
         } else {
             NSString *fontFamilyName = [self.fonts.fontFamilyNames objectAtIndex:indexPath.row];
             [cell.textLabel setTextAlignment:self.textAlignment];
@@ -489,7 +486,7 @@
 {
     if ([tableView isEqual:self.mainTable]) {
         if (_isSearching) {
-            return [_filteredResults count];
+            return [self.fonts.filteredResults count];
         } else {
             return [self.fonts.fontFamilyNames count];
         }
@@ -523,7 +520,7 @@
 {
     if ([tableView isEqual:self.settings]) {
         if (section != kSettingsViewReset) {
-            return 40.0f;
+            return 60.0f;
         }
     }
     
@@ -536,7 +533,7 @@
     if ([tableView isEqual:self.mainTable]) {
         NSString *fontName;
         if (self.isSearching) {
-            fontName = [_filteredResults objectAtIndex:indexPath.row];
+            fontName = [self.fonts.filteredResults objectAtIndex:indexPath.row];
             [self.searchBar resignFirstResponder];
         } else {
             fontName = [self.fonts.fontFamilyNames objectAtIndex:indexPath.row];
@@ -656,21 +653,14 @@
 -(void)searchBar:(UISearchBar*)searchBar textDidChange:(NSString*)text
 {
     if(text.length == 0) {
-        _isSearching = NO;
+        self.isSearching = NO;
         [self.searchBar resignFirstResponder];
     } else {
-        _isSearching = YES;
-        _filteredResults = [[NSMutableArray alloc] init];
-        
-        for (NSString* fontName in self.fonts.fontFamilyNames) {
-            NSRange nameRange = [fontName rangeOfString:text options:NSCaseInsensitiveSearch];
-            if(nameRange.location != NSNotFound) {
-                [_filteredResults addObject:fontName];
-            }
-        }
+        self.isSearching = YES;
+        [self.fonts searchForFont:text];
     }
     
-    DebugLog(@"Filtered Results: %@", _filteredResults);
+    DebugLog(@"Filtered Results: %@", self.fonts.filteredResults);
     [self.mainTable reloadData];
 }
 
@@ -859,7 +849,6 @@
     
     //[self flushStoredFontData];
     [self saveState];
-    
     [self.mainTable reloadData];
 }
 
