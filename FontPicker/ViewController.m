@@ -12,27 +12,44 @@
 #import "SettingsToggleCell.h"
 #import "SettingsResetCell.h"
 #import "AppDelegate.h"
+#import "Font.h"
+#import "Settings.h"
 
-typedef enum {
-    kSettingsViewLayout = 0,
-    kSettingsViewSorting,
-    kSettingsViewReset
-} SettingsViewSections;
-
-typedef enum {
-    kSettingsLayoutLeft = 0,
-    kSettingsLayoutRight,
-    kSettingsLayoutBackwards
-} SettingsViewLayout;
-
-typedef enum {
-    kSettingsSortingAlpha = 0,
-    kSettingsSortingCount,
-    kSettingsSortingSize,
-    kSettingsSortingReverse
-} SettingsViewSorting;
 
 @interface ViewController ()
+
+@property (nonatomic, strong) Font *fonts;
+
+/** Previously selected layout row path */
+@property (nonatomic, strong) NSIndexPath *settingsLayoutPrevRow;
+
+/** Previously selected sorting row */
+@property (nonatomic, strong) NSIndexPath *settingsSortPrevRow;
+
+/** Current text alignment state */
+@property (nonatomic) NSTextAlignment textAlignment;
+
+/** Filtered font family names */
+@property (nonatomic, strong) NSMutableArray *filteredResults;
+
+/** Main view edit button */
+@property (nonatomic, strong) UIBarButtonItem *editButton;
+
+/** Main view settings button */
+@property (nonatomic, strong) UIBarButtonItem *settingsButton;
+
+/** Loaded */
+@property (nonatomic) BOOL isLoaded;
+
+/** Searching */
+@property (nonatomic) BOOL isSearching;
+
+/** Current application state */
+@property (nonatomic, strong)  Settings *appSettings;
+
+/** Display fonts */
+@property (nonatomic, strong) FontViewController *fontViewController;
+
 // Load Actions
 - (void)loadNavigationBar;
 - (void)loadmainView;
@@ -61,24 +78,17 @@ typedef enum {
 @end
 
 @implementation ViewController
-@synthesize mainTable, mainView, settings, searchBar;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        _fontViewController = [[FontViewController alloc] initWithNibName:@"FontViewController"
+        self.fontViewController = [[FontViewController alloc] initWithNibName:@"FontViewController"
                                                                    bundle:nil];
-        _fontViewController.view.alpha = 0.0f;
+        self.fontViewController.view.alpha = 0.0f;
+        self.fonts = [[Font alloc] init];
+        self.appSettings = [Settings init];
         
-        // Set default state
-        _fontsReversed = NO;
-        _fontSortReversed = NO;
-        
-        // Default Row Settings
-        _settingsLayoutPrevRow = [NSIndexPath indexPathForRow:0 inSection:0];
-        _settingsSortPrevRow = [NSIndexPath indexPathForRow:0 inSection:1];
-        
-        _isLoaded = NO;
+        self.isLoaded = NO;
     }
     
     return self;
@@ -92,13 +102,11 @@ typedef enum {
     [self loadmainView];
     [self loadNavigationBar];
     [self loadSearchBar];
-    [self loadState];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [self loadSettingsState];
+    //[self loadSettingsState];
 }
 
 - (void)didReceiveMemoryWarning
@@ -136,24 +144,24 @@ typedef enum {
     UINavigationItem *navigationItems = [[UINavigationItem alloc] initWithTitle:@"Font Picker"];
     
     // Navigation settings button
-    _settingsButton =  [[UIBarButtonItem alloc] initWithTitle:@"Options"
+    self.settingsButton =  [[UIBarButtonItem alloc] initWithTitle:@"Options"
                                                         style:UIBarButtonItemStylePlain
                                                        target:self
                                                        action:@selector(presentSettings)];
-    [_settingsButton configureFlatButtonWithColor:[UIColor amethystColor]
-                                 highlightedColor:[UIColor wisteriaColor]
-                                     cornerRadius:3];
+    [self.settingsButton configureFlatButtonWithColor:[UIColor amethystColor]
+                                     highlightedColor:[UIColor wisteriaColor]
+                                         cornerRadius:3];
     
     [navigationItems setLeftBarButtonItem:_settingsButton];
     
     
-    _editButton =  [[UIBarButtonItem alloc] initWithTitle:@"Edit"
-                                                    style:UIBarButtonItemStylePlain
-                                                   target:self
-                                                   action:@selector(toggleEdit)];
-    [_editButton configureFlatButtonWithColor:[UIColor amethystColor]
-                             highlightedColor:[UIColor wisteriaColor]
-                                 cornerRadius:3];
+    self.editButton =  [[UIBarButtonItem alloc] initWithTitle:@"Edit"
+                                                        style:UIBarButtonItemStylePlain
+                                                       target:self
+                                                       action:@selector(toggleEdit)];
+    [self.editButton configureFlatButtonWithColor:[UIColor amethystColor]
+                                 highlightedColor:[UIColor wisteriaColor]
+                                     cornerRadius:3];
     
     [navigationItems setRightBarButtonItem:_editButton];
     
@@ -173,7 +181,7 @@ typedef enum {
     
     // Find the UITextField view in the searchBar
     // and set this view as its delegate.
-    for (UIView *view in searchBar.subviews){
+    for (UIView *view in self.searchBar.subviews){
         if ([view isKindOfClass: [UITextField class]]) {
             UITextField *tf = (UITextField *)view;
             tf.delegate = self;
@@ -185,189 +193,90 @@ typedef enum {
 #pragma mark - Data storage actions
 ////////////////////////////////////////////////////////////////////////////////
 
-- (void)loadState
-{
-    // Load the plist file
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
-    _applicationState = [[NSMutableDictionary alloc] initWithContentsOfFile:plistFile];
-    
-    if (!_applicationState) {
-        _fontFamilyNames = [[UIFont familyNames] mutableCopy];
-        _applicationState = [NSMutableDictionary new];
-        [_applicationState writeToFile:plistFile atomically:YES];
-    }
-    
-    if ([_applicationState objectForKey:@"fonts"]) {
-        _fontFamilyNames = [_applicationState valueForKey:@"fonts"];
-        DebugLog(@"Not NIL %@", _fontFamilyNames);
-    } else {
-        _fontFamilyNames = [[UIFont familyNames] mutableCopy];
-        DebugLog(@"Blah: %@", _fontFamilyNames);
-    }
-    
-    [mainTable reloadData];
-}
-
 - (void)loadSettingsState
 {
-    for(id key in _applicationState) {
-        id value = [_applicationState objectForKey:key];
+    NSIndexPath *path = nil;
+    
+    if (self.appSettings.layoutState != kSettingsLayoutNone) {
         
-        // Load the active sorting and layout cells
-        if ([key isEqualToString:@"layout"] || [key isEqualToString:@"sorting"]) {
-            NSInteger section = [[value objectForKey:@"section"] intValue];
-            NSInteger row = [[value objectForKey:@"row"] intValue];
-            
-            NSIndexPath *path = [NSIndexPath indexPathForItem:row inSection:section];
-            [settings selectRowAtIndexPath:path
-                                      animated:NO
-                                scrollPosition:UITableViewScrollPositionNone];
-            [[settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
-            
-            if (section == kSettingsViewLayout) {
-                switch (row) {
-                    case kSettingsLayoutLeft:
-                        [self alignTextLeft];
-                        break;
-                    case kSettingsLayoutRight:
-                        [self alignTextRight];
-                        break;
-                    default:
-                        break;
-                }
-                
-                _settingsLayoutPrevRow = path;
-            } else {
-                switch (row) {
-                    case kSettingsSortingAlpha:
-                        [self sortFontNamesAlphanumerically];
-                        break;
-                    case kSettingsSortingCount:
-                        [self sortFontNamesByLength];
-                        break;
-                    case kSettingsSortingSize:
-                        [self sortFontNamesByDisplaySize];
-                        break;
-                    default:
-                        break;
-                }
-                
-                _settingsSortPrevRow = path;
-            }
-            
-        } else if ([key isEqualToString:@"backwards"] || [key isEqualToString:@"reverse"]) {
-            // Set the active toggle cells
-            if ([value boolValue]) {
-                NSIndexPath *path;
-                if ([key isEqualToString:@"backwards"]) {
-                    path = [NSIndexPath indexPathForItem:kSettingsLayoutBackwards
-                                               inSection:kSettingsViewLayout];
-                    DebugLog(@"Backwards Loaded: %@", path);
-                    _fontsReversed = YES;
-                } else {
-                    path = [NSIndexPath indexPathForItem:kSettingsSortingReverse
-                                               inSection:kSettingsViewSorting];
-                    _fontFamilyNames = [[[_fontFamilyNames reverseObjectEnumerator] allObjects] mutableCopy];
-                    DebugLog(@"Reverse Loaded: %@", _fontFamilyNames);
-                    _fontSortReversed = YES;
-                }
-                
-                SettingsToggleCell *cell = (SettingsToggleCell *)[settings cellForRowAtIndexPath:path];
-                [[cell toggleSwitch] setOn:YES];
-            }
+        switch (self.appSettings.layoutState) {
+            case kSettingsLayoutLeft:
+                [self alignTextLeft];
+                break;
+            case kSettingsLayoutRight:
+                [self alignTextRight];
+                break;
+            default:
+                break;
         }
+        
+        path = [NSIndexPath indexPathForItem:self.appSettings.layoutState
+                                   inSection:kSettingsViewLayout];
+        
+        [self.settings selectRowAtIndexPath:path
+                                   animated:NO
+                             scrollPosition:UITableViewScrollPositionNone];
+        
+        [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
     }
     
-    _isLoaded = YES;
+    if (self.appSettings.sortState != kSettingsSortingNone) {
+        switch (self.appSettings.sortState) {
+            case kSettingsSortingAlpha:
+                //[self alignTextLeft];
+                break;
+                
+            case kSettingsSortingReverse:
+                //[self alignTextRight];
+                break;
+                
+            case kSettingsSortingCount:
+                //[self alignTextRight];
+                break;
+                
+            case kSettingsSortingSize:
+                //[self alignTextRight];
+                break;
+                
+            default:
+                break;
+        }
+        
+        path = [NSIndexPath indexPathForItem:self.appSettings.layoutState
+                                   inSection:kSettingsViewSorting];
+        [self.settings selectRowAtIndexPath:path
+                                   animated:NO
+                             scrollPosition:UITableViewScrollPositionNone];
+        [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+    }
+    
+    if (self.appSettings.fontsReversed) {
+        path = [NSIndexPath indexPathForItem:kSettingsLayoutBackwards
+                                   inSection:kSettingsViewLayout];
+        SettingsToggleCell *cell = (SettingsToggleCell *)[self.settings cellForRowAtIndexPath:path];
+        [[cell toggleSwitch] setOn:YES];
+    }
+    
+    if (self.appSettings.fontSortReversed) {
+        path = [NSIndexPath indexPathForItem:kSettingsSortingReverse
+                                   inSection:kSettingsViewSorting];
+        SettingsToggleCell *cell = (SettingsToggleCell *)[self.settings cellForRowAtIndexPath:path];
+        [[cell toggleSwitch] setOn:YES];
+    }
+    
+    self.isLoaded = YES;
+    
+    [self.settings reloadData];
+    [self.mainTable reloadData];
 }
 
-- (void)saveState
-{
-    // Save the current application state
-    NSArray *indexPaths = [settings indexPathsForVisibleRows];
-    BOOL activeLayoutOption = NO;
-    BOOL activeSortingOption = NO;
-    
-    for (NSIndexPath *path in indexPaths) {
-        // Determine the active toggled rows
-        if ([[settings cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
-            SettingsToggleCell *toggleCell = (SettingsToggleCell *)[settings cellForRowAtIndexPath:path];
-            
-            
-            if (path.section == kSettingsViewLayout) {
-                [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
-                                     forKey:@"backwards"];
-                DebugLog(@"Backwards %d", toggleCell.toggleSwitch.isOn);
-            } else if (path.section == kSettingsViewSorting) {
-                [_applicationState setValue:[NSNumber numberWithBool:toggleCell.toggleSwitch.isOn]
-                                     forKey:@"reverse"];
-                DebugLog(@"Reverse %d", toggleCell.toggleSwitch.isOn);
-            }
-        } else if (path.section == kSettingsViewLayout || path.section == kSettingsViewSorting) {
-            // Determine the active rows
-            if ([[settings cellForRowAtIndexPath:path] isSelected]) {
-                NSNumber *section = [NSNumber numberWithInt:path.section];
-                NSNumber *row = [NSNumber numberWithInt:path.row];
-                
-                NSDictionary *rowPath = [NSDictionary dictionaryWithObjectsAndKeys:section, @"section",
-                                         row, @"row", nil];
-                
-                if (path.section == kSettingsViewLayout) {
-                    activeLayoutOption = YES;
-                    [_applicationState setValue:rowPath forKey:@"layout"];
-                    DebugLog(@"Layout %@", [_applicationState valueForKey:@"layout"]);
-                } else if (path.section == kSettingsViewSorting) {
-                    activeSortingOption = YES;
-                    [_applicationState setValue:rowPath forKey:@"sorting"];
-                    DebugLog(@"Sorting %@", [_applicationState valueForKey:@"sorting"]);
-                }
-            } else {
-                
-                if (!activeLayoutOption) {
-                    [_applicationState removeObjectForKey:@"layout"];
-                    DebugLog(@"Layout Inactive %@", [_applicationState valueForKey:@"layout"]);
-                }
-                
-                if (!activeSortingOption) {
-                    [_applicationState removeObjectForKey:@"sorting"];
-                    DebugLog(@"Sorting Inactive %@", [_applicationState valueForKey:@"sorting"]);
-                }
-            }
-        }
-    }
-    
-    [_applicationState setValue:_fontFamilyNames forKey:@"fonts"];
-    
-    // Save to Plist
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
-    DebugLog(@"Path %@", plistFile);
-    DebugLog(@"Saving %d", [_applicationState writeToFile:plistFile atomically:YES]);
-    
-    //Error Check
-    NSString *error = nil;
-    // create NSData from dictionary
-    NSData *plistData = [NSPropertyListSerialization dataFromPropertyList:_applicationState
-                                                                   format:NSPropertyListXMLFormat_v1_0
-                                                         errorDescription:&error];
-    
-    // check is plistData exists
-    if(plistData) {
-        // write plistData to our Data.plist file
-        [plistData writeToFile:plistFile atomically:YES];
-    }
-    else {
-        DebugLog(@"Error in saveData: %@ %@", error, _applicationState);
-    }
-}
 
 #pragma mark - UITableView Data Source
 ////////////////////////////////////////////////////////////////////////////////
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    if ([tableView isEqual:settings]) {
+    if ([tableView isEqual:self.settings]) {
 
         NSString *sectionName;
         switch (section) {
@@ -393,14 +302,14 @@ typedef enum {
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     // Initialise the custom table section headers
-    if ([tableView isEqual:settings]) {
+    if ([tableView isEqual:self.settings]) {
         if (section == kSettingsViewLayout || section == kSettingsViewSorting) {
             UIView *settingsSectionHeaders = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20.0f)];
             settingsSectionHeaders.backgroundColor = [UIColor midnightBlueColor];
 
             UILabel *sectionHeaderTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 12.0f, settingsSectionHeaders.frame.size.width, 18.0f)];
             sectionHeaderTitle.backgroundColor = [UIColor clearColor];
-            sectionHeaderTitle.text = [self tableView:settings titleForHeaderInSection:section];
+            sectionHeaderTitle.text = [self tableView:self.settings titleForHeaderInSection:section];
             sectionHeaderTitle.textAlignment = NSTextAlignmentLeft;
             sectionHeaderTitle.textColor = [UIColor cloudsColor];
             sectionHeaderTitle.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0f];
@@ -417,7 +326,7 @@ typedef enum {
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
  
-    if ([tableView isEqual:mainTable]) {
+    if ([tableView isEqual:self.mainTable]) {
         // Set the main table view cells
         static NSString *CellIdentifier = @"FontCell";
         FontTableCell *cell = (FontTableCell *) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -437,10 +346,10 @@ typedef enum {
         if (_isSearching) {
             cell.textLabel.text = [_filteredResults objectAtIndex:indexPath.row];
         } else {
-            NSString *fontFamilyName = [_fontFamilyNames objectAtIndex:indexPath.row];
+            NSString *fontFamilyName = [self.fontFamilyNames objectAtIndex:indexPath.row];
             [cell.textLabel setTextAlignment:_textAlignment];
   
-            if (_fontsReversed) {
+            if (self.appSettings.fontsReversed) {
                 cell.textLabel.text = [self reverseString:fontFamilyName];
             } else {
                 cell.textLabel.text = fontFamilyName;
@@ -512,6 +421,8 @@ typedef enum {
                 
             }
             
+            cell.backgroundColor = [UIColor clearColor];
+            
             return cell;
 
         } else if ((indexPath.section == kSettingsViewLayout && indexPath.row == kSettingsLayoutBackwards) ||
@@ -550,6 +461,8 @@ typedef enum {
                 
             }
             
+            cell.backgroundColor = [UIColor clearColor];
+            
             return cell;
             
         } else {
@@ -573,6 +486,8 @@ typedef enum {
                                  action:@selector(resetToDefault)
                        forControlEvents:UIControlEventTouchUpInside];
             
+            cell.backgroundColor = [UIColor clearColor];
+            
             return cell;
         }
     }
@@ -587,7 +502,7 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([tableView isEqual:mainTable]) {
+    if ([tableView isEqual:self.mainTable]) {
         return 70.0f;   // Main table cell heights
     }
     
@@ -596,7 +511,7 @@ typedef enum {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if ([tableView isEqual:mainTable]) {
+    if ([tableView isEqual:self.mainTable]) {
         if (_isSearching) {
             return [_filteredResults count];
         } else {
@@ -620,7 +535,7 @@ typedef enum {
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    if ([tableView isEqual:mainTable]) {
+    if ([tableView isEqual:self.mainTable]) {
         return 1;
     } else {
         return 3;
@@ -630,7 +545,7 @@ typedef enum {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    if ([tableView isEqual:settings]) {
+    if ([tableView isEqual:self.settings]) {
         if (section != kSettingsViewReset) {
             return 40.0f;
         }
@@ -642,11 +557,11 @@ typedef enum {
 
 - (UITableViewCell *)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([tableView isEqual:mainTable]) {
+    if ([tableView isEqual:self.mainTable]) {
         NSString *fontName;
         if (_isSearching) {
             fontName = [_filteredResults objectAtIndex:indexPath.row];
-            [searchBar resignFirstResponder];
+            [self.searchBar resignFirstResponder];
         } else {
             fontName = [_fontFamilyNames objectAtIndex:indexPath.row];
         }
@@ -663,7 +578,7 @@ typedef enum {
     }
     
     
-    if ([tableView isEqual:settings]) {
+    if ([tableView isEqual:self.settings]) {
         if (indexPath.section == kSettingsViewLayout && indexPath.row != ([tableView numberOfRowsInSection:kSettingsViewLayout] - 1)) {
             [[tableView cellForRowAtIndexPath:_settingsLayoutPrevRow] setBackgroundColor:[UIColor clearColor]];
             [tableView deselectRowAtIndexPath:_settingsLayoutPrevRow animated:NO];
@@ -737,7 +652,7 @@ typedef enum {
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [_fontFamilyNames removeObjectAtIndex:indexPath.row];
-        [mainTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.mainTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self resetSortSettings];
     }
     
@@ -810,16 +725,16 @@ typedef enum {
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
     [searchBar resignFirstResponder];
         
-    if (mainView.center.x != screenWidth) {
+    if (self.mainView.center.x != screenWidth) {
         // Show the settings & function area.
         [UIView animateWithDuration:0.2
                          animations:^{
                              CGFloat newXPos = screenWidth;
                              CGFloat mainViewYPos = mainView.center.y;
-                             mainView.center = CGPointMake(newXPos, mainViewYPos);
+                             self.mainView.center = CGPointMake(newXPos, mainViewYPos);
                              
-                             CGFloat posTableYPos = mainTable.center.y;
-                             mainTable.center = CGPointMake(newXPos, posTableYPos);
+                             CGFloat posTableYPos = self.mainTable.center.y;
+                             self.mainTable.center = CGPointMake(newXPos, posTableYPos);
                          }];
     } else {
         // Hide the settings & function area.
@@ -827,17 +742,17 @@ typedef enum {
                          animations:^{
                              CGFloat newXPos = [[UIScreen mainScreen] bounds].size.width / 2;
                              CGFloat mainViewYPos = mainView.center.y;
-                             mainView.center = CGPointMake(newXPos, mainViewYPos);
+                             self.mainView.center = CGPointMake(newXPos, mainViewYPos);
                              
-                             CGFloat posTableYPos = mainTable.center.y;
-                             mainTable.center = CGPointMake(newXPos, posTableYPos);
+                             CGFloat posTableYPos = self.mainTable.center.y;
+                             self.mainTable.center = CGPointMake(newXPos, posTableYPos);
                          }];
     }
 }
 
 - (void)toggleEdit
 {
-    BOOL editingState = mainTable.editing ? NO : YES;
+    BOOL editingState = self.mainTable.editing ? NO : YES;
     
     if (editingState) {
         _editButton.title = @"Done";
@@ -851,7 +766,7 @@ typedef enum {
                                      cornerRadius:3];
     }
     
-    [mainTable setEditing:editingState animated:YES];
+    [self.mainTable setEditing:editingState animated:YES];
 }
 
 #pragma mark - Layout Actions
@@ -859,18 +774,18 @@ typedef enum {
 
 - (void)alignTextLeft
 {
-    [mainTable reloadData];
+    [self.mainTable reloadData];
     _textAlignment = NSTextAlignmentLeft;
-    [mainTable reloadRowsAtIndexPaths:[mainTable indexPathsForVisibleRows]
-                         withRowAnimation:UITableViewRowAnimationNone];
+    [self.mainTable reloadRowsAtIndexPaths:[mainTable indexPathsForVisibleRows]
+                          withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)alignTextRight
 {
-    [mainTable reloadData];
+    [self.mainTable reloadData];
     _textAlignment = NSTextAlignmentRight;
-    [mainTable reloadRowsAtIndexPaths:[mainTable indexPathsForVisibleRows]
-                         withRowAnimation:UITableViewRowAnimationNone];
+    [self.mainTable reloadRowsAtIndexPaths:[self.mainTable indexPathsForVisibleRows]
+                          withRowAnimation:UITableViewRowAnimationNone];
 }
 
 // Reverse font name string characters
@@ -897,12 +812,14 @@ typedef enum {
     if (_isLoaded) {
         [self saveState];
     }
+    
     [mainTable reloadData];
 }
 
 #pragma mark - Sorting Actions 
 ////////////////////////////////////////////////////////////////////////////////
 
+/*
 - (void)sortFontNamesAlphanumerically
 {
     NSArray *newFontList = [_fontFamilyNames sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
@@ -914,8 +831,9 @@ typedef enum {
     }
     
     [mainTable reloadData];
-}
+} */
 
+/*
 - (void)sortFontNamesByLength
 {
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"length"
@@ -929,7 +847,7 @@ typedef enum {
     }
     
     [mainTable reloadData];
-}
+}*/
 
 - (void)sortFontNamesByDisplaySize
 {

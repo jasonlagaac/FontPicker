@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		43F9647BB7074383869D5193 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4078976B8DD4E898C1BAC58 /* libPods.a */; };
 		B841763D180584920007657C /* FontTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B841763C180584920007657C /* FontTest.m */; };
-		B84176411805877B0007657C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B84176401805877B0007657C /* OCHamcrestIOS.framework */; };
-		B8417643180587840007657C /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8417642180587840007657C /* OCMockitoIOS.framework */; };
 		B84176451805882E0007657C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C07517B4796000AA0921 /* SenTestingKit.framework */; };
 		B841764818058CE30007657C /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B841764718058CE30007657C /* Settings.m */; };
 		B850C04F17B4795F00AA0921 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C04E17B4795F00AA0921 /* UIKit.framework */; };
@@ -33,11 +31,14 @@
 		B866F55B17B67A2B009AA284 /* SettingsResetCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B866F55317B67A2B009AA284 /* SettingsResetCell.xib */; };
 		B866F55C17B67A2B009AA284 /* SettingsToggleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B866F55617B67A2B009AA284 /* SettingsToggleCell.m */; };
 		B866F55D17B67A2B009AA284 /* SettingsToggleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B866F55717B67A2B009AA284 /* SettingsToggleCell.xib */; };
+		B8980E2318059EBB00C5C67D /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8980E2218059EBB00C5C67D /* OCHamcrestIOS.framework */; };
+		B8980E2518059ED200C5C67D /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8980E2418059ED200C5C67D /* OCMockitoIOS.framework */; };
 		B89B246117B7806000F3F95A /* FontViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B89B245F17B7806000F3F95A /* FontViewController.m */; };
 		B89B246217B7806000F3F95A /* FontViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89B246017B7806000F3F95A /* FontViewController.xib */; };
 		B8BE576017B48DEB00147657 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8BE575F17B48DEB00147657 /* QuartzCore.framework */; };
-		B8EC5E2D17B7DFA5008C67EC /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2C17B7DFA5008C67EC /* Font.m */; };
-		B8EC5E3017B7DFB1008C67EC /* Font.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2E17B7DFB1008C67EC /* Font.xcdatamodeld */; };
+		B8E220CA1805B303005D1F4C /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = B8E220C91805B303005D1F4C /* Font.m */; };
+		B8EC5E2D17B7DFA5008C67EC /* FontData.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2C17B7DFA5008C67EC /* FontData.m */; };
+		B8EC5E3017B7DFB1008C67EC /* FontData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2E17B7DFB1008C67EC /* FontData.xcdatamodeld */; };
 		B8EC5E7B17B7F4D4008C67EC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7817B7F4D3008C67EC /* Default.png */; };
 		B8EC5E7C17B7F4D4008C67EC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7917B7F4D3008C67EC /* Default-568h@2x.png */; };
 		B8EC5E7D17B7F4D4008C67EC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7A17B7F4D3008C67EC /* Default@2x.png */; };
@@ -57,8 +58,6 @@
 /* Begin PBXFileReference section */
 		1F777E125CE441F38B6492CF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 		B841763C180584920007657C /* FontTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTest.m; sourceTree = "<group>"; };
-		B84176401805877B0007657C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = "OCHamcrest-3.0.0/OCHamcrestIOS.framework"; sourceTree = "<group>"; };
-		B8417642180587840007657C /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMockitoIOS.framework; path = "OCMockito-1.0.0/OCMockitoIOS.framework"; sourceTree = "<group>"; };
 		B841764618058CE30007657C /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		B841764718058CE30007657C /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
 		B850C04B17B4795F00AA0921 /* FontPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FontPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,13 +89,17 @@
 		B866F55517B67A2B009AA284 /* SettingsToggleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsToggleCell.h; sourceTree = "<group>"; };
 		B866F55617B67A2B009AA284 /* SettingsToggleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsToggleCell.m; sourceTree = "<group>"; };
 		B866F55717B67A2B009AA284 /* SettingsToggleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsToggleCell.xib; sourceTree = "<group>"; };
+		B8980E2218059EBB00C5C67D /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCHamcrestIOS.framework; sourceTree = "<group>"; };
+		B8980E2418059ED200C5C67D /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OCMockitoIOS.framework; sourceTree = "<group>"; };
 		B89B245E17B7806000F3F95A /* FontViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontViewController.h; sourceTree = "<group>"; };
 		B89B245F17B7806000F3F95A /* FontViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontViewController.m; sourceTree = "<group>"; };
 		B89B246017B7806000F3F95A /* FontViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FontViewController.xib; sourceTree = "<group>"; };
 		B8BE575F17B48DEB00147657 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		B8EC5E2B17B7DFA5008C67EC /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
-		B8EC5E2C17B7DFA5008C67EC /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Font.m; sourceTree = "<group>"; };
-		B8EC5E2F17B7DFB1008C67EC /* Font.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Font.xcdatamodel; sourceTree = "<group>"; };
+		B8E220C81805B303005D1F4C /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
+		B8E220C91805B303005D1F4C /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Font.m; sourceTree = "<group>"; };
+		B8EC5E2B17B7DFA5008C67EC /* FontData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontData.h; sourceTree = "<group>"; };
+		B8EC5E2C17B7DFA5008C67EC /* FontData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontData.m; sourceTree = "<group>"; };
+		B8EC5E2F17B7DFB1008C67EC /* FontData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FontData.xcdatamodel; sourceTree = "<group>"; };
 		B8EC5E7817B7F4D3008C67EC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B8EC5E7917B7F4D3008C67EC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B8EC5E7A17B7F4D3008C67EC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -123,10 +126,10 @@
 			files = (
 				B84176451805882E0007657C /* SenTestingKit.framework in Frameworks */,
 				B850C07717B4796000AA0921 /* UIKit.framework in Frameworks */,
-				B84176411805877B0007657C /* OCHamcrestIOS.framework in Frameworks */,
+				B8980E2318059EBB00C5C67D /* OCHamcrestIOS.framework in Frameworks */,
 				B850C07817B4796000AA0921 /* Foundation.framework in Frameworks */,
 				DDC10FADE6D34539A2E6AB3D /* libPods.a in Frameworks */,
-				B8417643180587840007657C /* OCMockitoIOS.framework in Frameworks */,
+				B8980E2518059ED200C5C67D /* OCMockitoIOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,9 +159,9 @@
 		B850C04D17B4795F00AA0921 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B8980E2418059ED200C5C67D /* OCMockitoIOS.framework */,
+				B8980E2218059EBB00C5C67D /* OCHamcrestIOS.framework */,
 				B860055B17B7D60000D02F02 /* CoreData.framework */,
-				B8417642180587840007657C /* OCMockitoIOS.framework */,
-				B84176401805877B0007657C /* OCHamcrestIOS.framework */,
 				B8BE575F17B48DEB00147657 /* QuartzCore.framework */,
 				B850C04E17B4795F00AA0921 /* UIKit.framework */,
 				B850C05017B4795F00AA0921 /* Foundation.framework */,
@@ -234,9 +237,11 @@
 		B860055717B7D55900D02F02 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B8EC5E2E17B7DFB1008C67EC /* Font.xcdatamodeld */,
-				B8EC5E2B17B7DFA5008C67EC /* Font.h */,
-				B8EC5E2C17B7DFA5008C67EC /* Font.m */,
+				B8EC5E2E17B7DFB1008C67EC /* FontData.xcdatamodeld */,
+				B8EC5E2B17B7DFA5008C67EC /* FontData.h */,
+				B8EC5E2C17B7DFA5008C67EC /* FontData.m */,
+				B8E220C81805B303005D1F4C /* Font.h */,
+				B8E220C91805B303005D1F4C /* Font.m */,
 				B841764618058CE30007657C /* Settings.h */,
 				B841764718058CE30007657C /* Settings.m */,
 			);
@@ -466,8 +471,9 @@
 				B866F55A17B67A2B009AA284 /* SettingsResetCell.m in Sources */,
 				B866F55C17B67A2B009AA284 /* SettingsToggleCell.m in Sources */,
 				B89B246117B7806000F3F95A /* FontViewController.m in Sources */,
-				B8EC5E2D17B7DFA5008C67EC /* Font.m in Sources */,
-				B8EC5E3017B7DFB1008C67EC /* Font.xcdatamodeld in Sources */,
+				B8E220CA1805B303005D1F4C /* Font.m in Sources */,
+				B8EC5E2D17B7DFA5008C67EC /* FontData.m in Sources */,
+				B8EC5E3017B7DFB1008C67EC /* FontData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -543,7 +549,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -569,7 +575,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -581,6 +587,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F777E125CE441F38B6492CF /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -592,6 +599,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
 				INFOPLIST_FILE = "FontPicker/FontPicker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -602,6 +610,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F777E125CE441F38B6492CF /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -613,6 +622,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
 				INFOPLIST_FILE = "FontPicker/FontPicker-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
@@ -623,17 +633,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F777E125CE441F38B6492CF /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FontPicker.app/FontPicker";
 				FRAMEWORK_SEARCH_PATHS = (
-					"\\\"$(SDKROOT)/Developer/Library/Frameworks\\\"",
-					"\\\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\\\"",
+					"$(inherited)",
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"/Users/jasonlagaac/Documents/FontPicker/OCHamcrest-3.0.0",
 					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					/Users/jasonlagaac/Documents/FontPicker,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
 				INFOPLIST_FILE = "FontPickerTests/FontPickerTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -644,17 +658,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F777E125CE441F38B6492CF /* Pods.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/FontPicker.app/FontPicker";
 				FRAMEWORK_SEARCH_PATHS = (
-					"\\\"$(SDKROOT)/Developer/Library/Frameworks\\\"",
-					"\\\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\\\"",
+					"$(inherited)",
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
 					"/Users/jasonlagaac/Documents/FontPicker/OCHamcrest-3.0.0",
 					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0",
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					/Users/jasonlagaac/Documents/FontPicker,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
 				INFOPLIST_FILE = "FontPickerTests/FontPickerTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
@@ -694,13 +712,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B8EC5E2E17B7DFB1008C67EC /* Font.xcdatamodeld */ = {
+		B8EC5E2E17B7DFB1008C67EC /* FontData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B8EC5E2F17B7DFB1008C67EC /* Font.xcdatamodel */,
+				B8EC5E2F17B7DFB1008C67EC /* FontData.xcdatamodel */,
 			);
-			currentVersion = B8EC5E2F17B7DFB1008C67EC /* Font.xcdatamodel */;
-			path = Font.xcdatamodeld;
+			currentVersion = B8EC5E2F17B7DFB1008C67EC /* FontData.xcdatamodel */;
+			path = FontData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

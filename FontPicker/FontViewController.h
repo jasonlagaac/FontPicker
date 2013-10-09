@@ -11,7 +11,7 @@
 #import <EDStarRating/EDStarRating.h>
 #import <QuartzCore/QuartzCore.h>
 #import <CoreData/CoreData.h>
-#import "Font.h"
+#import "FontData.h"
 
 @interface FontViewController : UIViewController <EDStarRatingProtocol>
 {
@@ -25,7 +25,7 @@
     EDStarRating        *_starRating;
     
     /** Retrieved font data */
-    Font                *_fontData;
+    FontData            *_fontData;
     
     //FUISegmentedControl *_segmentedControl
 }

@@ -13,46 +13,6 @@
 @class FontViewController;
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationBarDelegate, UISearchBarDelegate, UITextFieldDelegate>
-{
-    /** Previously selected layout row path */
-    NSIndexPath *_settingsLayoutPrevRow;
-    
-    /** Previously selected sorting row */
-    NSIndexPath *_settingsSortPrevRow;
-    
-    /** Current text alignment state */
-    NSTextAlignment _textAlignment;
-    
-    /** Font family names */
-    NSMutableArray *_fontFamilyNames;
-    
-    /** Filtered font family names */
-    NSMutableArray *_filteredResults;
-    
-    /** Main view edit button */
-    UIBarButtonItem *_editButton;
-    
-    /** Main view settings button */
-    UIBarButtonItem *_settingsButton;
-    
-    /** Font reverse state */
-    BOOL _fontsReversed;
-    
-    /** Main table sort state */
-    BOOL _fontSortReversed;
-    
-    /** Loaded */
-    BOOL _isLoaded;
-    
-    /** Searching */
-    BOOL _isSearching;
-    
-    /** Current application state */
-    NSMutableDictionary *_applicationState;
-    
-    /** Display fonts */
-    FontViewController *_fontViewController;
-}
 
 /**
  Main view area

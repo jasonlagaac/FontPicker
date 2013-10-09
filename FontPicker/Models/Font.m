@@ -2,7 +2,7 @@
 //  Font.m
 //  FontPicker
 //
-//  Created by Jason Lagaac on 11/08/13.
+//  Created by Jason Lagaac on 9/10/13.
 //  Copyright (c) 2013 Jason Lagaac. All rights reserved.
 //
 
@@ -17,8 +17,6 @@
 
 @implementation Font
 
-@dynamic rating;
-
 - (id)init
 {
     self = [super init];
@@ -30,6 +28,7 @@
     return self;
 }
 
+
 - (NSArray *)allFonts
 {
     return self.fontFamilyNames;
@@ -39,5 +38,13 @@
 {
     return [self.fontFamilyNames sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
 }
+
+- (NSArray *)allFontsSortedByLength
+{
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"length"
+                                                                   ascending:YES];
+    return [self.fontFamilyNames sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+}
+
 
 @end

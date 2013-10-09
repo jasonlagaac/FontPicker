@@ -1,3 +1,5 @@
+#import "AppDelegate.h"
+
 // Class under test
 #import "Font.h"
 
@@ -32,6 +34,7 @@
 {
     [super setUp];
     sut = [[Font alloc] init];
+
 }
 
 - (void)tearDown

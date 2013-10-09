@@ -208,7 +208,7 @@ typedef enum {
     NSArray *filtered = [data filteredArrayUsingPredicate:predicate];
     
     if ([filtered count]) {
-        _fontData = (Font *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
+        _fontData = (FontData *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
     }
 }
 
@@ -268,9 +268,9 @@ typedef enum {
 
     // Create a new managed object
     if (_fontData == nil) {
-        Font *font = [NSEntityDescription insertNewObjectForEntityForName:@"Font" inManagedObjectContext:context];
-        [font setValue:[NSNumber numberWithFloat:rating] forKey:@"rating"];
-        [font setValue:fontNameTitle.text forKey:@"name"];
+        FontData *font = [NSEntityDescription insertNewObjectForEntityForName:@"Font" inManagedObjectContext:context];
+        [FontData setValue:[NSNumber numberWithFloat:rating] forKey:@"rating"];
+        [FontData setValue:fontNameTitle.text forKey:@"name"];
     } else {
         [_fontData setRating:[NSNumber numberWithFloat:rating]];
     }
