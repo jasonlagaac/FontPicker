@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		43F9647BB7074383869D5193 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4078976B8DD4E898C1BAC58 /* libPods.a */; };
+		B8417639180582520007657C /* OCHamcrestIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8417638180582520007657C /* OCHamcrestIOS.framework */; };
+		B841763B1805825B0007657C /* OCMockitoIOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B841763A1805825B0007657C /* OCMockitoIOS.framework */; };
 		B850C04F17B4795F00AA0921 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C04E17B4795F00AA0921 /* UIKit.framework */; };
 		B850C05117B4795F00AA0921 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05017B4795F00AA0921 /* Foundation.framework */; };
 		B850C05317B4795F00AA0921 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C05217B4795F00AA0921 /* CoreGraphics.framework */; };
@@ -52,6 +54,8 @@
 
 /* Begin PBXFileReference section */
 		1F777E125CE441F38B6492CF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		B8417638180582520007657C /* OCHamcrestIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCHamcrestIOS.framework; path = "OCHamcrest-3.0.0/OCHamcrestIOS.framework"; sourceTree = "<group>"; };
+		B841763A1805825B0007657C /* OCMockitoIOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMockitoIOS.framework; path = "OCMockito-1.0.0/OCMockitoIOS.framework"; sourceTree = "<group>"; };
 		B850C04B17B4795F00AA0921 /* FontPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FontPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B850C04E17B4795F00AA0921 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		B850C05017B4795F00AA0921 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -103,8 +107,10 @@
 			files = (
 				B860055C17B7D60000D02F02 /* CoreData.framework in Frameworks */,
 				B8BE576017B48DEB00147657 /* QuartzCore.framework in Frameworks */,
+				B8417639180582520007657C /* OCHamcrestIOS.framework in Frameworks */,
 				B850C04F17B4795F00AA0921 /* UIKit.framework in Frameworks */,
 				B850C05117B4795F00AA0921 /* Foundation.framework in Frameworks */,
+				B841763B1805825B0007657C /* OCMockitoIOS.framework in Frameworks */,
 				B850C05317B4795F00AA0921 /* CoreGraphics.framework in Frameworks */,
 				43F9647BB7074383869D5193 /* libPods.a in Frameworks */,
 			);
@@ -147,6 +153,8 @@
 		B850C04D17B4795F00AA0921 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B841763A1805825B0007657C /* OCMockitoIOS.framework */,
+				B8417638180582520007657C /* OCHamcrestIOS.framework */,
 				B8BE575F17B48DEB00147657 /* QuartzCore.framework */,
 				B850C04E17B4795F00AA0921 /* UIKit.framework */,
 				B850C05017B4795F00AA0921 /* Foundation.framework */,
@@ -309,6 +317,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = "Jason Lagaac";
+				TargetAttributes = {
+					B850C04A17B4795F00AA0921 = {
+						DevelopmentTeam = TA4635WSD9;
+					};
+				};
 			};
 			buildConfigurationList = B850C04617B4795F00AA0921 /* Build configuration list for PBXProject "FontPicker" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -530,6 +543,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F777E125CE441F38B6492CF /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0/OCHamcrest-3.0.0",
+					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0",
+					"/Users/jasonlagaac/Documents/FontPicker/OCHamcrest-3.0.0",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
 				INFOPLIST_FILE = "FontPicker/FontPicker-Info.plist";
@@ -543,6 +563,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1F777E125CE441F38B6492CF /* Pods.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0/OCHamcrest-3.0.0",
+					"/Users/jasonlagaac/Documents/FontPicker/OCMockito-1.0.0",
+					"/Users/jasonlagaac/Documents/FontPicker/OCHamcrest-3.0.0",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FontPicker/FontPicker-Prefix.pch";
 				INFOPLIST_FILE = "FontPicker/FontPicker-Info.plist";
