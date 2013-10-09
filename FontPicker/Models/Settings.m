@@ -38,14 +38,14 @@
             self.fontsReversed = NO;
             self.fontSortReversed = NO;
             
-            [self loadSettingsState];
+            [self loadState];
         }
     }
     
     return self;
 }
 
-- (void)loadSettingsState
+- (void)loadState
 {
     for(id key in self.applicationState) {
         id value = [self.applicationState objectForKey:key];
@@ -113,6 +113,17 @@
     else {
         DebugLog(@"Error in saveData: %@ %@", error, self.applicationState);
     }
+}
+
+- (void)reset
+{
+    self.fontSortReversed = NO;
+    self.fontSortReversed = NO;
+    self.layoutState = kSettingsLayoutNone;
+    self.sortState = kSettingsSortingNone;
+    self.applicationState = [[NSMutableDictionary alloc] init];
+    
+    [self saveState];
 }
 
 @end

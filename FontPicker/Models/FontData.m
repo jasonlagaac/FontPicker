@@ -28,4 +28,24 @@
     
 }
 
+- (void)flushStoredFontData
+{
+    // Flush the stored rating information from core data
+    id appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    
+    // Fetch the fonts from persistent data store
+    NSError *error;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Font"];
+    NSArray *data = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    
+    for(NSManagedObject *font in data) {
+        [context deleteObject:font];
+    }
+    
+    if (![context save:&error]) {
+    	DebugLog(@"Error deleting %@", error);
+    }
+}
+
 @end

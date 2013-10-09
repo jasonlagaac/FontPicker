@@ -35,9 +35,4 @@
  */
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 
-/**
- Save the application state
- */
-- (void)saveState;
-
 @end

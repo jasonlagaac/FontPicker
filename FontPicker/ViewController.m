@@ -50,31 +50,6 @@
 /** Display fonts */
 @property (nonatomic, strong) FontViewController *fontViewController;
 
-// Load Actions
-- (void)loadNavigationBar;
-- (void)loadmainView;
-
-// Main View Actions
-- (void)presentSettings;
-- (void)toggleEdit;
-
-// Layout Actions
-- (void)alignTextLeft;
-- (void)alignTextRight;
-- (void)reverseFontNames:(id)sender;
-- (NSString *)reverseString:(NSString *)originalString;
-
-// Sorting Actions
-- (void)sortFontNamesAlphanumerically;
-- (void)sortFontNamesByLength;
-- (void)sortFontNamesByDisplaySize;
-- (void)sortFontNamesInReverse:(id)sender;
-
-// Reset Actions
-- (void)resetToDefault;
-- (void)resetSortSettings;
-- (void)flushStoredFontData;
-
 @end
 
 @implementation ViewController
@@ -86,7 +61,6 @@
                                                                    bundle:nil];
         self.fontViewController.view.alpha = 0.0f;
         self.fonts = [[Font alloc] init];
-        self.appSettings = [Settings init];
         
         self.isLoaded = NO;
     }
@@ -106,7 +80,9 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    //[self loadSettingsState];
+    self.appSettings = [[Settings alloc] init];
+
+    [self loadSettingsState];
 }
 
 - (void)didReceiveMemoryWarning
@@ -218,24 +194,21 @@
                              scrollPosition:UITableViewScrollPositionNone];
         
         [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+        self.settingsLayoutPrevRow = path;
     }
     
     if (self.appSettings.sortState != kSettingsSortingNone) {
         switch (self.appSettings.sortState) {
             case kSettingsSortingAlpha:
-                //[self alignTextLeft];
-                break;
-                
-            case kSettingsSortingReverse:
-                //[self alignTextRight];
+                [self.fonts sortAlphanumericallyInReverse:self.appSettings.fontSortReversed];
                 break;
                 
             case kSettingsSortingCount:
-                //[self alignTextRight];
+                [self.fonts sortByLengthInReverse:self.appSettings.fontSortReversed];
                 break;
                 
             case kSettingsSortingSize:
-                //[self alignTextRight];
+                [self.fonts sortByDisplaySizeInReverse:self.appSettings.fontSortReversed];
                 break;
                 
             default:
@@ -248,6 +221,7 @@
                                    animated:NO
                              scrollPosition:UITableViewScrollPositionNone];
         [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+        self.settingsSortPrevRow = path;
     }
     
     if (self.appSettings.fontsReversed) {
@@ -265,9 +239,12 @@
     }
     
     self.isLoaded = YES;
-    
-    [self.settings reloadData];
     [self.mainTable reloadData];
+}
+
+- (void)saveState
+{
+    [self.appSettings saveState];
 }
 
 
@@ -343,11 +320,11 @@
         
         [cell.textLabel setFont:[UIFont boldFlatFontOfSize:18.0f]];
         
-        if (_isSearching) {
+        if (self.isSearching) {
             cell.textLabel.text = [_filteredResults objectAtIndex:indexPath.row];
         } else {
-            NSString *fontFamilyName = [self.fontFamilyNames objectAtIndex:indexPath.row];
-            [cell.textLabel setTextAlignment:_textAlignment];
+            NSString *fontFamilyName = [self.fonts.fontFamilyNames objectAtIndex:indexPath.row];
+            [cell.textLabel setTextAlignment:self.textAlignment];
   
             if (self.appSettings.fontsReversed) {
                 cell.textLabel.text = [self reverseString:fontFamilyName];
@@ -462,7 +439,6 @@
             }
             
             cell.backgroundColor = [UIColor clearColor];
-            
             return cell;
             
         } else {
@@ -515,11 +491,11 @@
         if (_isSearching) {
             return [_filteredResults count];
         } else {
-            return [_fontFamilyNames count];
+            return [self.fonts.fontFamilyNames count];
         }
     }
     
-    if ([tableView isEqual:settings]) {
+    if ([tableView isEqual:self.settings]) {
         if (section == kSettingsViewLayout) {
             return 3; // Total rows for the layout section
         } else if (section == kSettingsViewSorting) {
@@ -559,15 +535,15 @@
 {
     if ([tableView isEqual:self.mainTable]) {
         NSString *fontName;
-        if (_isSearching) {
+        if (self.isSearching) {
             fontName = [_filteredResults objectAtIndex:indexPath.row];
             [self.searchBar resignFirstResponder];
         } else {
-            fontName = [_fontFamilyNames objectAtIndex:indexPath.row];
+            fontName = [self.fonts.fontFamilyNames objectAtIndex:indexPath.row];
         }
 
-        _fontViewController.view.alpha = 0.0f;
-        _fontViewController.fontNameTitle.text = fontName;
+        self.fontViewController.view.alpha = 0.0f;
+        self.fontViewController.fontNameTitle.text = fontName;
         [_fontViewController.sampleAlphabet setFont:[UIFont fontWithName:fontName
                                                                    size:18.0f]];
         [self.view addSubview:_fontViewController.view];
@@ -615,23 +591,20 @@
             [tableView selectRowAtIndexPath:indexPath
                                    animated:NO
                              scrollPosition:UITableViewScrollPositionNone];
-            
-            DebugLog(@"Sorting section: %d, Row: %d", indexPath.section, indexPath.row);
-
 
             switch (indexPath.row) {
                 case kSettingsSortingAlpha:
-                    [self sortFontNamesAlphanumerically];
+                    [self.fonts sortAlphanumericallyInReverse:self.appSettings.fontSortReversed];
                     DebugLog(@"Sort Alphanumerically");
                     break;
                     
                 case kSettingsSortingCount:
-                    [self sortFontNamesByLength];
+                    [self.fonts sortByLengthInReverse:self.appSettings.fontSortReversed];
                     DebugLog(@"Sort by Length");
                     break;
                     
                 case kSettingsSortingSize:
-                    [self sortFontNamesByDisplaySize];
+                    [self.fonts sortByDisplaySizeInReverse:self.appSettings.fontSortReversed];
                     DebugLog(@"Sort by Display Size");
                     break;
         
@@ -639,7 +612,8 @@
                     break;
             }
             
-            _settingsSortPrevRow = indexPath;
+            self.settingsSortPrevRow = indexPath;
+            [self.mainTable reloadData];
             [self saveState];
         }
     }
@@ -651,12 +625,12 @@
                                             forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_fontFamilyNames removeObjectAtIndex:indexPath.row];
+        [self.fonts.fontFamilyNames removeObjectAtIndex:indexPath.row];
         [self.mainTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self resetSortSettings];
     }
     
-    [self saveState];
+    [self.appSettings saveState];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -668,9 +642,9 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath
       toIndexPath:(NSIndexPath *)destinationIndexPath
 {
-    id thing = [_fontFamilyNames objectAtIndex:sourceIndexPath.row];
-    [_fontFamilyNames removeObjectAtIndex:sourceIndexPath.row];
-    [_fontFamilyNames insertObject:thing atIndex:destinationIndexPath.row];
+    id item = [self.fonts.fontFamilyNames objectAtIndex:sourceIndexPath.row];
+    [self.fonts.fontFamilyNames removeObjectAtIndex:sourceIndexPath.row];
+    [self.fonts.fontFamilyNames insertObject:item atIndex:destinationIndexPath.row];
     [self resetSortSettings];
     
     [self saveState];
@@ -688,7 +662,7 @@
         _isSearching = YES;
         _filteredResults = [[NSMutableArray alloc] init];
         
-        for (NSString* fontName in _fontFamilyNames) {
+        for (NSString* fontName in self.fonts.fontFamilyNames) {
             NSRange nameRange = [fontName rangeOfString:text options:NSCaseInsensitiveSearch];
             if(nameRange.location != NSNotFound) {
                 [_filteredResults addObject:fontName];
@@ -697,9 +671,7 @@
     }
     
     DebugLog(@"Filtered Results: %@", _filteredResults);
-    
-    
-    [mainTable reloadData];
+    [self.mainTable reloadData];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -723,14 +695,14 @@
 - (void)presentSettings
 {
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    [searchBar resignFirstResponder];
+    [self.searchBar resignFirstResponder];
         
     if (self.mainView.center.x != screenWidth) {
         // Show the settings & function area.
         [UIView animateWithDuration:0.2
                          animations:^{
                              CGFloat newXPos = screenWidth;
-                             CGFloat mainViewYPos = mainView.center.y;
+                             CGFloat mainViewYPos = self.mainView.center.y;
                              self.mainView.center = CGPointMake(newXPos, mainViewYPos);
                              
                              CGFloat posTableYPos = self.mainTable.center.y;
@@ -741,7 +713,7 @@
         [UIView animateWithDuration:0.2
                          animations:^{
                              CGFloat newXPos = [[UIScreen mainScreen] bounds].size.width / 2;
-                             CGFloat mainViewYPos = mainView.center.y;
+                             CGFloat mainViewYPos = self.mainView.center.y;
                              self.mainView.center = CGPointMake(newXPos, mainViewYPos);
                              
                              CGFloat posTableYPos = self.mainTable.center.y;
@@ -775,15 +747,15 @@
 - (void)alignTextLeft
 {
     [self.mainTable reloadData];
-    _textAlignment = NSTextAlignmentLeft;
-    [self.mainTable reloadRowsAtIndexPaths:[mainTable indexPathsForVisibleRows]
+    self.textAlignment = NSTextAlignmentLeft;
+    [self.mainTable reloadRowsAtIndexPaths:[self.mainTable indexPathsForVisibleRows]
                           withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)alignTextRight
 {
     [self.mainTable reloadData];
-    _textAlignment = NSTextAlignmentRight;
+    self.textAlignment = NSTextAlignmentRight;
     [self.mainTable reloadRowsAtIndexPaths:[self.mainTable indexPathsForVisibleRows]
                           withRowAnimation:UITableViewRowAnimationNone];
 }
@@ -804,105 +776,46 @@
 - (void)reverseFontNames:(id)sender
 {
     if ([sender isOn]) {
-        _fontsReversed = YES;
+        self.appSettings.fontsReversed = YES;
     } else {
-        _fontsReversed = NO;
+        self.appSettings.fontsReversed = NO;
     }
     
-    if (_isLoaded) {
+    if (self.isLoaded) {
         [self saveState];
     }
     
-    [mainTable reloadData];
+    [self.mainTable reloadData];
 }
 
-#pragma mark - Sorting Actions 
+#pragma mark - Sorting Display Actions
 ////////////////////////////////////////////////////////////////////////////////
 
-/*
-- (void)sortFontNamesAlphanumerically
-{
-    NSArray *newFontList = [_fontFamilyNames sortedArrayUsingSelector:@selector(localizedStandardCompare:)];
-    
-    if (_fontSortReversed) {
-        _fontFamilyNames = (NSMutableArray *)[[newFontList reverseObjectEnumerator] allObjects];
-    } else {
-        _fontFamilyNames = [[NSMutableArray alloc] initWithArray:newFontList];
-    }
-    
-    [mainTable reloadData];
-} */
-
-/*
-- (void)sortFontNamesByLength
-{
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"length"
-                                                                   ascending:YES];
-    NSArray *newFontList = [_fontFamilyNames sortedArrayUsingDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-    
-    if (_fontSortReversed) {
-        _fontFamilyNames = (NSMutableArray *)[[newFontList reverseObjectEnumerator] allObjects];
-    } else {
-        _fontFamilyNames = [[NSMutableArray alloc] initWithArray:newFontList];
-    }
-    
-    [mainTable reloadData];
-}*/
-
-- (void)sortFontNamesByDisplaySize
-{
-    NSArray *sortedArray = [_fontFamilyNames sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-        UILabel *font1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-        UILabel *font2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
-        
-        [font1 setText:a];
-        [font2 setText:b];
-
-        CGSize textSize1 = [[font1 text] sizeWithFont:[UIFont flatFontOfSize:18.0f]];
-        CGSize textSize2 = [[font2 text] sizeWithFont:[UIFont flatFontOfSize:18.0f]];
-        
-        NSNumber *size1 = [NSNumber numberWithFloat:textSize1.width];
-        NSNumber *size2 = [NSNumber numberWithFloat:textSize2.width];;
-
-        return [size1 compare:size2];
-    }];
-
-    
-    if (_fontSortReversed) {
-        _fontFamilyNames = (NSMutableArray *)[[sortedArray reverseObjectEnumerator] allObjects];
-    } else {
-        _fontFamilyNames = [sortedArray mutableCopy];
-    }
-    
-    [mainTable reloadData];
-}
 
 - (void)sortFontNamesInReverse:(id)sender
 {
-    if (_isLoaded) {
-        if ([sender isOn] && !_fontSortReversed) {
-            _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
-            _fontSortReversed = YES;
-            
-            [mainTable reloadData];
+    if (self.isLoaded) {
+        if ([sender isOn] && !self.appSettings.fontSortReversed) {
+            self.appSettings.fontSortReversed = YES;
+            [self.fonts sortInReverse];
+            [self.mainTable reloadData];
         } else {
-            _fontFamilyNames = (NSMutableArray *)[[_fontFamilyNames reverseObjectEnumerator] allObjects];
-            _fontSortReversed = NO;
+            self.appSettings.fontSortReversed = NO;
 
-            if ([[settings indexPathsForSelectedRows] count]) {
-                for (NSIndexPath *selectedRow in [settings indexPathsForSelectedRows]) {
-                    if (selectedRow.section == 1) {
+            if ([[self.settings indexPathsForSelectedRows] count]) {
+                for (NSIndexPath *selectedRow in [self.settings indexPathsForSelectedRows]) {
+                    if (selectedRow.section == kSettingsViewSorting) {
                         switch (selectedRow.row) {
                             case 0:
-                                [self sortFontNamesAlphanumerically];
+                                [self.fonts sortAlphanumericallyInReverse:self.appSettings.fontSortReversed];
                                 break;
                                 
                             case 1:
-                                [self sortFontNamesByLength];
+                                [self.fonts sortByLengthInReverse:self.appSettings.fontSortReversed];
                                 break;
                                 
                             case 2:
-                                [self sortFontNamesByDisplaySize];
+                                [self.fonts sortByDisplaySizeInReverse:self.appSettings.fontSortReversed];
                                 break;
                                 
                             default:
@@ -910,9 +823,8 @@
                         }
                     }
                 }
-            } else {
-                [mainTable reloadData];
             }
+            [self.mainTable reloadData];
         }
         
         [self saveState];
@@ -926,51 +838,48 @@
 
 - (void)resetToDefault
 {
-    NSArray *selectedRowPaths = [settings indexPathsForVisibleRows];
+    NSArray *selectedRowPaths = [self.settings indexPathsForVisibleRows];
     
     // Reset cells
     for (NSIndexPath *path in selectedRowPaths) {
-        if ([[settings cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
-            SettingsToggleCell *cell = (SettingsToggleCell *)[settings cellForRowAtIndexPath:path];
+        if ([[self.settings cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
+            SettingsToggleCell *cell = (SettingsToggleCell *)[self.settings cellForRowAtIndexPath:path];
             [cell.toggleSwitch setOn:NO animated:YES];
         } else {
-            [settings deselectRowAtIndexPath:path animated:NO];
-            [[settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
+            [self.settings deselectRowAtIndexPath:path animated:NO];
+            [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
         }
     }
     
     // Reset Options
-    _settingsLayoutPrevRow = [NSIndexPath indexPathForRow:0 inSection:0];
-    _settingsSortPrevRow = [NSIndexPath indexPathForRow:0 inSection:1];
-    _textAlignment = NSTextAlignmentLeft;
-    _fontFamilyNames = [[UIFont familyNames] mutableCopy];
-    _applicationState = [NSMutableDictionary new];
-    _fontsReversed = NO;
-    _fontSortReversed = NO;
+    self.settingsLayoutPrevRow = [NSIndexPath indexPathForRow:0 inSection:0];
+    self.settingsSortPrevRow = [NSIndexPath indexPathForRow:0 inSection:1];
+    self.textAlignment = NSTextAlignmentLeft;
+    [self.fonts reset];
     
-    [self flushStoredFontData];
+    //[self flushStoredFontData];
     [self saveState];
     
-    [mainTable reloadData];
+    [self.mainTable reloadData];
 }
 
 - (void)resetSortSettings
 {
     // Reset the reverse toggle
     NSIndexPath *reverseTogglePath = [NSIndexPath indexPathForItem:kSettingsSortingReverse inSection:kSettingsViewSorting];
-    SettingsToggleCell *reverseArrayToggleCell = (SettingsToggleCell *) [settings cellForRowAtIndexPath:reverseTogglePath];
+    SettingsToggleCell *reverseArrayToggleCell = (SettingsToggleCell *) [self.settings cellForRowAtIndexPath:reverseTogglePath];
     if ([[reverseArrayToggleCell toggleSwitch] isOn]) {
         [[reverseArrayToggleCell toggleSwitch] setOn:NO animated:YES];
     }
     
     // Reset the sorting options
-    for (NSIndexPath *path in [settings indexPathsForSelectedRows]) {
+    for (NSIndexPath *path in [self.settings indexPathsForSelectedRows]) {
         if (path.section == kSettingsViewSorting) {
-            if (![[settings cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
-                [[settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
-                [settings deselectRowAtIndexPath:path animated:NO];
-                [settings reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil]
-                                    withRowAnimation:UITableViewRowAnimationNone];
+            if (![[self.settings cellForRowAtIndexPath:path] isKindOfClass:[SettingsToggleCell class]]) {
+                [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor clearColor]];
+                [self.settings deselectRowAtIndexPath:path animated:NO];
+                [self.settings reloadRowsAtIndexPaths:[NSArray arrayWithObjects:path, nil]
+                                     withRowAnimation:UITableViewRowAnimationNone];
             }
         }
     }
@@ -978,25 +887,7 @@
     [self saveState];
 }
 
-- (void)flushStoredFontData
-{
-    // Flush the stored rating information from core data
-    id appDelegate = [[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [appDelegate managedObjectContext];
-    
-    // Fetch the fonts from persistent data store
-    NSError *error;
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Font"];
-    NSArray *data = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
-    
-    for(NSManagedObject *font in data) {
-        [context deleteObject:font];
-    }
-    
-    if (![context save:&error]) {
-    	DebugLog(@"Error deleting %@", error);
-    }
-}
+
 
 
 @end

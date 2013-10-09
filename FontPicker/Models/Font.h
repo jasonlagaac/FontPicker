@@ -10,14 +10,21 @@
 
 @interface Font : NSObject
 
-/** Return a list of all fonts */
-- (NSArray *)allFonts;
+@property (nonatomic, strong) NSMutableArray *fontFamilyNames;
 
 /** Return a list of all fonts sorted alphanumerically */
-- (NSArray *)allFontsSortedAlphanumerically;
+- (NSArray *)sortAlphanumericallyInReverse:(BOOL)reverse;
 
 /** Return a list of all fonts sorted by length */
-- (NSArray *)allFontsSortedByLength;
+- (NSArray *)sortByLengthInReverse:(BOOL)reverse;
 
+/** Sort by display size */
+- (NSMutableArray *)sortByDisplaySizeInReverse:(BOOL)reverse;
+
+/** Sort fonts in reverse */
+- (NSMutableArray *)sortInReverse;
+
+/** Reset fonts */
+- (void)reset;
 
 @end

@@ -43,5 +43,13 @@ typedef enum {
 /** Main table sort state */
 @property (nonatomic) BOOL fontSortReversed;
 
+/** Save state */
+- (void)saveState;
+
+/** Reset the settings to default */
+- (void)reset;
+
+
+
 
 @end

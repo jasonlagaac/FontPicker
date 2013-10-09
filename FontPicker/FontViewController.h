@@ -16,13 +16,13 @@
 @interface FontViewController : UIViewController <EDStarRatingProtocol>
 {
     /** Font view modal area */
-    UIView              *_fontModal;
+    UIView  *_fontModal;
 
     /** Font size slider */
-    UISlider            *_fontSizeSlider;
+    UISlider *_fontSizeSlider;
     
     /** Star rating area */
-    EDStarRating        *_starRating;
+    EDStarRating  *_starRating;
     
     /** Retrieved font data */
     FontData            *_fontData;
