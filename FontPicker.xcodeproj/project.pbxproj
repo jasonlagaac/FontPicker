@@ -13,6 +13,9 @@
 		B82ED3441807424500788C44 /* SettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED3431807424500788C44 /* SettingsTest.m */; };
 		B82ED3461807482B00788C44 /* ViewControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED3451807482A00788C44 /* ViewControllerTest.m */; };
 		B82ED348180749E100788C44 /* FontViewControllerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED347180749E100788C44 /* FontViewControllerTest.m */; };
+		B82ED34A18074B1D00788C44 /* FontTableCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED34918074B1D00788C44 /* FontTableCellTest.m */; };
+		B82ED34C18074CAA00788C44 /* SettingsResetCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED34B18074CAA00788C44 /* SettingsResetCellTest.m */; };
+		B82ED34E18074DE600788C44 /* SettingToggleCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED34D18074DE600788C44 /* SettingToggleCellTest.m */; };
 		B841763D180584920007657C /* FontTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B841763C180584920007657C /* FontTest.m */; };
 		B84176451805882E0007657C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C07517B4796000AA0921 /* SenTestingKit.framework */; };
 		B841764818058CE30007657C /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B841764718058CE30007657C /* Settings.m */; };
@@ -66,6 +69,9 @@
 		B82ED3431807424500788C44 /* SettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTest.m; sourceTree = "<group>"; };
 		B82ED3451807482A00788C44 /* ViewControllerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerTest.m; sourceTree = "<group>"; };
 		B82ED347180749E100788C44 /* FontViewControllerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontViewControllerTest.m; sourceTree = "<group>"; };
+		B82ED34918074B1D00788C44 /* FontTableCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTableCellTest.m; sourceTree = "<group>"; };
+		B82ED34B18074CAA00788C44 /* SettingsResetCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsResetCellTest.m; path = FontPickerTests/SettingsResetCellTest.m; sourceTree = SOURCE_ROOT; };
+		B82ED34D18074DE600788C44 /* SettingToggleCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingToggleCellTest.m; sourceTree = "<group>"; };
 		B841763C180584920007657C /* FontTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTest.m; sourceTree = "<group>"; };
 		B841764618058CE30007657C /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		B841764718058CE30007657C /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
@@ -219,8 +225,11 @@
 				B850C07C17B4796000AA0921 /* Supporting Files */,
 				B841763C180584920007657C /* FontTest.m */,
 				B82ED3431807424500788C44 /* SettingsTest.m */,
+				B82ED34B18074CAA00788C44 /* SettingsResetCellTest.m */,
 				B82ED3451807482A00788C44 /* ViewControllerTest.m */,
 				B82ED347180749E100788C44 /* FontViewControllerTest.m */,
+				B82ED34918074B1D00788C44 /* FontTableCellTest.m */,
+				B82ED34D18074DE600788C44 /* SettingToggleCellTest.m */,
 			);
 			path = FontPickerTests;
 			sourceTree = "<group>";
@@ -490,9 +499,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B82ED34A18074B1D00788C44 /* FontTableCellTest.m in Sources */,
 				B82ED3441807424500788C44 /* SettingsTest.m in Sources */,
+				B82ED34C18074CAA00788C44 /* SettingsResetCellTest.m in Sources */,
 				B82ED348180749E100788C44 /* FontViewControllerTest.m in Sources */,
 				B841763D180584920007657C /* FontTest.m in Sources */,
+				B82ED34E18074DE600788C44 /* SettingToggleCellTest.m in Sources */,
 				B82ED3461807482B00788C44 /* ViewControllerTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
