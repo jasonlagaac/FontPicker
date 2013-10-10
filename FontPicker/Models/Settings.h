@@ -9,20 +9,18 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    kSettingsViewLayout = 0,
+    kSettingsViewLayout,
     kSettingsViewSorting,
     kSettingsViewReset
 } SettingsViewSections;
 
 typedef enum {
-    kSettingsLayoutNone = -1,
     kSettingsLayoutLeft,
     kSettingsLayoutRight,
     kSettingsLayoutBackwards
 } LayoutSettings;
 
 typedef enum {
-    kSettingsSortingNone = -1,
     kSettingsSortingAlpha,
     kSettingsSortingCount,
     kSettingsSortingSize,

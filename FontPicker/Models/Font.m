@@ -7,6 +7,7 @@
 //
 
 #import "Font.h"
+#import "FontData.h"
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import <FlatUIKit/FlatUIKit.h>

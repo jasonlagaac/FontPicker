@@ -78,7 +78,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     self.appSettings = [[Settings alloc] init];
-
     [self loadSettingsState];
 }
 
@@ -170,57 +169,56 @@
 {
     NSIndexPath *path = nil;
     
-    if (self.appSettings.layoutState != kSettingsLayoutNone) {
-        
-        switch (self.appSettings.layoutState) {
-            case kSettingsLayoutLeft:
-                [self alignTextLeft];
-                break;
-            case kSettingsLayoutRight:
-                [self alignTextRight];
-                break;
-            default:
-                break;
-        }
-        
-        path = [NSIndexPath indexPathForItem:self.appSettings.layoutState
-                                   inSection:kSettingsViewLayout];
-        
-        [self.settings selectRowAtIndexPath:path
-                                   animated:NO
-                             scrollPosition:UITableViewScrollPositionNone];
-        
-        [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
-        self.settingsLayoutPrevRow = path;
+    // Setting the layout state from file
+    switch (self.appSettings.layoutState) {
+        case kSettingsLayoutLeft:
+            [self alignTextLeft];
+            break;
+        case kSettingsLayoutRight:
+            [self alignTextRight];
+            break;
+        default:
+            break;
     }
     
-    if (self.appSettings.sortState != kSettingsSortingNone) {
-        switch (self.appSettings.sortState) {
-            case kSettingsSortingAlpha:
-                [self.fonts sortAlphanumericallyInReverse:self.appSettings.fontSortReversed];
-                break;
-                
-            case kSettingsSortingCount:
-                [self.fonts sortByLengthInReverse:self.appSettings.fontSortReversed];
-                break;
-                
-            case kSettingsSortingSize:
-                [self.fonts sortByDisplaySizeInReverse:self.appSettings.fontSortReversed];
-                break;
-                
-            default:
-                break;
-        }
-        
-        path = [NSIndexPath indexPathForItem:self.appSettings.layoutState
-                                   inSection:kSettingsViewSorting];
-        [self.settings selectRowAtIndexPath:path
-                                   animated:NO
-                             scrollPosition:UITableViewScrollPositionNone];
-        [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
-        self.settingsSortPrevRow = path;
+    path = [NSIndexPath indexPathForItem:self.appSettings.layoutState
+                               inSection:kSettingsViewLayout];
+    
+    [self.settings selectRowAtIndexPath:path
+                               animated:NO
+                         scrollPosition:UITableViewScrollPositionNone];
+    
+    [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+    self.settingsLayoutPrevRow = path;
+    
+    // Setting the sorting state from file
+    switch (self.appSettings.sortState) {
+        case kSettingsSortingAlpha:
+            [self.fonts sortAlphanumericallyInReverse:self.appSettings.fontSortReversed];
+            break;
+            
+        case kSettingsSortingCount:
+            [self.fonts sortByLengthInReverse:self.appSettings.fontSortReversed];
+            break;
+            
+        case kSettingsSortingSize:
+            [self.fonts sortByDisplaySizeInReverse:self.appSettings.fontSortReversed];
+            break;
+            
+        default:
+            break;
     }
     
+    path = [NSIndexPath indexPathForItem:self.appSettings.layoutState
+                               inSection:kSettingsViewSorting];
+    [self.settings selectRowAtIndexPath:path
+                               animated:NO
+                         scrollPosition:UITableViewScrollPositionNone];
+    [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+    self.settingsSortPrevRow = path;
+
+    
+    // Set the toggle switches
     if (self.appSettings.fontsReversed) {
         path = [NSIndexPath indexPathForItem:kSettingsLayoutBackwards
                                    inSection:kSettingsViewLayout];
@@ -273,6 +271,7 @@
 }
 
 
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     // Initialise the custom table section headers
@@ -281,12 +280,12 @@
             UIView *settingsSectionHeaders = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20.0f)];
             settingsSectionHeaders.backgroundColor = [UIColor midnightBlueColor];
 
-            UILabel *sectionHeaderTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 12.0f, settingsSectionHeaders.frame.size.width, 18.0f)];
+            UILabel *sectionHeaderTitle = [[UILabel alloc] initWithFrame:CGRectMake(10.0f, 12.0f, settingsSectionHeaders.frame.size.width, 50.0f)];
             sectionHeaderTitle.backgroundColor = [UIColor clearColor];
             sectionHeaderTitle.text = [self tableView:self.settings titleForHeaderInSection:section];
             sectionHeaderTitle.textAlignment = NSTextAlignmentLeft;
             sectionHeaderTitle.textColor = [UIColor cloudsColor];
-            sectionHeaderTitle.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:15.0f];
+            sectionHeaderTitle.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:20.0f];
             [settingsSectionHeaders addSubview:sectionHeaderTitle];
             
             return settingsSectionHeaders;
@@ -541,12 +540,12 @@
 
         self.fontViewController.view.alpha = 0.0f;
         self.fontViewController.fontNameTitle.text = fontName;
-        [_fontViewController.sampleAlphabet setFont:[UIFont fontWithName:fontName
+        [self.fontViewController.sampleAlphabet setFont:[UIFont fontWithName:fontName
                                                                    size:18.0f]];
         [self.view addSubview:_fontViewController.view];
         [UIView animateWithDuration:0.5
                          animations:^{
-                             _fontViewController.view.alpha = 1.0f;
+                             self.fontViewController.view.alpha = 1.0f;
                          }];
     }
     
@@ -566,11 +565,13 @@
             switch (indexPath.row) {
                 case kSettingsLayoutLeft:
                     [self alignTextLeft];
+                    self.appSettings.layoutState = kSettingsLayoutLeft;
                     DebugLog(@"Align Left");
                     break;
                     
                 case kSettingsLayoutRight:
                     [self alignTextRight];
+                    self.appSettings.layoutState = kSettingsLayoutRight;
                     DebugLog(@"Align Right");
                     break;
                     
@@ -591,16 +592,19 @@
 
             switch (indexPath.row) {
                 case kSettingsSortingAlpha:
+                    self.appSettings.sortState = kSettingsSortingAlpha;
                     [self.fonts sortAlphanumericallyInReverse:self.appSettings.fontSortReversed];
                     DebugLog(@"Sort Alphanumerically");
                     break;
                     
                 case kSettingsSortingCount:
+                    self.appSettings.sortState = kSettingsSortingCount;
                     [self.fonts sortByLengthInReverse:self.appSettings.fontSortReversed];
                     DebugLog(@"Sort by Length");
                     break;
                     
                 case kSettingsSortingSize:
+                    self.appSettings.sortState = kSettingsSortingSize;
                     [self.fonts sortByDisplaySizeInReverse:self.appSettings.fontSortReversed];
                     DebugLog(@"Sort by Display Size");
                     break;
@@ -841,6 +845,23 @@
         }
     }
     
+    // Set settings row selected
+    NSIndexPath *path = [NSIndexPath indexPathForItem:kSettingsSortingAlpha
+                                            inSection:kSettingsViewSorting];
+    
+    [self.settings selectRowAtIndexPath:path
+                               animated:NO
+                         scrollPosition:UITableViewScrollPositionTop];
+    [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+    
+    path = [NSIndexPath indexPathForItem:kSettingsLayoutLeft
+                               inSection:kSettingsViewLayout];
+    [self.settings selectRowAtIndexPath:path
+                               animated:NO
+                         scrollPosition:UITableViewScrollPositionTop];
+    [[self.settings cellForRowAtIndexPath:path] setBackgroundColor:[UIColor wisteriaColor]];
+    
+
     // Reset Options
     self.settingsLayoutPrevRow = [NSIndexPath indexPathForRow:0 inSection:0];
     self.settingsSortPrevRow = [NSIndexPath indexPathForRow:0 inSection:1];
@@ -848,6 +869,7 @@
     [self.fonts reset];
     
     //[self flushStoredFontData];
+    [self.appSettings reset];
     [self saveState];
     [self.mainTable reloadData];
 }

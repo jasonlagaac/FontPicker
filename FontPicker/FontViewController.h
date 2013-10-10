@@ -27,7 +27,6 @@
     /** Retrieved font data */
     FontData            *_fontData;
     
-    //FUISegmentedControl *_segmentedControl
 }
 
 /**

@@ -28,16 +28,8 @@
         self.applicationState = [[NSMutableDictionary alloc] initWithContentsOfFile:plistFile];
         
         if (!_applicationState) {
-            self.applicationState = [NSMutableDictionary new];
-            [self.applicationState writeToFile:plistFile atomically:YES];
-            
-            self.sortState = kSettingsSortingNone;
-            self.layoutState = kSettingsLayoutNone;
-            
-            // Set default state
-            self.fontsReversed = NO;
-            self.fontSortReversed = NO;
-            
+            [self reset];
+        } else {
             [self loadState];
         }
     }
@@ -88,8 +80,7 @@
     
     NSDictionary *sortingState = @{ @"section" : [NSNumber numberWithInteger:kSettingsViewSorting],
                                    @"row" : [NSNumber numberWithInteger:self.sortState] };
-    [self.applicationState setObject:sortingState forKey:@"layout"];
-    
+    [self.applicationState setObject:sortingState forKey:@"sorting"];
     [self.applicationState setObject:[NSNumber numberWithBool:self.fontsReversed] forKey:@"backwards"];
     [self.applicationState setObject:[NSNumber numberWithBool:self.fontSortReversed] forKey:@"reversed"];
     
@@ -98,6 +89,8 @@
     NSString *plistFile = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"FontPicker.plist"];
     DebugLog(@"Path %@", plistFile);
     DebugLog(@"Saving %d", [self.applicationState writeToFile:plistFile atomically:YES]);
+    DebugLog(@"Saving %@", self.applicationState);
+
     
     //Error Check
     NSString *error = nil;
@@ -119,9 +112,20 @@
 {
     self.fontSortReversed = NO;
     self.fontSortReversed = NO;
-    self.layoutState = kSettingsLayoutNone;
-    self.sortState = kSettingsSortingNone;
-    self.applicationState = [[NSMutableDictionary alloc] init];
+    self.layoutState = kSettingsLayoutLeft;
+    self.sortState = kSettingsSortingAlpha;
+    self.applicationState = [NSMutableDictionary new];
+    
+    NSDictionary *layoutState = @{ @"section" : [NSNumber numberWithInteger:kSettingsViewLayout],
+                                   @"row" : [NSNumber numberWithInteger:kSettingsLayoutLeft] };
+    [self.applicationState setObject:layoutState forKey:@"layout"];
+    
+    NSDictionary *sortingState = @{ @"section" : [NSNumber numberWithInteger:kSettingsViewSorting],
+                                    @"row" : [NSNumber numberWithInteger:kSettingsSortingAlpha] };
+    
+    [self.applicationState setObject:sortingState forKey:@"sorting"];
+    [self.applicationState setObject:[NSNumber numberWithBool:self.fontsReversed] forKey:@"backwards"];
+    [self.applicationState setObject:[NSNumber numberWithBool:self.fontSortReversed] forKey:@"reversed"];
     
     [self saveState];
 }
