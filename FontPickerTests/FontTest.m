@@ -18,10 +18,6 @@
 #import <OCMockitoIOS/OCMockitoIOS.h>
 
 
-@interface TCRouteTest : SenTestCase
-
-@end
-
 @interface FontTest : SenTestCase
 @end
 

@@ -10,6 +10,7 @@
 		43F9647BB7074383869D5193 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4078976B8DD4E898C1BAC58 /* libPods.a */; };
 		B82ED33C18072C0B00788C44 /* FontData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B82ED33A18072C0B00788C44 /* FontData.xcdatamodeld */; };
 		B82ED34218072CAE00788C44 /* FontData.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED34118072CAE00788C44 /* FontData.m */; };
+		B82ED3441807424500788C44 /* SettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED3431807424500788C44 /* SettingsTest.m */; };
 		B841763D180584920007657C /* FontTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B841763C180584920007657C /* FontTest.m */; };
 		B84176451805882E0007657C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C07517B4796000AA0921 /* SenTestingKit.framework */; };
 		B841764818058CE30007657C /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B841764718058CE30007657C /* Settings.m */; };
@@ -60,6 +61,7 @@
 		B82ED33B18072C0B00788C44 /* FontData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FontData.xcdatamodel; sourceTree = "<group>"; };
 		B82ED34018072CAE00788C44 /* FontData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontData.h; sourceTree = "<group>"; };
 		B82ED34118072CAE00788C44 /* FontData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontData.m; sourceTree = "<group>"; };
+		B82ED3431807424500788C44 /* SettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsTest.m; sourceTree = "<group>"; };
 		B841763C180584920007657C /* FontTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTest.m; sourceTree = "<group>"; };
 		B841764618058CE30007657C /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		B841764718058CE30007657C /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			children = (
 				B850C07C17B4796000AA0921 /* Supporting Files */,
 				B841763C180584920007657C /* FontTest.m */,
+				B82ED3431807424500788C44 /* SettingsTest.m */,
 			);
 			path = FontPickerTests;
 			sourceTree = "<group>";
@@ -481,6 +484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B82ED3441807424500788C44 /* SettingsTest.m in Sources */,
 				B841763D180584920007657C /* FontTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

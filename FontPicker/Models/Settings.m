@@ -118,7 +118,7 @@
 
 - (void)reset
 {
-    self.fontSortReversed = NO;
+    self.fontsReversed = NO;
     self.fontSortReversed = NO;
     self.layoutState = kSettingsLayoutLeft;
     self.sortState = kSettingsSortingAlpha;
