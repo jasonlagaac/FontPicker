@@ -2,6 +2,8 @@
 
 This is a some sample code :)
 
+Best Viewed with 4-inch Simulator
+
 Run the code you might need CocoaPods for the extensions located at [cocoapods.org](http://cocoapods.org/)
 
 Install the gem and run **pod setup**
