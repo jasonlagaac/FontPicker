@@ -30,10 +30,16 @@
     return self;
 }
 
+#pragma mark - Reset Fonts
+////////////////////////////////////////////////////////////////////////////////
+
 - (void)reset
 {
     self.fontFamilyNames = [[UIFont familyNames] mutableCopy];
 }
+
+#pragma mark - Font Sorting
+////////////////////////////////////////////////////////////////////////////////
 
 - (NSMutableArray *)sortAlphanumericallyInReverse:(BOOL)reverse
 {
@@ -91,6 +97,9 @@
     self.fontFamilyNames = [[[self.fontFamilyNames reverseObjectEnumerator] allObjects] mutableCopy];
     return self.fontFamilyNames;
 }
+
+#pragma mark - Font Search
+////////////////////////////////////////////////////////////////////////////////
 
 - (NSMutableArray *)searchForFont:(NSString *)search
 {

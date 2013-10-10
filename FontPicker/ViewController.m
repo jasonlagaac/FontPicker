@@ -114,6 +114,7 @@
 {
     // Configure navigation bar items
     UINavigationItem *navigationItems = [[UINavigationItem alloc] initWithTitle:@"Font Picker"];
+    [[navigationItems.titleView.subviews objectAtIndex:0] setFontSize:300];
     
     // Navigation settings button
     self.settingsButton =  [[UIBarButtonItem alloc] initWithTitle:@"Options"
@@ -508,8 +509,10 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     if ([tableView isEqual:self.mainTable]) {
+        // Main table
         return 1;
     } else {
+        // Settings
         return 3;
     }
 }
@@ -529,6 +532,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // Main table action
     if ([tableView isEqual:self.mainTable]) {
         NSString *fontName;
         if (self.isSearching) {
@@ -549,7 +553,7 @@
                          }];
     }
     
-    
+    // Settings table actions
     if ([tableView isEqual:self.settings]) {
         if (indexPath.section == kSettingsViewLayout && indexPath.row != ([tableView numberOfRowsInSection:kSettingsViewLayout] - 1)) {
             [[tableView cellForRowAtIndexPath:_settingsLayoutPrevRow] setBackgroundColor:[UIColor clearColor]];
@@ -785,7 +789,6 @@
 #pragma mark - Sorting Display Actions
 ////////////////////////////////////////////////////////////////////////////////
 
-
 - (void)sortFontNamesInReverse:(id)sender
 {
     if (self.isLoaded) {
@@ -894,6 +897,10 @@
             }
         }
     }
+    
+    // Reset the font data
+    FontData *fontData = [[FontData alloc] init];
+    //[fontData flushStoredFontData];
     
     [self saveState];
 }

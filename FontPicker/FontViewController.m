@@ -21,10 +21,21 @@ typedef enum {
 
 @interface FontViewController ()
 
+/** Font view modal area */
+@property (nonatomic, strong) UIView *fontModal;
+
+/** Font size slider */
+@property (nonatomic, strong) UISlider *fontSizeSlider;
+
+/** Star rating area */
+@property (nonatomic, strong) EDStarRating  *starRating;
+
+/** Retrieved font data */
+@property (nonatomic, strong) FontData *fontData;
+
 @end
 
 @implementation FontViewController
-@synthesize fontNameTitle, sampleAlphabet;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -34,7 +45,6 @@ typedef enum {
     }
     return self;
 }
-
 
 - (void)viewDidLoad
 {
@@ -59,7 +69,7 @@ typedef enum {
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-    _starRating = nil;
+    self.starRating = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -76,13 +86,13 @@ typedef enum {
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     CGPoint fontViewCenter = CGPointMake(screenSize.width / 2, screenSize.height / 2 - 10.0f);
     
-    _fontModal = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 290, 380)];
-    _fontModal.center = fontViewCenter;
-    _fontModal.backgroundColor = [UIColor whiteColor];
-    _fontModal.layer.cornerRadius = 5;
-    _fontModal.layer.masksToBounds = YES;
+    self.fontModal = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 290, 380)];
+    self.fontModal.center = fontViewCenter;
+    self.fontModal.backgroundColor = [UIColor whiteColor];
+    self.fontModal.layer.cornerRadius = 5;
+    self.fontModal.layer.masksToBounds = YES;
     
-    [self.view addSubview:_fontModal];
+    [self.view addSubview:self.fontModal];
 }
 
 - (void)loadCloseButton
@@ -100,12 +110,12 @@ typedef enum {
                action:@selector(dismissFontView)
      forControlEvents:UIControlEventTouchUpInside];
     
-    [_fontModal addSubview:button];
+    [self.fontModal addSubview:button];
 }
 
 - (void)loadFontNameTitle
 {
-    fontNameTitle = [[UILabel alloc] init];
+    self.fontNameTitle = [[UILabel alloc] init];
     
     self.fontNameTitle.frame = CGRectMake(0, 0, 280.0f, 70.0f);
     self.fontNameTitle.text = @"Test Font";
@@ -113,83 +123,83 @@ typedef enum {
     self.fontNameTitle.font = [UIFont boldFlatFontOfSize:19];
     self.fontNameTitle.textAlignment = NSTextAlignmentCenter;
     
-    [_fontModal addSubview:self.fontNameTitle];
+    [self.fontModal addSubview:self.fontNameTitle];
 }
 
 
 - (void)loadSampleAlphabet
 {
-    sampleAlphabet = [[UITextView alloc] initWithFrame:CGRectMake(20, 80, 250, 150)];
-    sampleAlphabet.text = kFontSampleText;
-    sampleAlphabet.textAlignment = NSTextAlignmentCenter;
-    sampleAlphabet.backgroundColor = [UIColor clearColor];
-    sampleAlphabet.textColor = [UIColor midnightBlueColor];
-    sampleAlphabet.editable = NO;
+    self.sampleAlphabet = [[UITextView alloc] initWithFrame:CGRectMake(20, 80, 250, 150)];
+    self.sampleAlphabet.text = kFontSampleText;
+    self.sampleAlphabet.textAlignment = NSTextAlignmentCenter;
+    self.sampleAlphabet.backgroundColor = [UIColor clearColor];
+    self.sampleAlphabet.textColor = [UIColor midnightBlueColor];
+    self.sampleAlphabet.editable = NO;
     
-    [_fontModal addSubview:sampleAlphabet];
+    [self.fontModal addSubview:self.sampleAlphabet];
 }
 
 - (void)loadSlider
 {
-    _fontSizeSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 250, 50)];
-    _fontSizeSlider.center = CGPointMake(145.0f, 70.0f);
-    _fontSizeSlider.value = 18.0f;
-    _fontSizeSlider.minimumValue = 10.0f;
-    _fontSizeSlider.maximumValue = 200;
+    self.fontSizeSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 0, 250, 50)];
+    self.fontSizeSlider.center = CGPointMake(145.0f, 70.0f);
+    self.fontSizeSlider.value = 18.0f;
+    self.fontSizeSlider.minimumValue = 10.0f;
+    self.fontSizeSlider.maximumValue = 200;
     
-    [_fontSizeSlider configureFlatSliderWithTrackColor:[UIColor silverColor]
-                                         progressColor:[UIColor wisteriaColor]
-                                            thumbColor:[UIColor concreteColor]];
+    [self.fontSizeSlider configureFlatSliderWithTrackColor:[UIColor silverColor]
+                                             progressColor:[UIColor wisteriaColor]
+                                                thumbColor:[UIColor concreteColor]];
     
-    [_fontSizeSlider addTarget:self
+    [self.fontSizeSlider addTarget:self
                         action:@selector(changeFontSize)
               forControlEvents:UIControlEventValueChanged];
     
-    [_fontModal addSubview:_fontSizeSlider];
+    [self.fontModal addSubview:self.fontSizeSlider];
 }
 
 
 - (void)loadStarRatings
 {
-    _starRating = [[EDStarRating alloc] initWithFrame:CGRectMake(45, 240, 200, 60)];
+    self.starRating = [[EDStarRating alloc] initWithFrame:CGRectMake(45, 240, 200, 60)];
     
 	// Do any additional setup after loading the view, typically from a nib.
-    _starRating.backgroundColor = [UIColor clearColor];
-    _starRating.starImage = [UIImage imageNamed:@"star.png"];
-    _starRating.starHighlightedImage = [UIImage imageNamed:@"starhighlighted.png"];
-    _starRating.maxRating = 5.0;
-    _starRating.delegate = self;
-    _starRating.horizontalMargin = 15.0;
-    _starRating.editable=YES;
+    self.starRating.backgroundColor = [UIColor clearColor];
+    self.starRating.starImage = [UIImage imageNamed:@"star.png"];
+    self.starRating.starHighlightedImage = [UIImage imageNamed:@"starhighlighted.png"];
+    self.starRating.maxRating = 5.0;
+    self.starRating.delegate = self;
+    self.starRating.horizontalMargin = 15.0;
+    self.starRating.editable=YES;
     
-    if (_fontData) {
-        _starRating.rating = [_fontData.rating floatValue];
+    if (self.fontData) {
+        self.starRating.rating = [self.fontData.rating floatValue];
     } else {
-        _starRating.rating = 0;
+        self.starRating.rating = 0;
     }
     
-    _starRating.displayMode = EDStarRatingDisplayHalf;
-    [_starRating setNeedsDisplay];
+    self.starRating.displayMode = EDStarRatingDisplayHalf;
+    [self.starRating setNeedsDisplay];
     
-    [_fontModal addSubview:_starRating];
+    [self.fontModal addSubview:self.starRating];
 }
 
 - (void)loadFontData
 {
-    _fontData = nil;
+    self.fontData = nil;
 
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", fontNameTitle.text];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", self.fontNameTitle.text];
     id appDelegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     
     // Fetch the fonts from persistent data store
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Font"];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FontData"];
     NSArray *data = [[context executeFetchRequest:fetchRequest error:nil] mutableCopy];
     
     NSArray *filtered = [data filteredArrayUsingPredicate:predicate];
     
     if ([filtered count]) {
-        _fontData = (FontData *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
+        self.fontData = (FontData *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
     }
 }
 
@@ -200,9 +210,9 @@ typedef enum {
 - (void)changeFontSize
 {
     DebugLog(@"Changing Font Size");
-    NSString *fontName = sampleAlphabet.font.fontName;
-    [sampleAlphabet setFont:[UIFont fontWithName:fontName
-                                            size:_fontSizeSlider.value]];
+    NSString *fontName = self.sampleAlphabet.font.fontName;
+    [self.sampleAlphabet setFont:[UIFont fontWithName:fontName
+                                                 size:self.fontSizeSlider.value]];
 }
 
 #pragma mark - Star Rating actions
@@ -215,13 +225,13 @@ typedef enum {
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
 
     // Create a new managed object
-    if (_fontData == nil) {
-        FontData *font = [NSEntityDescription insertNewObjectForEntityForName:@"Font"
-                                                       inManagedObjectContext:context];
-        [FontData setValue:[NSNumber numberWithFloat:rating] forKey:@"rating"];
-        [FontData setValue:fontNameTitle.text forKey:@"name"];
+    if (self.fontData == nil) {
+        self.fontData = [NSEntityDescription insertNewObjectForEntityForName:@"FontData"
+                                                      inManagedObjectContext:context];
+        [self.fontData setValue:[NSNumber numberWithFloat:rating] forKey:@"rating"];
+        [self.fontData setValue:self.fontNameTitle.text forKey:@"name"];
     } else {
-        [_fontData setRating:[NSNumber numberWithFloat:rating]];
+        [self.fontData setRating:[NSNumber numberWithFloat:rating]];
     }
     
     NSError *error = nil;
@@ -241,7 +251,7 @@ typedef enum {
                      animations:^{
                          self.view.alpha = 0.0f;
                      } completion:^(BOOL finished) {
-                         _starRating.rating = 0;
+                         self.starRating.rating = 0;
                          [self.view removeFromSuperview];
                      }];
 }

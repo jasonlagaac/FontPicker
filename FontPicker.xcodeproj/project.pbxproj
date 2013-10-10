@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		43F9647BB7074383869D5193 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4078976B8DD4E898C1BAC58 /* libPods.a */; };
+		B82ED33C18072C0B00788C44 /* FontData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B82ED33A18072C0B00788C44 /* FontData.xcdatamodeld */; };
+		B82ED34218072CAE00788C44 /* FontData.m in Sources */ = {isa = PBXBuildFile; fileRef = B82ED34118072CAE00788C44 /* FontData.m */; };
 		B841763D180584920007657C /* FontTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B841763C180584920007657C /* FontTest.m */; };
 		B84176451805882E0007657C /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B850C07517B4796000AA0921 /* SenTestingKit.framework */; };
 		B841764818058CE30007657C /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = B841764718058CE30007657C /* Settings.m */; };
@@ -37,8 +39,6 @@
 		B89B246217B7806000F3F95A /* FontViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B89B246017B7806000F3F95A /* FontViewController.xib */; };
 		B8BE576017B48DEB00147657 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B8BE575F17B48DEB00147657 /* QuartzCore.framework */; };
 		B8E220CA1805B303005D1F4C /* Font.m in Sources */ = {isa = PBXBuildFile; fileRef = B8E220C91805B303005D1F4C /* Font.m */; };
-		B8EC5E2D17B7DFA5008C67EC /* FontData.m in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2C17B7DFA5008C67EC /* FontData.m */; };
-		B8EC5E3017B7DFB1008C67EC /* FontData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B8EC5E2E17B7DFB1008C67EC /* FontData.xcdatamodeld */; };
 		B8EC5E7B17B7F4D4008C67EC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7817B7F4D3008C67EC /* Default.png */; };
 		B8EC5E7C17B7F4D4008C67EC /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7917B7F4D3008C67EC /* Default-568h@2x.png */; };
 		B8EC5E7D17B7F4D4008C67EC /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B8EC5E7A17B7F4D3008C67EC /* Default@2x.png */; };
@@ -57,6 +57,9 @@
 
 /* Begin PBXFileReference section */
 		1F777E125CE441F38B6492CF /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
+		B82ED33B18072C0B00788C44 /* FontData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FontData.xcdatamodel; sourceTree = "<group>"; };
+		B82ED34018072CAE00788C44 /* FontData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontData.h; sourceTree = "<group>"; };
+		B82ED34118072CAE00788C44 /* FontData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontData.m; sourceTree = "<group>"; };
 		B841763C180584920007657C /* FontTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontTest.m; sourceTree = "<group>"; };
 		B841764618058CE30007657C /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
 		B841764718058CE30007657C /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Settings.m; sourceTree = "<group>"; };
@@ -97,9 +100,6 @@
 		B8BE575F17B48DEB00147657 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		B8E220C81805B303005D1F4C /* Font.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Font.h; sourceTree = "<group>"; };
 		B8E220C91805B303005D1F4C /* Font.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Font.m; sourceTree = "<group>"; };
-		B8EC5E2B17B7DFA5008C67EC /* FontData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontData.h; sourceTree = "<group>"; };
-		B8EC5E2C17B7DFA5008C67EC /* FontData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontData.m; sourceTree = "<group>"; };
-		B8EC5E2F17B7DFB1008C67EC /* FontData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FontData.xcdatamodel; sourceTree = "<group>"; };
 		B8EC5E7817B7F4D3008C67EC /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		B8EC5E7917B7F4D3008C67EC /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		B8EC5E7A17B7F4D3008C67EC /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
@@ -237,9 +237,9 @@
 		B860055717B7D55900D02F02 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B8EC5E2E17B7DFB1008C67EC /* FontData.xcdatamodeld */,
-				B8EC5E2B17B7DFA5008C67EC /* FontData.h */,
-				B8EC5E2C17B7DFA5008C67EC /* FontData.m */,
+				B82ED33A18072C0B00788C44 /* FontData.xcdatamodeld */,
+				B82ED34018072CAE00788C44 /* FontData.h */,
+				B82ED34118072CAE00788C44 /* FontData.m */,
 				B8E220C81805B303005D1F4C /* Font.h */,
 				B8E220C91805B303005D1F4C /* Font.m */,
 				B841764618058CE30007657C /* Settings.h */,
@@ -472,8 +472,8 @@
 				B866F55C17B67A2B009AA284 /* SettingsToggleCell.m in Sources */,
 				B89B246117B7806000F3F95A /* FontViewController.m in Sources */,
 				B8E220CA1805B303005D1F4C /* Font.m in Sources */,
-				B8EC5E2D17B7DFA5008C67EC /* FontData.m in Sources */,
-				B8EC5E3017B7DFB1008C67EC /* FontData.xcdatamodeld in Sources */,
+				B82ED33C18072C0B00788C44 /* FontData.xcdatamodeld in Sources */,
+				B82ED34218072CAE00788C44 /* FontData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -712,12 +712,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B8EC5E2E17B7DFB1008C67EC /* FontData.xcdatamodeld */ = {
+		B82ED33A18072C0B00788C44 /* FontData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B8EC5E2F17B7DFB1008C67EC /* FontData.xcdatamodel */,
+				B82ED33B18072C0B00788C44 /* FontData.xcdatamodel */,
 			);
-			currentVersion = B8EC5E2F17B7DFB1008C67EC /* FontData.xcdatamodel */;
+			currentVersion = B82ED33B18072C0B00788C44 /* FontData.xcdatamodel */;
 			path = FontData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

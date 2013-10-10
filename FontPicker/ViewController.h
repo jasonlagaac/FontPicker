@@ -14,25 +14,16 @@
 
 @interface ViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UINavigationBarDelegate, UISearchBarDelegate, UITextFieldDelegate>
 
-/**
- Main view area
- */
+/** Main view area */
 @property (nonatomic, strong) IBOutlet UIView *mainView;
 
-/** 
- Settings table view 
- */
+/** Settings table view */
 @property (nonatomic, strong) IBOutlet UITableView *settings;
 
-/** 
- Main table view 
- */
+/**  Main table view */
 @property (nonatomic, strong) IBOutlet UITableView *mainTable;
 
-
-/**
- Search Bar
- */
+/** Search Bar */
 @property (nonatomic, strong) IBOutlet UISearchBar *searchBar;
 
 @end

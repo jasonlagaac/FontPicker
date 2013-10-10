@@ -17,11 +17,19 @@
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) ViewController *viewController;
 
+/** Core Data Context */
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+/** Managed Object Model */
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+
+/** Persistant Store Coordinator */
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+/** Save Context Actions */
 - (void)saveContext;
+
+/** Application Documents Directory Helper */
 - (NSURL *)applicationDocumentsDirectory;
 
 @end

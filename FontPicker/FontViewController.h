@@ -14,30 +14,11 @@
 #import "FontData.h"
 
 @interface FontViewController : UIViewController <EDStarRatingProtocol>
-{
-    /** Font view modal area */
-    UIView  *_fontModal;
 
-    /** Font size slider */
-    UISlider *_fontSizeSlider;
-    
-    /** Star rating area */
-    EDStarRating  *_starRating;
-    
-    /** Retrieved font data */
-    FontData            *_fontData;
-    
-}
-
-/**
- Font name modal title
- */
+/** Font name modal title */
 @property (nonatomic, strong) UILabel *fontNameTitle;
 
-/**
- Text view to show the sample alphabet
- */
+/** Text view to show the sample alphabet */
 @property (nonatomic, strong) UITextView *sampleAlphabet;
-
 
 @end
