@@ -29,6 +29,9 @@
 /** Save Context Actions */
 - (void)saveContext;
 
+/** Reset All stored Data */
+- (void)resetAllStoredData;
+
 /** Application Documents Directory Helper */
 - (NSURL *)applicationDocumentsDirectory;
 

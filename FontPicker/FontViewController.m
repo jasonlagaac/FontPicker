@@ -187,20 +187,7 @@ typedef enum {
 - (void)loadFontData
 {
     self.fontData = nil;
-
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", self.fontNameTitle.text];
-    id appDelegate = [[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [appDelegate managedObjectContext];
-    
-    // Fetch the fonts from persistent data store
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FontData"];
-    NSArray *data = [[context executeFetchRequest:fetchRequest error:nil] mutableCopy];
-    
-    NSArray *filtered = [data filteredArrayUsingPredicate:predicate];
-    
-    if ([filtered count]) {
-        self.fontData = (FontData *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
-    }
+    self.fontData = [FontData loadFontData:self.fontNameTitle.text];
 }
 
 

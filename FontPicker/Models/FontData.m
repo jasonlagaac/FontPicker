@@ -7,35 +7,31 @@
 //
 
 #import "FontData.h"
-
+#import "AppDelegate.h"
 
 @implementation FontData
 
 @dynamic name;
 @dynamic rating;
 
-
-#pragma mark - Font Reset Actions
-////////////////////////////////////////////////////////////////////////////////
-
-- (void)flushStoredFontData
+/** Load font data */
++ (FontData *)loadFontData:(NSString *)fontName
 {
-    // Flush the stored rating information from core data
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", fontName];
     id appDelegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     
     // Fetch the fonts from persistent data store
-    NSError *error;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"FontData"];
-    NSArray *data = [[context executeFetchRequest:fetchRequest error:&error] mutableCopy];
+    NSArray *data = [[context executeFetchRequest:fetchRequest error:nil] mutableCopy];
     
-    for(NSManagedObject *font in data) {
-        [context deleteObject:font];
+    NSArray *filtered = [data filteredArrayUsingPredicate:predicate];
+    
+    if ([filtered count]) {
+        return (FontData *)[[data filteredArrayUsingPredicate:predicate] objectAtIndex:0];
     }
     
-    if (![context save:&error]) {
-    	DebugLog(@"Error deleting %@", error);
-    }
+    return nil;
 }
 
 

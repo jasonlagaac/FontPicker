@@ -15,7 +15,7 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * rating;
 
-/** Flush all stored font information */
-- (void)flushStoredFontData;
+/** Load font data */
++ (FontData *)loadFontData:(NSString *)fontName;
 
 @end

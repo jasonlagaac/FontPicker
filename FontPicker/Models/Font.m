@@ -36,6 +36,7 @@
 - (void)reset
 {
     self.fontFamilyNames = [[UIFont familyNames] mutableCopy];
+    [self sortAlphanumericallyInReverse:NO];
 }
 
 #pragma mark - Font Sorting

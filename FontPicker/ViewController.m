@@ -113,8 +113,13 @@
 - (void)loadNavigationBar
 {
     // Configure navigation bar items
-    UINavigationItem *navigationItems = [[UINavigationItem alloc] initWithTitle:@"Font Picker"];
-    [[navigationItems.titleView.subviews objectAtIndex:0] setFontSize:300];
+    UINavigationItem *navigationItems = [[UINavigationItem alloc] init];
+    UILabel * titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+    [titleView setText:@"Font Picker"];
+    titleView.font = [UIFont boldSystemFontOfSize:20.0];
+    titleView.textColor = [UIColor whiteColor];
+    navigationItems.titleView = titleView;
+    [titleView sizeToFit];
     
     // Navigation settings button
     self.settingsButton =  [[UIBarButtonItem alloc] initWithTitle:@"Options"
@@ -124,6 +129,10 @@
     [self.settingsButton configureFlatButtonWithColor:[UIColor amethystColor]
                                      highlightedColor:[UIColor wisteriaColor]
                                          cornerRadius:3];
+
+     [self.settingsButton setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+                                                    NSForegroundColorAttributeName : [UIColor whiteColor]}
+                                        forState:UIControlStateNormal];
     
     [navigationItems setLeftBarButtonItem:_settingsButton];
     
@@ -135,6 +144,10 @@
     [self.editButton configureFlatButtonWithColor:[UIColor amethystColor]
                                  highlightedColor:[UIColor wisteriaColor]
                                      cornerRadius:3];
+    
+    [self.editButton setTitleTextAttributes:@{ NSFontAttributeName : [UIFont fontWithName:@"Helvetica-Bold" size:12.0],
+                                               NSForegroundColorAttributeName : [UIColor whiteColor] }
+                                       forState:UIControlStateNormal];
     
     [navigationItems setRightBarButtonItem:_editButton];
     
@@ -631,7 +644,8 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         [self.fonts.fontFamilyNames removeObjectAtIndex:indexPath.row];
-        [self.mainTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.mainTable deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
+                              withRowAnimation:UITableViewRowAnimationFade];
         [self resetSortSettings];
     }
     
@@ -898,9 +912,6 @@
         }
     }
     
-    // Reset the font data
-    FontData *fontData = [[FontData alloc] init];
-    //[fontData flushStoredFontData];
     
     [self saveState];
 }

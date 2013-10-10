@@ -124,13 +124,26 @@
     return _persistentStoreCoordinator;
 }
 
-#pragma mark - Application's Documents directory
+- (void)resetAllStoredData
+{
+    NSError *error;
+    NSURL *storeURL =  [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"FontData.sqlite"];
+    NSPersistentStoreCoordinator *storeCoordinator = [self persistentStoreCoordinator];
+    NSPersistentStore *store = [[storeCoordinator persistentStores] lastObject];
+    [storeCoordinator removePersistentStore:store error:&error];
+    [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
+}
 
+#pragma mark - Application's Documents directory
+////////////////////////////////////////////////////////////////////////////////
 // Returns the URL to the application's Documents directory.
+
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+
 
 
 @end
